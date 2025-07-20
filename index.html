@@ -14,31 +14,31 @@
 <body class="antialiased">
 
     <!-- Header and Navigation -->
-    <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
-        <nav class="container mx-auto flex justify-between items-center px-4">
-            <a href="#" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <div class="hidden md:flex space-x-6">
-                <a href="#home" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Home</a>
-                <a href="#projects" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Projects</a>
-                <a href="#about" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">About</a>
-                <a href="#contact" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Contact</a>
-            </div>
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-indigo-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-        </nav>
-        <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg rounded-b-lg">
-            <a href="#home" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
-            <a href="#projects" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Projects</a>
-            <a href="#about" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
-            <a href="#contact" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
-        </div>
-    </header>
+<header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
+    <nav class="container mx-auto flex justify-between items-center px-4">
+        <a href="#" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
 
+        <div class="hidden md:flex space-x-6">
+            <a href="#home" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Home</a>
+            <a href="#about" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">About</a>
+            <a href="#projects" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Projects</a>
+            <a href="#contact" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Contact</a>
+        </div>
+
+        <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-indigo-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </nav>
+
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg rounded-b-lg z-40">
+        <a href="#home" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+        <a href="#about" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+        <a href="#projects" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Projects</a>
+        <a href="#contact" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+        </div>
+</header>
     <main>
         <!-- Hero Section -->
         <section id="home" class="section-padding bg-gradient-to-r from-gray-900 to-gray-500 text-white text-center rounded-b-xl shadow-lg">
@@ -106,122 +106,65 @@
                             </a>
                         </div>
                     </div>
+               
 
-                    <!-- Project Card 2: Digital Filter Design Visualizer -->
-                    <div class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card">
-                        <img src="https://placehold.co/400x250/e0e0e0/333333?text=Digital+Filter" alt="Digital Filter Design Project Thumbnail" class="w-full h-40 object-cover rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Digital Filter Design Visualizer</h3>
-                        <p class="text-gray-600 text-sm mb-4">An interactive web tool to visualize the frequency response of digital filters (FIR/IIR), applying concepts from DSP coursework.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full">HTML</span>
-                            <span class="bg-green-100 text-green-800 text-xs px-2.5 py-0.5 rounded-full">CSS</span>
-                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2.5 py-0.5 rounded-full">JavaScript</span>
-                            <span class="bg-red-100 text-red-800 text-xs px-2.5 py-0.5 rounded-full">Chart.js</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <a href="https://github.com/yourusername/filter-visualizer" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm flex items-center">
-                                View Code
-                                <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0l-7 7"></path></svg>
-                            </a>
-                        </div>
-                    </div>
+         </div>
+                 <div class="text-center mt-12">
+            <a href="projects.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-teal-700 hover:bg-gray-700 transition-colors transform hover:scale-105 duration-300">
+                Learn More
+                <svg class="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+            </a>
+        </div>
 
-                    <!-- Project Card 3: PCB Layout Design Showcase -->
-                    <div class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card">
-                        <img src="https://placehold.co/400x250/e0e0e0/333333?text=PCB+Design" alt="PCB Design Project Thumbnail" class="w-full h-40 object-cover rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">PCB Layout Design Showcase</h3>
-                        <p class="text-gray-600 text-sm mb-4">A collection of PCB designs and layouts created using [mention software, e.g., Altium Designer, KiCad], demonstrating practical EEE skills.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-gray-100 text-gray-800 text-xs px-2.5 py-0.5 rounded-full">KiCad</span>
-                            <span class="bg-teal-100 text-teal-800 text-xs px-2.5 py-0.5 rounded-full">Circuit Design</span>
-                            <span class="bg-orange-100 text-orange-800 text-xs px-2.5 py-0.5 rounded-full">Hardware</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <a href="https://github.com/yourusername/pcb-designs" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm flex items-center">
-                                View Designs
-                                <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0l-7 7"></path></svg>
-                            </a>
-                        </div>
-                    </div>
-
-                
-
-                    </div>
             </div>
         </section>
         <!-- Projects Section -->
                     <!-- Project cards will be loaded here dynamically -->
-                          <section id="projects" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl">
-            <div class="container mx-auto">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">My Work</h2>
-                <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<section id="projects" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl">
+    <div class="container mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">My Work</h2>
+        <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                    <!-- Project Card 1: Smart Home Automation -->
-                    <div class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card">
-                        <img src="Assets/2025-07-20-165115_hyprshot.png" alt="Basic Analog Designs" class="w-full h-40 object-cover rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Basic Analog Designs</h3>
-                        <p class="text-gray-600 text-sm mb-4">As an EEE student, the knowledge of circuit simulation softwares are crucial. This repository includes some basic analog circuit designs in LtSPICE.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-gray-900 text-white text-xs px-2.5 py-2 rounded-full">LtSPICE</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <a href="https://github.com/mahrufhossain/circuit_designs/tree/main/basic_analog_designs" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm flex items-center">
-                                View Repository
-                                <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0l-7 7"></path></svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Project Card 2: Digital Filter Design Visualizer -->
-                    <div class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card">
-                        <img src="https://placehold.co/400x250/e0e0e0/333333?text=Digital+Filter" alt="Digital Filter Design Project Thumbnail" class="w-full h-40 object-cover rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Digital Filter Design Visualizer</h3>
-                        <p class="text-gray-600 text-sm mb-4">An interactive web tool to visualize the frequency response of digital filters (FIR/IIR), applying concepts from DSP coursework.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full">HTML</span>
-                            <span class="bg-green-100 text-green-800 text-xs px-2.5 py-0.5 rounded-full">CSS</span>
-                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2.5 py-0.5 rounded-full">JavaScript</span>
-                            <span class="bg-red-100 text-red-800 text-xs px-2.5 py-0.5 rounded-full">Chart.js</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <a href="https://github.com/yourusername/filter-visualizer" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm flex items-center">
-                                View Code
-                                <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0l-7 7"></path></svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Project Card 3: PCB Layout Design Showcase -->
-                    <div class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card">
-                        <img src="https://placehold.co/400x250/e0e0e0/333333?text=PCB+Design" alt="PCB Design Project Thumbnail" class="w-full h-40 object-cover rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">PCB Layout Design Showcase</h3>
-                        <p class="text-gray-600 text-sm mb-4">A collection of PCB designs and layouts created using [mention software, e.g., Altium Designer, KiCad], demonstrating practical EEE skills.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-gray-100 text-gray-800 text-xs px-2.5 py-0.5 rounded-full">KiCad</span>
-                            <span class="bg-teal-100 text-teal-800 text-xs px-2.5 py-0.5 rounded-full">Circuit Design</span>
-                            <span class="bg-orange-100 text-orange-800 text-xs px-2.5 py-0.5 rounded-full">Hardware</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <a href="https://github.com/yourusername/pcb-designs" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm flex items-center">
-                                View Designs
-                                <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0l-7 7"></path></svg>
-                            </a>
-                        </div>
-                    </div>
-
-                
-
-                    </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card">
+                <img src="Assets/2025-07-20-165115_hyprshot.png" alt="Basic Analog Designs" class="w-full h-40 object-cover rounded-lg mb-4">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Basic Analog Designs</h3>
+                <p class="text-gray-600 text-sm mb-4">As an EEE student, the proficiency of circuit simulation software is crucial. This repository includes basic analog circuit designs in LtSPICE.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="bg-gray-900 text-white text-xs px-2.5 py-2 rounded-full">LtSPICE</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <a href="https://github.com/mahrufhossain/circuit_designs/tree/main/basic_analog_designs" target="_blank" class="text-teal-600 hover:text-indigo-800 font-medium text-sm flex items-center">
+                        View Repository
+                        <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0l-7 7"></path></svg>
+                    </a>
+                </div>
             </div>
-        </section>
-        <!-- contact section-->
+
+            </div>
+
+        <div class="text-center mt-12">
+            <a href="my_work.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-teal-700 hover:bg-gray-700 transition-colors transform hover:scale-105 duration-300">
+                Learn More
+                <svg class="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+            </a>
+        </div>
+        </div>
+</section>
+<!-- contact section-->
 <section id="contact" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-16">
     <div class="container mx-auto max-w-xl text-center">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Connect with Me</h2>
 
         <div class="flex justify-center space-x-6 md:space-x-8">
+            <a href="mailto:mahrufhossain97@gmail.com"
+               class="text-gray-700 hover:text-teal-600 transition-colors duration-300 flex items-center space-x-2 group">
+                <svg class="w-7 h-7 md:w-8 md:h-8 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M22 4H2C0.9 4 0 4.9 0 6V18C0 19.1 0.9 20 2 20H22C23.1 20 24 19.1 24 18V6C24 4.9 23.1 4 22 4ZM21.25 6.8L12 13.5L2.75 6.8C2.9 6.3 3.4 6 4 6H20C20.6 6 21.1 6.3 21.25 6.8ZM22 18H2V7.4L12 14.7L22 7.4V18Z"/>
+                </svg>
+                <span class="hidden md:inline text-lg font-medium">E-mail</span>
+            </a>
             <a href="https://github.com/mahrufhossain" target="_blank" rel="noopener noreferrer"
-               class="text-gray-700 hover:text-indigo-600 transition-colors duration-300 flex items-center space-x-2 group">
+               class="text-gray-700 hover:text-teal-600 transition-colors duration-300 flex items-center space-x-2 group">
                 <svg class="w-7 h-7 md:w-8 md:h-8 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" aria-hidden="true">
                     <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.499.09.679-.217.679-.481 0-.237-.008-.865-.013-1.702-2.782.602-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.618.069-.606.069-.606 1.003.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.087 2.91.829.091-.645.354-1.087.645-1.334-2.22-.253-4.555-1.113-4.555-4.93 0-1.09.39-1.984 1.029-2.682-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.025 2.747-1.025.546 1.379.202 2.398.099 2.65.64.698 1.028 1.592 1.028 2.682 0 3.826-2.339 4.675-4.566 4.922.359.307.678.915.678 1.846 0 1.334-.012 2.41-.012 2.727 0 .268.18.577.688.48C21.137 20.188 24 16.42 24 12.017 24 6.484 19.522 2 14 2h-2z" clip-rule="evenodd"></path>
                 </svg>
@@ -229,15 +172,83 @@
             </a>
 
             <a href="https://www.linkedin.com/in/mahruf-hossain-4804a7221/" target="_blank" rel="noopener noreferrer"
-               class="text-gray-700 hover:text-indigo-600 transition-colors duration-300 flex items-center space-x-2 group">
+               class="text-gray-700 hover:text-teal-600 transition-colors duration-300 flex items-center space-x-2 group">
                 <svg class="w-7 h-7 md:w-8 md:h-8 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M20.447 20.452h-3.554v-5.629c0-1.365-.024-3.11-.277-4.475-0.253-1.366-1.04-2.203-2.37-2.203-1.896 0-2.454 1.467-2.454 2.846v5.461h-3.554V7.88h3.416v1.561h.046c.473-.785 1.636-1.608 3.364-1.608 3.604 0 4.267 2.368 4.267 5.451v6.24h-3.554zM3.37 6.138c-1.164 0-2.109-.945-2.109-2.109s.945-2.109 2.109-2.109c1.164 0 2.109.945 2.109 2.109s-.945 2.109-2.109 2.109zM1.26 20.452h4.22V7.88H1.26z"/>
                 </svg>
                 <span class="hidden md:inline text-lg font-medium">LinkedIn</span>
             </a>
-            </div>
+        </div>
         <p class="text-gray-500 text-sm mt-8">
             <span class="block md:inline">© 2025 Mahruf Hossain.</span> <span class="block md:inline">All rights reserved.</span>
         </p>
     </div>
 </section>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all anchor links that point to a section on the same page
+        const navLinks = document.querySelectorAll('a[href^="#"]');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Prevent the default jump behavior
+                e.preventDefault();
+
+                // Get the target section's ID from the href attribute
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    // Use the scrollIntoView method with smooth behavior
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+     document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Optional: Console logs to confirm elements are found
+            // console.log('Mobile Menu Button:', mobileMenuButton);
+            // console.log('Mobile Menu:', mobileMenu);
+
+            if (mobileMenuButton && mobileMenu) { // Ensure elements exist before adding listeners
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden'); // Toggles the 'hidden' class
+                });
+
+                // Close mobile menu when a link inside it is clicked
+                const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"]');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden'); // Hide the menu after clicking a link
+                        }
+                    });
+                });
+            }
+
+            // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
+            const allNavLinks = document.querySelectorAll('a[href^="#"]'); // Selects all such links
+            allNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevent default jump
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahruf Hossain</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <!-- Header and Navigation -->
+<header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
+    <nav class="container mx-auto flex justify-between items-center px-4">
+        <a href="index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
+    </nav>
+</header>
+    <main>
+
+        <!-- Projects Section -->
+                    <!-- Project cards will be loaded here dynamically -->
+                          <section id="projects" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12">
+            <div class="container mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">My Projects</h2>
+                <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <!-- Project Card 1: Smart Home Automation -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card">
+                        <img src="https://placehold.co/400x250/e0e0e0/333333?text=Smart+Home" alt="Smart Home Automation Project Thumbnail" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Smart Home Automation (Web Interface)</h3>
+                        <p class="text-gray-600 text-sm mb-4">Developed a web-based dashboard to monitor and control embedded systems, utilizing my EEE knowledge in IoT and UI/UX design.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full">HTML</span>
+                            <span class="bg-green-100 text-green-800 text-xs px-2.5 py-0.5 rounded-full">CSS</span>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2.5 py-0.5 rounded-full">JavaScript</span>
+                            <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-0.5 rounded-full">Node.js</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <a href="https://github.com/yourusername/smarthome-web" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm flex items-center">
+                                View Code
+                                <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0l-7 7"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+               
+
+                    </div>
+            </div>
+        </section>
+        <!-- Projects Section -->
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all anchor links that point to a section on the same page
+        const navLinks = document.querySelectorAll('a[href^="#"]');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Prevent the default jump behavior
+                e.preventDefault();
+
+                // Get the target section's ID from the href attribute
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    // Use the scrollIntoView method with smooth behavior
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+     document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Optional: Console logs to confirm elements are found
+            // console.log('Mobile Menu Button:', mobileMenuButton);
+            // console.log('Mobile Menu:', mobileMenu);
+
+            if (mobileMenuButton && mobileMenu) { // Ensure elements exist before adding listeners
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden'); // Toggles the 'hidden' class
+                });
+
+                // Close mobile menu when a link inside it is clicked
+                const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"]');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden'); // Hide the menu after clicking a link
+                        }
+                    });
+                });
+            }
+
+            // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
+            const allNavLinks = document.querySelectorAll('a[href^="#"]'); // Selects all such links
+            allNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevent default jump
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+</script>
+</body>
+</html>
