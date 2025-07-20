@@ -1,0 +1,66 @@
+/* General Body Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f7f6; /* Light background for the whole page */
+}
+
+/* Section Padding for consistent spacing */
+.section-padding {
+    padding: 4rem 1rem; /* Default padding for all sections */
+}
+
+/* Responsive adjustments for larger screens */
+@media (min-width: 768px) {
+    .section-padding {
+        padding: 6rem 2rem;
+    }
+}
+
+/* Specific styling for the header to ensure rounded corners */
+header {
+    border-bottom-left-radius: 1rem; /* Rounded bottom-left corner */
+    border-bottom-right-radius: 1rem; /* Rounded bottom-right corner */
+}
+
+/* Specific styling for sections to ensure rounded corners and margins */
+section {
+    margin-top: 2rem; /* Margin between sections */
+    border-radius: 1rem; /* Rounded corners for all sections */
+    overflow: hidden; /* Ensures content respects border-radius */
+}
+
+/* Adjustments for the hero section to have a larger bottom radius */
+#home {
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+}
+
+/* Style for project cards (if you decide to add custom styling beyond Tailwind) */
+.project-card {
+    background-color: #ffffff;
+    border-radius: 0.75rem; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.project-card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+/* Style for form elements (if you decide to add custom styling beyond Tailwind) */
+form input[type="text"],
+form input[type="email"],
+form textarea {
+    border-radius: 0.5rem; /* Slightly rounded corners for form fields */
+}
+
+/* Ensure images within sections are responsive */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Remove extra space below images */
+}
+
