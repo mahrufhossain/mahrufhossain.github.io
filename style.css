@@ -33,10 +33,10 @@ section {
 
 /* Adjustments for the hero section to have a larger bottom radius */
 #home {
-    border-bottom-left-radius: 1rem;
-    border-bottom-right-radius: 1rem;
-    border-top-left-radius: 1rem;
-    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 0rem;
+    border-bottom-right-radius: 0rem;
+    border-top-left-radius: 0rem;
+    border-top-right-radius: 0rem;
 }
 
 /* Style for project cards (if you decide to add custom styling beyond Tailwind) */
