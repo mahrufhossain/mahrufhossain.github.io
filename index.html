@@ -11,36 +11,37 @@
 <body class="antialiased">
 
     <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
-    <nav class="container mx-auto flex justify-between items-center px-4">
-        <a href="index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
 
-        <div class="hidden md:flex space-x-6">
-            <a href="#home" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Home</a>
-            <a href="#about" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">About</a>
-            <a href="#projects" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Projects</a>
-            <a href="#my-work" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">My Work</a>
-            <a href="#contact" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Contact</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#home" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Home</a>
+                <a href="#about" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">About</a>
+                <a href="#projects" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Projects</a>
+                <a href="#my-work" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">My Work</a>
+                <a href="#contact" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Contact</a>
+            </div>
+
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg rounded-b-lg z-40">
+            <a href="#home" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+            <a href="#about" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+            <a href="#projects" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Projects</a>
+            <a href="#my-work" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">My Work</a>
+            <a href="#contact" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
         </div>
+    </header>
 
-        <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-        </button>
-    </nav>
-
-    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg rounded-b-lg z-40">
-        <a href="#home" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
-        <a href="#about" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
-        <a href="#projects" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Projects</a>
-        <a href="#my-work" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">My Work</a>
-        <a href="#contact" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
-    </div>
-</header>
     <main>
         <section id="home" class="section-padding bg-gradient-to-r from-gray-900 to-gray-500 text-white text-center rounded-b-xl shadow-lg">
             <div class="container mx-auto max-w-4xl">
-              <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">Hi, I'm Mahruf Hossain</h1>
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">Hi, I'm Mahruf Hossain</h1>
                 <p class="text-lg md:text-xl mb-8 opacity-90">Studying EEE at the University of Dhaka</p>
                 <a href="#my-work" class="inline-block bg-white text-teal-700 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-indigo-100 transition duration-300 transform hover:scale-105">View My Work</a>
             </div>
@@ -51,12 +52,12 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">About Me</h2>
                 <div class="flex flex-col md:flex-row items-center md:space-x-8">
                     <div class="md:w-1/3 mb-8 md:mb-0">
-                        <img src="Assets/uproof.jpg" alt="Your Photo" class="w-full h-auto rounded-xl shadow-md">
+                        <img src="Assets/uproof.jpg" alt="A professional headshot of Mahruf Hossain, a young man with short dark hair, wearing a collared shirt. He is smiling slightly, with a clean, light-colored background." class="w-full h-auto rounded-xl shadow-md">
                     </div>
                     <div class="md:w-2/3 text-gray-700 leading-relaxed">
-                       <p class="mb-4">Hello, I'm Mahruf Hossain, an Electrical and Electronic Engineering undergrad with a deep interest in how things work — and how to build them better.</p>
-<p class="mb-4">I have a strong interest in circuit design, both digital and analog, and I enjoy working on PCBs and embedded systems. I like the hands-on side of engineering — turning ideas into real, working hardware.</p>
-<p>Whether it's sketching out a circuit or writing code, I find joy in the process of creating and learning. I'm always exploring new tools, trying new approaches, and building things that make sense.</p>
+                        <p class="mb-4">Hello, I'm Mahruf Hossain, an Electrical and Electronic Engineering undergrad with a deep interest in how things work — and how to build them better.</p>
+                        <p class="mb-4">I have a strong interest in circuit design, both digital and analog, and I enjoy working on PCBs and embedded systems. I like the hands-on side of engineering — turning ideas into real, working hardware.</p>
+                        <p>Whether it's sketching out a circuit or writing code, I find joy in the process of creating and learning. I'm always exploring new tools, trying new approaches, and building things that make sense.</p>
 
                         <div class="mt-8">
                             <h3 class="text-2xl font-semibold text-gray-800 mb-4">Skills</h3>
@@ -66,7 +67,7 @@
                                 <span class="bg-gray-900 text-stone-50 px-4 py-2 rounded-full text-sm font-medium shadow-sm">SPICE</span>
                                 <span class="bg-gray-900 text-stone-50 px-4 py-2 rounded-full text-sm font-medium shadow-sm">KiCad</span>
                                 <span class="bg-gray-900 text-stone-50 px-4 py-2 rounded-full text-sm font-medium shadow-sm">Git & GitHub</span>
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -87,7 +88,7 @@
                 <div id="my-work-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
                     <div class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card">
-                        <img src="Assets/2025-07-20-165115_hyprshot.png" alt="Circuit Design and Simulations" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <img src="Assets/2025-07-20-165115_hyprshot.png" alt="A screenshot of an LTSpice simulation showing an operational amplifier circuit with input and output waveforms." class="w-full h-40 object-cover rounded-lg mb-4">
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">Circuit Designs and Simulations</h3>
                         <p class="text-gray-600 text-sm mb-4">
                             As an EEE student, proficiency in circuit simulation software is crucial. This section showcases various analog and digital circuit designs along with their simulations in tools like LtSPICE.
@@ -97,7 +98,7 @@
                             <span class="bg-gray-900 text-white text-xs px-2.5 py-2 rounded-full">Circuit Analysis</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <a href="circuit_simulations.html" target="_blank" class="text-teal-600 hover:text-indigo-800 font-medium text-sm flex items-center">
+                            <a href="circuit_simulations.html" class="text-teal-600 hover:text-indigo-800 font-medium text-sm flex items-center">
                                 Learn More
                                 <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0l-7 7"></path></svg>
                             </a>
@@ -105,7 +106,7 @@
                     </div>
 
                     <div class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card">
-                        <img src="Assets/pcb_design_3.jpg" alt="PCB Designs" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <img src="Assets/pcb_design_3.jpg" alt="A close-up image of a green printed circuit board (PCB) with various electronic components soldered onto it, showcasing intricate traces and pads." class="w-full h-40 object-cover rounded-lg mb-4">
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">PCB Designs</h3>
                         <p class="text-gray-600 text-sm mb-4">
                             Printed Circuit Board (PCB) design is a fundamental skill in electronics development. This section features various PCB layouts, ranging from single-layer prototypes to multi-layer designs created using KiCAD.
@@ -115,7 +116,7 @@
                             <span class="bg-gray-900 text-white text-xs px-2.5 py-2 rounded-full">Hardware Design</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <a href="pcb_design.html" target="_blank" class="text-teal-600 hover:text-indigo-800 font-medium text-sm flex items-center">
+                            <a href="pcb_design.html" class="text-teal-600 hover:text-indigo-800 font-medium text-sm flex items-center">
                                 Learn More
                                 <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0l-7 7"></path></svg>
                             </a>
@@ -123,7 +124,7 @@
                     </div>
 
                     <div class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card">
-                        <img src="Assets/embedded_systems.jpg" alt="Embedded Systems" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <img src="Assets/embedded_systems.jpg" alt="A hand holding a small development board, likely an Arduino or ESP32, connected to various wires and components, representing an embedded system project." class="w-full h-40 object-cover rounded-lg mb-4">
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">Embedded Systems</h3>
                         <p class="text-gray-600 text-sm mb-4">
                             Exploring the powerful world of microcontrollers and sensors, this section highlights various embedded system projects. From basic data acquisition to integrated control solutions, showcasing hands-on firmware development.
@@ -134,14 +135,14 @@
                             <span class="bg-gray-900 text-white text-xs px-2.5 py-2 rounded-full">Sensors</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <a href="embedded_system.html" target="_blank" class="text-teal-600 hover:text-indigo-800 font-medium text-sm flex items-center">
+                            <a href="embedded_system.html" class="text-teal-600 hover:text-indigo-800 font-medium text-sm flex items-center">
                                 Learn More
                                 <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0l-7 7"></path></svg>
                             </a>
                         </div>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card">
-                        <img src="Assets/autocad3d.jpg" alt="CAD Designs (2D & 3D)" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <img src="Assets/autocad3d.jpg" alt="A 3D CAD model of a mechanical component, possibly an engine part or a complex bracket, displayed on a computer screen, demonstrating precision engineering and design." class="w-full h-40 object-cover rounded-lg mb-4">
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">CAD Designs (2D & 3D)</h3>
                         <p class="text-gray-600 text-sm mb-4">Showcasing proficiency in Computer-Aided Design, this section includes a variety of 2D and 3D models developed for academic and practical applications.</p>
                         <div class="flex flex-wrap gap-2 mb-4">
@@ -150,90 +151,113 @@
                             <span class="bg-gray-900 text-white text-xs px-2.5 py-2 rounded-full">3D Modeling</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <a href="cad_designs.html" target="_blank" class="text-teal-600 hover:text-indigo-800 font-medium text-sm flex items-center">
+                            <a href="cad_designs.html" class="text-teal-600 hover:text-indigo-800 font-medium text-sm flex items-center">
                                 Learn More
                                 <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0l-7 7"></path></svg>
                             </a>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </section>
 
-<section id="contact" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-16">
-    <div class="container mx-auto max-w-xl text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Connect with Me</h2>
+        <section id="contact" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-16">
+            <div class="container mx-auto max-w-xl text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Connect with Me</h2>
 
-        <div class="flex justify-center space-x-6 md:space-x-8">
-            <a href="mailto:mahrufhossain97@gmail.com"
-               class="text-gray-700 hover:text-teal-600 transition-colors duration-300 flex items-center space-x-2 group">
-                <svg class="w-7 h-7 md:w-8 md:h-8 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M22 4H2C0.9 4 0 4.9 0 6V18C0 19.1 0.9 20 2 20H22C23.1 20 24 19.1 24 18V6C24 4.9 23.1 4 22 4ZM21.25 6.8L12 13.5L2.75 6.8C2.9 6.3 3.4 6 4 6H20C20.6 6 21.1 6.3 21.25 6.8ZM22 18H2V7.4L12 14.7L22 7.4V18Z"/>
-                </svg>
-                <span class="hidden md:inline text-lg font-medium">E-mail</span>
-            </a>
-            <a href="https://github.com/mahrufhossain" target="_blank" rel="noopener noreferrer"
-               class="text-gray-700 hover:text-teal-600 transition-colors duration-300 flex items-center space-x-2 group">
-                <svg class="w-7 h-7 md:w-8 md:h-8 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.499.09.679-.217.679-.481 0-.237-.008-.865-.013-1.702-2.782.602-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.618.069-.606.069-.606 1.003.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.087 2.91.829.091-.645.354-1.087.645-1.334-2.22-.253-4.555-1.113-4.555-4.93 0-1.09.39-1.984 1.029-2.682-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.025 2.747-1.025.546 1.379.202 2.398.099 2.65.64.698 1.028 1.592 1.028 2.682 0 3.826-2.339 4.675-4.566 4.922.359.307.678.915.678 1.846 0 1.334-.012 2.41-.012 2.727 0 .268.18.577.688.48C21.137 20.188 24 16.42 24 12.017 24 6.484 19.522 2 14 2h-2z" clip-rule="evenodd"></path>
-                </svg>
-                <span class="hidden md:inline text-lg font-medium">GitHub</span>
-            </a>
+                <div class="flex justify-center space-x-6 md:space-x-8">
+                    <a href="mailto:mahrufhossain97@gmail.com"
+                       class="text-gray-700 hover:text-teal-600 transition-colors duration-300 flex items-center space-x-2 group">
+                        <svg class="w-7 h-7 md:w-8 md:h-8 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M22 4H2C0.9 4 0 4.9 0 6V18C0 19.1 0.9 20 2 20H22C23.1 20 24 19.1 24 18V6C24 4.9 23.1 4 22 4ZM21.25 6.8L12 13.5L2.75 6.8C2.9 6.3 3.4 6 4 6H20C20.6 6 21.1 6.3 21.25 6.8ZM22 18H2V7.4L12 14.7L22 7.4V18Z"/>
+                        </svg>
+                        <span class="hidden md:inline text-lg font-medium">E-mail</span>
+                    </a>
+                    <a href="https://github.com/mahrufhossain" target="_blank" rel="noopener noreferrer"
+                       class="text-gray-700 hover:text-teal-600 transition-colors duration-300 flex items-center space-x-2 group">
+                        <svg class="w-7 h-7 md:w-8 md:h-8 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.499.09.679-.217.679-.481 0-.237-.008-.865-.013-1.702-2.782.602-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.618.069-.606.069-.606 1.003.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.087 2.91.829.091-.645.354-1.087.645-1.334-2.22-.253-4.555-1.113-4.555-4.93 0-1.09.39-1.984 1.029-2.682-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.025 2.747-1.025.546 1.379.202 2.398.099 2.65.64.698 1.028 1.592 1.028 2.682 0 3.826-2.339 4.675-4.566 4.922.359.307.678.915.678 1.846 0 1.334-.012 2.41-.012 2.727 0 .268.18.577.688.48C21.137 20.188 24 16.42 24 12.017 24 6.484 19.522 2 14 2h-2z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="hidden md:inline text-lg font-medium">GitHub</span>
+                    </a>
 
-            <a href="https://www.linkedin.com/in/mahruf-hossain-4804a7221/" target="_blank" rel="noopener noreferrer"
-               class="text-gray-700 hover:text-teal-600 transition-colors duration-300 flex items-center space-x-2 group">
-                <svg class="w-7 h-7 md:w-8 md:h-8 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M20.447 20.452h-3.554v-5.629c0-1.365-.024-3.11-.277-4.475-0.253-1.366-1.04-2.203-2.37-2.203-1.896 0-2.454 1.467-2.454 2.846v5.461h-3.554V7.88h3.416v1.561h.046c.473-.785 1.636-1.608 3.364-1.608 3.604 0 4.267 2.368 4.267 5.451v6.24h-3.554zM3.37 6.138c-1.164 0-2.109-.945-2.109-2.109s.945-2.109 2.109-2.109c1.164 0 2.109.945 2.109 2.109s-.945 2.109-2.109 2.109zM1.26 20.452h4.22V7.88H1.26z"/>
-                </svg>
-                <span class="hidden md:inline text-lg font-medium">LinkedIn</span>
-            </a>
-        </div>
-        <p class="text-gray-500 text-sm mt-8">
-            <span class="block md:inline">© 2025 Mahruf Hossain.</span> <span class="block md:inline">All rights reserved.</span>
-        </p>
-    </div>
-</section>
-</main>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // --- Mobile Menu Toggle ---
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+                    <a href="https://www.linkedin.com/in/mahruf-hossain-4804a7221/" target="_blank" rel="noopener noreferrer"
+                       class="text-gray-700 hover:text-teal-600 transition-colors duration-300 flex items-center space-x-2 group">
+                        <svg class="w-7 h-7 md:w-8 md:h-8 fill-current group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M20.447 20.452h-3.554v-5.629c0-1.365-.024-3.11-.277-4.475-0.253-1.366-1.04-2.203-2.37-2.203-1.896 0-2.454 1.467-2.454 2.846v5.461h-3.554V7.88h3.416v1.561h.046c.473-.785 1.636-1.608 3.364-1.608 3.604 0 4.267 2.368 4.267 5.451v6.24h-3.554zM3.37 6.138c-1.164 0-2.109-.945-2.109-2.109s.945-2.109 2.109-2.109c1.164 0 2.109.945 2.109 2.109s-.945 2.109-2.109 2.109zM1.26 20.452h4.22V7.88H1.26z"/>
+                        </svg>
+                        <span class="hidden md:inline text-lg font-medium">LinkedIn</span>
+                    </a>
+                </div>
+                <p class="text-gray-500 text-sm mt-8">
+                    <span class="block md:inline">© 2025 Mahruf Hossain.</span> <span class="block md:inline">All rights reserved.</span>
+                </p>
+            </div>
+        </section>
+    </main>
 
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
 
-            const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"]');
-            mobileNavLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"]');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    });
+                });
+            }
+
+            // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
+            const allNavLinks = document.querySelectorAll('a[href^="#"]');
+            allNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
                     }
                 });
             });
-        }
 
-        // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
-        const allNavLinks = document.querySelectorAll('a[href^="#"]');
-        allNavLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
+            // --- Scroll-to-Top button functionality ---
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
 
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
+            // Show/hide the button based on scroll position
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
                 }
             });
+
+            // Scroll to top when button is clicked
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>
