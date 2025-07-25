@@ -10,22 +10,22 @@
 </head>
 <body class="antialiased">
 
-    <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
+    <header id="top" class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
         <nav class="container mx-auto flex justify-between items-center px-4">
             <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="ltspice_tutorial.html" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to Tutorials Index</a>
+            <a href="ltspice_tutorial.html" class="block text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Back to Tutorials Index</a>
         </nav>
     </header>
 
     <main>
         <section id="parameter-sweep-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
             <div class="container mx-auto px-4">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">6. Advanced: Parameter Sweeps (.STEP Command)</h1>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">5. Advanced: Parameter Sweeps (.STEP Command)</h1>
                 <p class="text-gray-600 mb-6"><b>Parameter sweeps</b>, using the <b>.STEP command</b>, allow you to run a simulation multiple times while systematically varying a component value, a model parameter, or even a temperature. This is incredibly powerful for optimizing designs, performing tolerance analysis, or observing circuit behavior under different conditions.</p>
 
                 <hr class="my-8 border-gray-300">
 
-                <h2 id="setup-sweep-circuit" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.1 Setting Up Your Circuit for a Sweep</h2>
+                <h2 id="setup-sweep-circuit" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.1 Setting Up Your Circuit for a Sweep</h2>
                 <p class="text-gray-600 mb-4">To perform a parameter sweep, you first need to define a component value as a variable (or "parameter"). Let's use an <b>RC low-pass filter</b> as an example, sweeping the resistor value.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li><b>New Schematic:</b> Open a new schematic (<b>File > New Schematic</b> or <b>Ctrl+N</b>).</li>
@@ -38,51 +38,45 @@
                         </ul>
                     </li>
                     <li><b>Wire Circuit:</b> Connect them as a low-pass filter: Voltage Source (+) to Resistor, Resistor to Capacitor, Capacitor to Ground, Voltage Source (-) to Ground.</li>
+                    <img src="assets/parameter_sweep/schematic.png" alt="LTSpice RC Low-Pass Filter Schematic with Rval Parameter" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                     <li><b>Add AC Analysis Command:</b> We'll still need an <b>AC Analysis</b> command to see the frequency response. Go to <b>Simulate > Edit Simulation Cmd</b>, select the <b>AC Analysis</b> tab, and set it to <b>Decade</b>, <b>100</b> points, <b>Start Frequency 10</b>, <b>Stop Frequency 1Meg</b>. Place the <b>.ac</b> directive on the schematic.</li>
+                    <img src="assets/parameter_sweep/setup_analysis.png" alt="LTSpice AC Analysis Setup Dialog for Parameter Sweep" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                     <li><b>Save:</b> Save your circuit (e.g., <b>rc_sweep.asc</b>).</li>
                 </ol>
-                <img src="assets/sweep_circuit_schematic.png" alt="LTSpice Circuit with Parameter Variable" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+
                 <p class="text-gray-600 italic mb-6">The variable name (e.g., <b>Rval</b>) is case-sensitive and must be enclosed in curly braces for <b>LTSpice</b> to recognize it as a parameter for sweeping.</p>
 
                 <hr class="my-8 border-gray-300">
 
-                <h2 id="configure-step" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.2 Configuring the .STEP Command</h2>
+                <h2 id="configure-step" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.2 Configuring the .STEP Command</h2>
                 <p class="text-gray-600 mb-4">Now, let's define how our parameter <b>Rval</b> will change during the simulation.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>Go to <b>Simulate > Edit Simulation Cmd</b> from the menu bar.</li>
-                    <li>In the <b>Edit Simulation Command</b> dialog box, select the <b>.step</b> tab.</li>
-                    <li>Choose your <b>Type of Sweep</b>:
+                    <li>Press the <b>. (period)</b> key on your keyboard to open the <b>SPICE Directive</b> window.</li>
+                    <li>In the blank <b>SPICE Directive</b> window, type the <b>.step</b> command, specifying the parameter name and its sweep range. You can choose from different sweep types:
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
-                            <li><b>Linear:</b> Sweeps the parameter linearly from a <b>Start Value</b> to a <b>Stop Value</b> with a specified <b>Increment</b>. Good for uniform changes.
-                                <br>Example: <b>.step param Rval 1k 10k 1k</b> (sweeps Rval from 1kΩ to 10kΩ in 1kΩ steps)</li>
-                            <li><b>Decade / Octave:</b> Sweeps logarithmically. You specify the <b>Start Value</b>, <b>Stop Value</b>, and <b>Number of points per Decade/Octave</b>. Ideal for frequency-related components or when values span a wide range.
-                                <br>Example: <b>.step param Rval dec 1k 100k 3</b> (3 points per decade from 1kΩ to 100kΩ)</li>
-                            <li><b>List:</b> Allows you to specify an explicit list of values.
-                                <br>Example: <b>.step param Rval list 1k 2.2k 4.7k 10k</b></li>
+                            <li>For a <b>Linear</b> sweep (from a Start Value to a Stop Value with an Increment):
+                                <br>Example: <code>.step param Rval 1k 10k 1k</code> (sweeps Rval from 1kΩ to 10kΩ in 1kΩ steps)</li>
+                            <li>For a <b>Decade</b> or <b>Octave</b> sweep (logarithmic sweep, specify Start, Stop, and Number of points per Decade/Octave):
+                                <br>Example: <code>.step param Rval dec 1k 100k 3</code> (3 points per decade from 1kΩ to 100kΩ)</li>
+                            <li>For a <b>List</b> of specific values:
+                                <br>Example: <code>.step param Rval list 1k 2.2k 4.7k 10k</code></li>
                         </ul>
                     </li>
-                    <li>For our example, let's use <b>Linear</b>:
-                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
-                            <li><b>Name of global parameter:</b> Type <b>Rval</b> (matching the variable name you used).</li>
-                            <li><b>Type of Sweep:</b> Select <b>Linear</b>.</li>
-                            <li><b>Start Value:</b> Enter <b>1k</b>.</li>
-                            <li><b>Stop Value:</b> Enter <b>5k</b>.</li>
-                            <li><b>Increment:</b> Enter <b>1k</b>.</li>
-                        </ul>
-                    </li>
-                    <li>Click <b>OK</b>. A <b>.step param Rval 1k 5k 1k</b> directive will appear on your cursor. Click to place it on your schematic.</li>
+                    <li>For our example (linear sweep from 1k to 5k in 1k steps), you would type:</li>
+                    <img src="assets/parameter_sweep/param_define_dialogue.png" alt="LTSpice AC Analysis Setup Dialog for Parameter Sweep" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 </ol>
-                <img src="assets/step_command_setup.png" alt="LTSpice .STEP Command Setup Dialog" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 mb-4 font-semibold">LTSpice Command (<b>.step</b> directive in schematic):</p>
+                <p class="text-gray-600 mb-4 font-semibold">LTSpice Command to type:</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.step param Rval 1k 5k 1k</code></pre>
+                <p class="text-gray-600 mb-4">Click <b>OK</b> after typing the command. The directive will appear on your cursor. Click to place it on your schematic.</p>
+                <img src="assets/parameter_sweep/param_define.png" alt="LTSpice AC Analysis Setup Dialog for Parameter Sweep" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">You can sweep various parameters, including model parameters (e.g., transistor W/L), temperature (via <b>.temp</b>), or even other sources.</p>
 
                 <hr class="my-8 border-gray-300">
 
-                <h2 id="analyze-sweep-results" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.3 Running the Simulation and Analyzing Results</h2>
+                <h2 id="analyze-sweep-results" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.3 Running the Simulation and Analyzing Results</h2>
                 <p class="text-gray-600 mb-4">When you run a simulation with a <b>.STEP command</b>, <b>LTSpice</b> will perform a separate simulation for each value in your sweep. All results will be stored, allowing you to compare them.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>Go to <b>Simulate > Run</b> (or click the <b>Running Man</b> icon on the toolbar).</li>
+                    <li>Go to <b>Simulate > Run</b> (or click the <b>Play Button</b> icon, or press <b>Alt+R</b>).</li>
                     <li>The plot window will open. If you click on the output of your RC filter (the node between the resistor and capacitor), you will see multiple overlapping waveforms, one for each step in your sweep.</li>
                     <li><b>Selecting Individual Steps:</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
@@ -93,15 +87,40 @@
                     </li>
                     <li><b>Using Cursors:</b> You can use cursors on these plots just as you would with a single simulation. They will attach to the active trace, and you can switch between traces to compare values across different sweep steps.</li>
                 </ol>
-                <img src="assets/sweep_waveform_display.png" alt="LTSpice Parameter Sweep Waveform Display" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/parameter_sweep/waveform_param.png" alt="LTSpice Parameter Sweep Waveform Display with Multiple Traces" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">Observing how the cutoff frequency shifts with different resistor values in our example clearly demonstrates the power of parameter sweeps for understanding design trade-offs.</p>
                 <p class="text-gray-600">The <b>.STEP command</b> is a fundamental tool for comprehensive circuit analysis and optimization in <b>LTSpice</b>, moving beyond single-point simulations to explore a design space.</p>
             </div>
         </section>
+
+        <section class="container mx-auto px-4 mt-12 mb-16">
+            <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+                <a href="ltspice_working_with_plots.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Previous: Working With Plot Windows
+                </a>
+
+                <a href="ltspice_third_party_models.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                    Next: Using Third-Party Models
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+        </section>
     </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Smooth Scrolling for internal links
             const navLinks = document.querySelectorAll('a[href^="#"]');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -114,6 +133,24 @@
                             block: 'start'
                         });
                     }
+                });
+            });
+
+            // Scroll-to-Top button functionality
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
                 });
             });
         });

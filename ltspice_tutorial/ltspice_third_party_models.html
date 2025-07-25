@@ -13,7 +13,7 @@
     <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
         <nav class="container mx-auto flex justify-between items-center px-4">
             <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="ltspice_tutorial.html" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to Tutorials Index</a>
+            <a href="ltspice_tutorial.html" class="block text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Back to Tutorials Index</a>
         </nav>
     </header>
 
@@ -38,7 +38,7 @@
 .MODEL 2N7000 NMOS (Vto=2.1 Rd=1.2 Rs=0.6 Kappa=0.17 Lambda=0.007 ...)
 * Pin order: Drain Gate Source Bulk (D G S B)
 </code></pre>
-                <img src="assets/third_party_model_file.png" alt="Example SPICE .lib file content" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                
 
 
                 <hr class="my-8 border-gray-300">
@@ -55,9 +55,9 @@
                         </ul>
                     </li>
                 </ol>
-                <img src="assets/add_lib_directive.png" alt="LTSpice .lib directive on schematic" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/third_party_model/model_define.png" alt="LTSpice schematic showing a .lib directive placed on the canvas, referencing '2N7000.lib'" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">For models defined with <b>.subckt</b>, you might use <b>.inc</b> instead of <b>.lib</b>, though <b>.lib</b> usually works for both. If the model file is not in the same directory, you'll need to provide the full path (e.g., <b>.lib C:\Users\YourName\Documents\LTSpice\MyModels\2N7000.lib</b>).</p>
-                <p class="text-gray-600 mb-6">**Alternative (Less Recommended for Projects):** You can also copy <b>.lib</b> files into <b>LTSpice's</b> default library directories (e.g., `C:\Program Files\LTC\LTspiceXVII\lib\sub` for subcircuits, `C:\Program Files\LTC\LTspiceXVII\lib\cmp\MOSFET` for MOSFET models). However, this makes projects less portable and can be overwritten by updates.</p>
+                <p class="text-gray-600 mb-6"><b>Alternative (Less Recommended for Projects):</b> You can also copy <b>.lib</b> files into <b>LTSpice's</b> default library directories (e.g., `C:\Program Files\LTC\LTspiceXVII\lib\sub` for subcircuits, `C:\Program Files\LTC\LTspiceXVII\lib\cmp\MOSFET` for MOSFET models). However, this makes projects less portable and can be overwritten by updates.</p>
 
                 <hr class="my-8 border-gray-300">
 
@@ -70,7 +70,7 @@
                     <li><b>Right-click</b> on the placed symbol.</li>
                     <li>In the <b>Value</b> field, type the exact <b>model name</b> defined in your <b>.lib</b> or <b>.mod</b> file (e.g., <b>2N7000</b>). This tells <b>LTSpice</b> which specific model to use for this generic symbol.</li>
                 </ol>
-                <img src="assets/component_value_model_name.png" alt="LTSpice Component Value with Model Name" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+              
 
                 <h3 class="text-xl font-semibold text-gray-700 mb-2 mt-4">For .SUBCKT statements (e.g., Op-Amps, complex ICs):</h3>
                 <p class="text-gray-600 mb-4">For subcircuits, you typically need to associate the <b>.subckt name</b> with an appropriate symbol. If <b>LTSpice</b> doesn't have a specific symbol, you might need to generate one.</p>
@@ -81,36 +81,15 @@
                             <li>Open the <b>.lib</b> or <b>.mod</b> file directly in <b>LTSpice</b> (<b>File > Open</b>).</li>
                             <li>Once open, go to <b>Hierarchy > Generate Symbol</b>. <b>LTSpice</b> will attempt to create a graphical symbol based on the pin definitions in the <b>.subckt</b> statement.</li>
                             <li>Save this generated symbol (it will have a <b>.asy</b> extension) in a location that <b>LTSpice</b> recognizes (e.g., in a custom symbol library folder, or one of <b>LTSpice's</b> default symbol directories like `C:\Program Files\LTC\LTspiceXVII\lib\sym`).</li>
-                            <li>Once saved, you can add this new symbol to your schematic using the <b>Component</b> (<b>F2</b>) button, Browse to your custom library.</li>
+                            <li>Once saved, you can add this new symbol to your schematic using the <b>Component</b> (<b>P</b>) button, Browse to your custom library.</li>
                         </ul>
                     </li>
                 </ol>
-                <img src="assets/generate_symbol.png" alt="LTSpice Generate Symbol from Hierarchy menu" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/third_party_model/split_supply.png" alt="LTSpice menu showing 'Hierarchy' dropdown with 'Generate Symbol' option highlighted" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
 
                 <hr class="my-8 border-gray-300">
 
-                <h2 id="simulate-example" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">7.4 Example: Simulating with a Third-Party MOSFET Model</h2>
-                <p class="text-gray-600 mb-4">Let's put it all together with a simple common-source MOSFET amplifier using our <b>2N7000</b> model.</p>
-                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>Set up your schematic with:
-                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
-                            <li>A voltage source (e.g., <b>V1</b>, <b>DC 12V</b>) for VDD.</li>
-                            <li>A voltage source (e.g., <b>Vin</b>, a <b>PULSE</b> or <b>SINE</b> source for transient analysis).</li>
-                            <li>Resistors for biasing (e.g., <b>R1</b>, <b>R2</b> for a voltage divider on the gate, <b>RD</b> for drain resistor).</li>
-                            <li>A generic <b>nmos</b> symbol, with its <b>Value</b> set to <b>2N7000</b>.</li>
-                            <li>A Ground (<b>GND</b>).</li>
-                        </ul>
-                    </li>
-                    <li>Add the <b>.lib 2N7000.lib</b> directive to your schematic.</li>
-                    <li>Add a <b>.tran 10m</b> (for 10 milliseconds) directive for transient analysis.</li>
-                    <li>Connect the circuit appropriately (gate biased, drain connected to RD and VDD, source to ground).</li>
-                    <li>Run the simulation (<b>Simulate > Run</b>).</li>
-                    <li>Probe the input (<b>Vin</b>), gate (<b>Vg</b>), and output (<b>Vout</b> at the drain) nodes. You should see the MOSFET switching or amplifying based on its real model characteristics.</li>
-                </ol>
-                <img src="assets/model_simulation_results.png" alt="LTSpice Simulation Results with Third-Party MOSFET Model" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">Using real manufacturer models is essential for accurate predictions of a circuit's performance before building hardware.</p>
-
-                <hr class="my-8 border-gray-300">
+                
 
                 <h2 id="troubleshooting" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">7.5 Troubleshooting Common Issues</h2>
                 <p class="text-gray-600 mb-4">Working with third-party models can sometimes lead to errors. Here are a few common ones:</p>
@@ -131,8 +110,35 @@
         </section>
     </main>
 
+    ---
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <a href="ltspice_parameter_sweep.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: Parameter Sweep (.step)
+            </a>
+
+            <a href="ltspice_opamp_inverting_amplifier.html " class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                Next: Inverting Amplifier Using Op Amp
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Smooth Scrolling for internal links
             const navLinks = document.querySelectorAll('a[href^="#"]');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -145,6 +151,24 @@
                             block: 'start'
                         });
                     }
+                });
+            });
+
+            // Scroll-to-Top button functionality
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
                 });
             });
         });

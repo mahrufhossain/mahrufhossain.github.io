@@ -13,7 +13,7 @@
     <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
         <nav class="container mx-auto flex justify-between items-center px-4">
             <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="ltspice_tutorial.html" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to Tutorials Index</a>
+            <a href="ltspice_tutorial.html" class="block text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Back to Tutorials Index</a>
         </nav>
     </header>
 
@@ -29,7 +29,7 @@
                 <p class="text-gray-600 mb-4">Let's build the basic inverting amplifier circuit:</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li><b>New Schematic:</b> Open a new schematic (<b>File > New Schematic</b> or <b>Ctrl+N</b>).</li>
-                    <li><b>Place Op-Amp:</b> Go to <b>Component</b> (or press <b>F2</b>) and type <b>opamp</b>. Place it on the schematic. This is <b>LTSpice's</b> ideal Op-Amp model.</li>
+                    <li><b>Place Op-Amp:</b> Go to <b>Component</b> (or press <b>P</b>) and type <b>opamp</b>. Place it on the schematic. This is <b>LTSpice's</b> ideal Op-Amp model.</li>
                     <li><b>Place Resistors:</b> Add two resistors (<b>res</b>):
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
                             <li>An input resistor, <b>R1</b> (e.g., <b>1k</b>).</li>
@@ -61,7 +61,7 @@
                     </li>
                     <li><b>Save:</b> Save your circuit (e.g., <b>inverting_amp.asc</b>).</li>
                 </ol>
-                <img src="assets/opamp_inverting_schematic.png" alt="LTSpice Inverting Amplifier Schematic" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Inverting_Amp/schematic.png" alt="LTSpice schematic of an inverting amplifier circuit with an ideal op-amp, input resistor (R1), feedback resistor (R2), input sine wave source (Vin), and dual power supplies (+Vcc, -Vee)." class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">The gain of an ideal inverting amplifier is given by the formula $A_v = -\frac{R_f}{R_{in}}$. For $R_{in}=1k\Omega$ and $R_f=10k\Omega$, the expected gain is $-10$.</p>
 
                 <hr class="my-8 border-gray-300">
@@ -86,12 +86,12 @@
                     <li>A plot window will appear. Probe the input voltage (<b>Vin</b>, the wire coming from your sine source) and the output voltage (<b>Vout</b>, the wire at the Op-Amp's output pin).</li>
                     <li>You should see two sine waves. The output waveform should be:
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
-                            <li>**Amplified:** Its peak amplitude should be approximately 10V (since our gain is -10 and input is 1V peak).</li>
-                            <li>**Inverted:** It should be 180 degrees out of phase with the input (when input is positive, output is negative, and vice-versa).</li>
+                            <li><b>Amplified:</b> Its peak amplitude should be approximately 10V (since our gain is -10 and input is 1V peak).</li>
+                            <li><b>Inverted:</b> It should be 180 degrees out of phase with the input (when input is positive, output is negative, and vice-versa).</li>
                         </ul>
                     </li>
                 </ol>
-                <img src="assets/opamp_inverting_waveform.png" alt="LTSpice Inverting Amplifier Waveforms" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Inverting_Amp/waveform.png" alt="LTSpice plot window showing two sine waveforms. The input (Vin) has a 1V peak, and the output (Vout) has a 10V peak and is 180 degrees out of phase, demonstrating inverted amplification." class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600">This confirms the expected behavior of an inverting amplifier! The output is a scaled, inverted version of the input signal.</p>
 
                 <hr class="my-8 border-gray-300">
@@ -100,8 +100,8 @@
                 <p class="text-gray-600 mb-4">Keep these points in mind when simulating Op-Amps:</p>
                 <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li><b>Power Supplies are Essential:</b> Even LTSpice's ideal <b>opamp</b> model requires correctly connected positive (V+) and negative (V-) power supplies. Without them, it will not function correctly.</li>
-                    <li><b>Ideal vs. Real Op-Amps:</b> The <b>opamp</b> model is ideal. It has infinite gain, infinite input impedance, zero output impedance, and infinite bandwidth. For more realistic simulations, you'll need to use a **third-party Op-Amp model** (refer to <a href="ltspice_third_party_models.html" class="text-teal-600 hover:text-teal-800 font-semibold">Tutorial 6: Using Third-Party Models</a>).</li>
-                    <li><b>Output Saturation:</b> If the amplified output signal exceeds the power supply rails (e.g., +15V or -15V in our example), the Op-Amp's output will "clip" or **saturate** at those limits. This is a common issue with high gain or large input signals.</li>
+                    <li><b>Ideal vs. Real Op-Amps:</b> The <b>opamp</b> model is ideal. It has infinite gain, infinite input impedance, zero output impedance, and infinite bandwidth. For more realistic simulations, you'll need to use a <b>third-party Op-Amp model</b> (refer to <a href="ltspice_third_party_models.html" class="text-teal-600 hover:text-teal-800 font-semibold">Tutorial 7: Using Third-Party Models</a>).</li>
+                    <li><b>Output Saturation:</b> If the amplified output signal exceeds the power supply rails (e.g., +15V or -15V in our example), the Op-Amp's output will <b>clip</b> or <b>saturate</b> at those limits. This is a common issue with high gain or large input signals.</li>
                     <li><b>Negative Feedback:</b> The connection of the output back to the inverting input is crucial for stable operation and predictable gain. Without it, the Op-Amp typically acts as a comparator.</li>
                 </ul>
                 <p class="text-gray-600">You've now successfully simulated a fundamental Op-Amp circuit! This understanding forms the basis for more complex Op-Amp applications.</p>
@@ -109,8 +109,35 @@
         </section>
     </main>
 
+    ---
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <a href="ltspice_third_party_models.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: Advanced: Using Third-Party Models
+            </a>
+
+            <a href="opamp_non_inverting_amplifier.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                Next: Op-Amp Basics: Non-Inverting Amplifier (Coming Soon)
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Smooth Scrolling for internal links
             const navLinks = document.querySelectorAll('a[href^="#"]');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -123,6 +150,24 @@
                             block: 'start'
                         });
                     }
+                });
+            });
+
+            // Scroll-to-Top button functionality
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
                 });
             });
         });

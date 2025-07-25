@@ -13,14 +13,17 @@
     <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
         <nav class="container mx-auto flex justify-between items-center px-4">
             <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="ltspice_tutorial.html" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to Tutorials Index</a>
+            <a href="ltspice_tutorial.html" class="block text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Back to Tutorials Index</a>
         </nav>
     </header>
 
     <main>
-        <section id="ltspice-installation" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24"> <div class="container mx-auto px-4">
+        <section id="ltspice-installation" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">0. LTSpice Installation Guide</h1>
                 <p class="text-gray-600 mb-6">This guide will walk you through the process of downloading and installing <b>LTSpice XVII</b> on different operating systems: <b>Windows</b>, <b>macOS</b>, and <b>Linux</b>. Ensure you download the software from the official <b>Analog Devices</b> website.</p>
+
+                <hr class="my-8 border-gray-300">
 
                 <h2 id="windows-installation" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Installation on Windows</h2>
                 <ol class="list-decimal list-inside text-gray-600 mb-6 pl-4 space-y-2">
@@ -30,8 +33,10 @@
                     <li>Click "<b>Install</b>" and then "<b>Finish</b>" once the installation is complete.</li>
                     <li>You can launch <b>LTSpice XVII</b> from your <b>Desktop</b> shortcut or from the <b>Start Menu</b>.</li>
                 </ol>
-                <img src="https://via.placeholder.com/800x450?text=LTSpice+Windows+Installer+Screenshot" alt="LTSpice Windows Installer Screenshot" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200">
+                <img src="https://via.placeholder.com/800x450?text=LTSpice+Windows+Installer+Screenshot" alt="Screenshot of LTSpice XVII installation process on Windows" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">It's recommended to run the installer as an administrator to avoid any permission issues.</p>
+
+                <hr class="my-8 border-gray-300">
 
                 <h2 id="macos-installation" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Installation on macOS</h2>
                 <ol class="list-decimal list-inside text-gray-600 mb-6 pl-4 space-y-2">
@@ -41,8 +46,10 @@
                     <li>After copying, eject the disk image from your <b>Finder sidebar</b>.</li>
                     <li>Find <b>LTSpice XVII</b> in your <b>Applications</b> folder and double-click to launch. You might need to grant security permissions on the first launch (<b>System Preferences > Security & Privacy > General</b>, then click "<b>Open Anyway</b>").</li>
                 </ol>
-                <img src="https://via.placeholder.com/800x450?text=LTSpice+macOS+Installation+Screenshot" alt="LTSpice macOS Installation Screenshot" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200">
+                <img src="https://via.placeholder.com/800x450?text=LTSpice+macOS+Installation+Screenshot" alt="Screenshot of LTSpice XVII installation process on macOS" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">Ensure your <b>macOS</b> version is compatible with the latest <b>LTSpice</b> release.</p>
+
+                <hr class="my-8 border-gray-300">
 
                 <h2 id="linux-installation" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Installation on Linux (via Wine)</h2>
                 <p class="text-gray-600 mb-4"><b>LTSpice</b> does not have a native <b>Linux</b> version, but it runs very well using <b>Wine</b>, a compatibility layer that allows <b>Windows</b> applications to run on <b>Linux</b>.</p>
@@ -63,7 +70,7 @@ sudo apt install wine-stable</code></pre>
                     <li>The <b>Windows</b> installer will launch within <b>Wine</b>. Follow the same steps as for <b>Windows</b> installation.</li>
                     <li>After installation, you can usually find <b>LTSpice</b> in your applications menu under "<b>Wine</b>" or "<b>Wine Programs</b>". You can also launch it from the <b>terminal</b> if you know its installed path within the <b>Wine</b> prefix.</li>
                 </ol>
-                <img src="https://via.placeholder.com/800x450?text=LTSpice+Linux+Wine+Screenshot" alt="LTSpice Linux Wine Installation Screenshot" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200">
+                <img src="https://via.placeholder.com/800x450?text=LTSpice+Linux+Wine+Screenshot" alt="Screenshot of LTSpice XVII running on Linux via Wine" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">For advanced Wine configurations or troubleshooting, checkout <a href="https://wiki.winehq.org/" target="_blank" class="text-blue-600 hover:underline"><b>WineHQ Wiki</b></a>.</p>
 
                 <div class="bg-teal-800 border-l-4 border-blue-400 text-white p-4 rounded-md mt-8" role="alert">
@@ -72,10 +79,37 @@ sudo apt install wine-stable</code></pre>
                 </div>
             </div>
         </section>
+
+        ---
+
+        <section class="container mx-auto px-4 mt-12 mb-16">
+            <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+                <a href="ltspice_tutorial.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Previous: Tutorials Index
+                </a>
+
+                <a href="ltspice_basic_simulation.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                    Next: Basic Circuit Simulation
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+        </section>
     </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Smooth Scrolling for internal links
             const navLinks = document.querySelectorAll('a[href^="#"]');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -88,6 +122,24 @@ sudo apt install wine-stable</code></pre>
                             block: 'start'
                         });
                     }
+                });
+            });
+
+            // Scroll-to-Top button functionality
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
                 });
             });
         });

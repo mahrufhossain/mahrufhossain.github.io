@@ -13,14 +13,17 @@
     <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
         <nav class="container mx-auto flex justify-between items-center px-4">
             <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="ltspice_tutorial.html" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to Tutorials Index</a>
+            <a href="ltspice_tutorial.html" class="block text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Back to Tutorials Index</a>
         </nav>
     </header>
 
     <main>
-        <section id="basic-simulation-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24"> <div class="container mx-auto px-4">
+        <section id="basic-simulation-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">1. Basic Circuit Simulation: DC Operating Point Analysis</h1>
                 <p class="text-gray-600 mb-6">This tutorial will guide you through creating a simple voltage source and resistor circuit from scratch, and then performing a <b>DC Operating Point</b> (<b>.op</b>) analysis to find the steady-state voltages and currents.</p>
+
+                <hr class="my-8 border-gray-300">
 
                 <h2 id="new-schematic" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.1 Creating a New Schematic</h2>
                 <p class="text-gray-600 mb-4">Every simulation starts with a new schematic. Open LTSpice and follow these steps:</p>
@@ -29,7 +32,9 @@
                     <li>Select <b>New Schematic</b> (or use the shortcut <b>Ctrl+N</b>).</li>
                 </ol>
                 <p class="text-gray-600 mb-4">This will open a blank canvas where you can begin designing your circuit.</p>
-                <img src="assets/Operating_point/new_schematic.png" alt="LTSpice New Schematic" class="w-100 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Operating_point/new_schematic.png" alt="Screenshot of a blank new schematic window in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+
+                <hr class="my-8 border-gray-300">
 
                 <h2 id="placing-components" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.2 Placing Essential Components</h2>
                 <p class="text-gray-600 mb-4">For our simple circuit, we'll need a voltage source, a resistor, and a ground reference.</p>
@@ -39,10 +44,10 @@
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li>Go to the <b>Edit</b> menu and select <b>Component</b> (or press <b>P</b>).</li>
                     <li>In the <b>Select Component</b> dialog, type <b>voltage</b> and select <b>voltage</b> from the list. Click <b>OK</b>.</li>
+                    <img src="assets/Operating_point/component_voltage_source.png" alt="Dialog box for selecting the 'voltage' component in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                     <li>Place the voltage source on your schematic by clicking.</li>
-                    <img src="assets/Operating_point/component_voltage_source.png" alt="LTSpice Place Voltage Source and Set Value" class="w-100 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                     <li>Right-click on the voltage source symbol to open its <b>Value</b> dialog. Set the <b>DC value</b> to <b>5V</b> (or any voltage you prefer). Click <b>OK</b>.</li>
-                    <img src="assets/Operating_point/set_voltage_value.png" alt="LTSpice Place Voltage Source and Set Value" class="w-100 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                    <img src="assets/Operating_point/set_voltage_value.png" alt="Dialog for setting the DC voltage value of the voltage source in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 </ol>
 
                 <h3 id="resistor" class="text-xl font-medium text-gray-700 mb-3 ml-4">1.2.2 Resistor (<b>R</b>)</h3>
@@ -50,10 +55,10 @@
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li>Press <b>P</b> (Component tool) again or press <b>R</b> directly.</li>
                     <li>Type <b>res</b> (for resistor) and select <b>res</b> from the list. Click <b>OK</b>.</li>
-                    <img src="assets/Operating_point/resistor.png" alt="LTSpice Place Resistor" class="w-100 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                    <img src="assets/Operating_point/resistor.png" alt="Dialog box for selecting the 'resistor' component in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                     <li>Before placing, you can rotate the resistor by pressing <b>Ctrl+R</b>. Place it to the right of your voltage source.</li>
                     <li>Right-click on the resistor symbol. Set its <b>Resistance</b> to <b>1k</b> (for 1 kOhm). Click <b>OK</b>.</li>
-                    <img src="assets/Operating_point/res_value.png" alt="LTSpice Place Resistor Set Value" class="w-100 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                    <img src="assets/Operating_point/res_value.png" alt="Dialog for setting the resistance value of the resistor to 1k in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 </ol>
 
                 <h3 id="ground" class="text-xl font-medium text-gray-700 mb-3 ml-4">1.2.3 Ground (<b>GND</b>)</h3>
@@ -61,8 +66,10 @@
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li>Click the <b>Ground</b> icon on the toolbar (looks like a triangle with three horizontal lines, or press <b>G</b>).</li>
                     <li>Place the ground symbol at the bottom of your voltage source and resistor.</li>
-                    <img src="assets/Operating_point/place_gnd.png" alt="LTSpice Place Ground" class="w-100 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                    <img src="assets/Operating_point/place_gnd.png" alt="Screenshot showing how to place a ground symbol in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 </ol>
+
+                <hr class="my-8 border-gray-300">
 
                 <h2 id="wiring-circuits" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.3 Wiring the Circuit</h2>
                 <p class="text-gray-600 mb-4">Now, connect your components to form a simple series circuit:</p>
@@ -73,7 +80,9 @@
                     <li>Draw a wire from the negative terminal of the voltage source to the ground symbol.</li>
                 </ol>
                 <p class="text-gray-600 mb-4">Ensure all connections are solid black lines. Grey lines indicate incomplete connections.</p>
-                <img src="assets/Operating_point/fully_wired.png" alt="Wire Up" class="w-100 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Operating_point/fully_wired.png" alt="Fully wired simple voltage source and resistor circuit in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+
+                <hr class="my-8 border-gray-300">
 
                 <h2 id="saving-circuit" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.4 Saving Your Circuit</h2>
                 <p class="text-gray-600 mb-4">It's always a good idea to save your work before running simulations.</p>
@@ -83,27 +92,56 @@
                     <li>Choose a location and give your circuit a descriptive name (e.g., <b>simple_dc_circuit.asc</b>). Click <b>Save</b>.</li>
                 </ol>
 
+                <hr class="my-8 border-gray-300">
+
                 <h2 id="dc-op-simulation" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.5 Performing DC Operating Point Simulation</h2>
-                <p class="text-gray-600 mb-4">The DC Operating Point analysis calculates the steady-state DC voltages at each node and currents through components. This is vital for verifying correct biasing.</p>
+                <p class="text-gray-600 mb-4">The <b>DC Operating Point</b> analysis calculates the steady-state DC voltages at each node and currents through components. This is vital for verifying correct biasing.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li>Go to <b>Simulate > Edit Simulation Cmd</b> from the menu bar or press <b>A</b>.</li>
                     <li>In the <b>Edit Simulation Command</b> dialog box, select the <b>.op</b> tab, and click <b>OK</b>.</li>
+                    <img src="assets/Operating_point/op_point.png" alt="Simulation Command dialog with .op tab selected in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                     <li>A <b>.op</b> directive will appear on your cursor. Click to place it anywhere on your schematic (it won't affect the simulation, just for visual reference).</li>
-                    <img src="assets/Operating_point/op_point.png" alt="LTSpice Simulation Window" class="w-100 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                     <li>Finally, go to <b>Simulate > Run</b> (or click the <b>Play</b> icon on the toolbar).</li>
                 </ol>
                 <p class="text-gray-600 mb-4">A new window will appear showing the DC operating points. You'll see node voltages listed (e.g., <b>V(n001): 5V</b>, <b>V(n002): 0V</b>). You can also hover over wires on your schematic to see their voltage, or hover over components to see current flow (a small probe icon will appear).</p>
-                <img src="assets/Operating_point/simulate.png" alt="Simulation Result" class="w-100 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Operating_point/simulate.png" alt="Simulation results window showing DC operating point voltages and currents" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 mb-4 font-semibold">LTSpice Command (<b>.op</b> directive in schematic):</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.op</code></pre>
-                <img src="assets/Operating_point/op_point_placement.png" alt="LTSpice Place .op On Schematic" class="w-100 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Operating_point/op_point_placement.png" alt="Placement of the .op directive on the LTSpice schematic" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600"><b>Congratulations!</b> You've just run your first DC operating point simulation in LTSpice.</p>
+            </div>
+        </section>
+
+        ---
+
+        <section class="container mx-auto px-4 mt-12 mb-16">
+            <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+                <a href="ltspice_installation.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Previous: LTSpice Installation Guide
+                </a>
+
+                <a href="ltspice_dc_sweep.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                    Next: DC Sweep (.dc Analysis)
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
             </div>
         </section>
     </main>
 
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Smooth Scrolling for internal links
             const navLinks = document.querySelectorAll('a[href^="#"]');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -116,6 +154,24 @@
                             block: 'start'
                         });
                     }
+                });
+            });
+
+            // Scroll-to-Top button functionality
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
                 });
             });
         });

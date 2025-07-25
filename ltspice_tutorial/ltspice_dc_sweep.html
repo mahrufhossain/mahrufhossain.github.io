@@ -13,7 +13,7 @@
     <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
         <nav class="container mx-auto flex justify-between items-center px-4">
             <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="ltspice_tutorial.html" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to Tutorials Index</a>
+            <a href="ltspice_tutorial.html" class="block text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Back to Tutorials Index</a>
         </nav>
     </header>
 
@@ -31,7 +31,7 @@
                     <li><b>New Schematic:</b> Open a new schematic (<b>File > New Schematic</b> or <b>Ctrl+N</b>).</li>
                     <li><b>Place Components:</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
-                            <li>A Voltage Source (<b>voltage</b>): This will be our swept source. We'll name it <b>V1</b> (default name is fine). No need to set its DC value initially(0V), as the sweep command will define it.</li>
+                            <li>A Voltage Source (<b>voltage</b>): This will be our swept source. We'll name it <b>V1</b> (default name is fine). No need to set its DC value initially (0V), as the sweep command will define it.</li>
                             <li>A Diode (<b>diode</b>): Go to <b>Component</b> (<b>P</b>) and select <b>diode</b>.</li>
                             <li>A Resistor (<b>res</b>): Add a small series resistor (e.g., <b>10R</b> for 10 Ohms) in series with the diode. This is good practice to limit current in simulations, especially when sweeping voltage across non-linear components.</li>
                             <li>A Ground (<b>GND</b>).</li>
@@ -40,8 +40,8 @@
                     <li><b>Wire Circuit:</b> Connect <b>V1</b> (+) to the resistor, resistor to the diode's anode, diode's cathode to <b>GND</b>, and <b>V1</b> (-) to <b>GND</b>.</li>
                     <li><b>Save:</b> Save your circuit (e.g., <b>diode_iv_curve.asc</b>).</li>
                 </ol>
-                <img src="assets/DC_Sweep/diode_res.png" alt="LTSpice Diode I-V Curve Schematic" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">The series resistor `R1` helps prevent extremely high currents that could occur when sweeping the voltage across the diode, aiding in simulation convergence.</p>
+                <img src="assets/DC_Sweep/diode_res.png" alt="Schematic of a diode in series with a resistor and a voltage source in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">The series resistor <b>R1</b> helps prevent extremely high currents that could occur when sweeping the voltage across the diode, aiding in simulation convergence.</p>
 
                 <hr class="my-8 border-gray-300">
 
@@ -61,7 +61,7 @@
                     </li>
                     <li>Click <b>OK</b>. A <b>.dc V1 0 1 0.01</b> directive will appear on your cursor. Click to place it on your schematic.</li>
                 </ol>
-                <img src="assets/DC_Sweep/dc_sweep.png" alt="LTSpice DC Sweep Analysis Setup Dialog" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/DC_Sweep/dc_sweep.png" alt="Dialog box for setting up a DC sweep analysis in LTSpice, showing V1 as the swept source from 0V to 1V with 0.01V increment" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 mb-4 font-semibold">LTSpice Command (<b>.dc</b> directive in schematic):</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.dc V1 0 1 0.01</code></pre>
                 <p class="text-gray-600 italic mb-6">You can also sweep temperature, global parameters (from a <b>.param</b> statement), or a model parameter by selecting the appropriate type of sweep.</p>
@@ -76,15 +76,42 @@
                     <li>To plot the current through the diode, move your mouse over the diode symbol. A <b>current probe</b> icon will appear. Click on the diode.</li>
                 </ol>
                 <p class="text-gray-600 mb-4">You should see a curve showing the current through the diode (<b>Id(D1)</b>) as a function of the voltage across it (which is approximately <b>V(n001)</b> if you probe that node, assuming <b>R1</b> is small). The current will be very small initially and then rise exponentially once the forward voltage (around 0.7V for a silicon diode) is reached.</p>
-                <img src="assets/DC_Sweep/diode_iv_plot.png" alt="LTSpice Diode I-V Curve Plot" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/DC_Sweep/diode_iv_plot.png" alt="Plot of diode I-V characteristic (current vs. voltage) resulting from a DC sweep simulation in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">You can also plot a transfer function (output voltage vs. input voltage) by setting up a circuit like an amplifier and probing its output while sweeping the input source.</p>
                 <p class="text-gray-600">The <b>DC Sweep analysis</b> is a powerful way to understand the steady-state behavior of your circuit and the characteristics of its components over a range of DC input conditions.</p>
             </div>
         </section>
+
+        ---
+
+        <section class="container mx-auto px-4 mt-12 mb-16">
+            <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+                <a href="ltspice_basic_simulation.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Previous: Basic Circuit Simulation
+                </a>
+
+                <a href="basic_transient_analysis.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                    Next: Basic Transient Analysis
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+        </section>
     </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Smooth Scrolling for internal links
             const navLinks = document.querySelectorAll('a[href^="#"]');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -97,6 +124,24 @@
                             block: 'start'
                         });
                     }
+                });
+            });
+
+            // Scroll-to-Top button functionality
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
                 });
             });
         });

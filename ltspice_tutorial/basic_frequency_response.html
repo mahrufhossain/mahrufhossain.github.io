@@ -13,7 +13,7 @@
     <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
         <nav class="container mx-auto flex justify-between items-center px-4">
             <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="ltspice_tutorial.html" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to Tutorials Index</a>
+            <a href="ltspice_tutorial.html" class="block text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Back to Tutorials Index</a>
         </nav>
     </header>
 
@@ -23,7 +23,8 @@
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">4. AC Analysis (Frequency Response): Understanding Filter Behavior</h1>
                 <p class="text-gray-600 mb-6"><b>AC analysis</b>, also known as frequency response analysis, helps you understand how your circuit behaves across different frequencies. This is fundamental for designing and analyzing filters, amplifiers, and communication circuits.</p>
 
-                <hr class="my-8 border-gray-300"> <h2 id="setup-circuit-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.1 Setting Up an RC Circuit</h2>
+                <hr class="my-8 border-gray-300">
+                <h2 id="setup-circuit-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.1 Setting Up an RC Circuit</h2>
                 <p class="text-gray-600 mb-4">Let's set up a simple RC low-pass filter to observe its frequency response:</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li><b>New Schematic:</b> Open a new schematic (<b>File > New Schematic</b> or <b>Ctrl+N</b>).</li>
@@ -38,10 +39,11 @@
                     <li><b>Wire Circuit:</b> Connect them in series: Voltage Source (+) to Resistor, Resistor to Capacitor, Capacitor to Ground, Voltage Source (-) to Ground.</li>
                     <li><b>Save:</b> Save your circuit (e.g., <b>rc_ac_filter.asc</b>).</li>
                 </ol>
-                <img src="assets/Frequency_RC/schematic.png" alt="LTSpice RC Circuit for AC Analysis" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Frequency_RC/schematic.png" alt="Schematic of an RC low-pass filter with an AC voltage source, resistor, and capacitor in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">For AC analysis, the <b>AC Amplitude</b> of the voltage source is crucial. It defines the magnitude of the input signal for the frequency sweep.</p>
 
-                <hr class="my-8 border-gray-300"> <h2 id="configure-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.2 Configuring the AC Analysis</h2>
+                <hr class="my-8 border-gray-300">
+                <h2 id="configure-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.2 Configuring the AC Analysis</h2>
                 <p class="text-gray-600 mb-4">Now, we'll tell LTSpice to sweep the frequency and calculate the circuit's response.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li>Go to <b>Simulate > Edit Simulation Cmd</b> from the menu bar.</li>
@@ -56,11 +58,12 @@
                     </li>
                     <li>Click <b>OK</b>. A <b>.ac dec 100 10 1Meg</b> (or similar) directive will appear on your cursor. Click to place it on your schematic.</li>
                 </ol>
-                <img src="assets/Frequency_RC/setup_analysis.png" alt="LTSpice AC Analysis Setup Dialog" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Frequency_RC/setup_analysis.png" alt="AC Analysis setup dialog in LTSpice showing Decade sweep type, 100 points per decade, and frequency range from 10 Hz to 1 MHz" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 mb-4 font-semibold">LTSpice Command (<b>.ac</b> directive in schematic):</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.ac dec 100 10 1Meg</code></pre>
 
-                <hr class="my-8 border-gray-300"> <h2 id="viewing-waveforms-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.3 Running the Simulation and Viewing Waveforms</h2>
+                <hr class="my-8 border-gray-300">
+                <h2 id="viewing-waveforms-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.3 Running the Simulation and Viewing Waveforms</h2>
                 <p class="text-gray-600 mb-4">Now, let's run the simulation and plot the frequency response.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li>Go to <b>Simulate > Run</b> (or click the <b>Play</b> icon on the toolbar) or press <b>ALT + R</b>.</li>
@@ -73,15 +76,42 @@
                         <li>The <b>Phase Plot (degrees)</b>: This shows the phase shift introduced by the circuit at different frequencies.</li>
                     </ul>
                 </p>
-                <img src="assets/Frequency_RC/frequency_plot.png" alt="LTSpice AC Analysis Waveform Viewer" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Frequency_RC/frequency_plot.png" alt="LTSpice waveform viewer showing the magnitude (in dB) and phase response of an RC low-pass filter plotted against frequency" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">The cutoff frequency (or -3dB frequency) for this RC low-pass filter is $f_c = \frac{1}{2\pi RC}$. For R=1kΩ and C=100nF, $f_c \approx 1.59$ kHz. You should observe the magnitude drop by 3dB around this frequency on your plot.</p>
                 <p class="text-gray-600">You've successfully performed an AC analysis! This allows you to characterize your circuit's behavior across the frequency spectrum.</p>
             </div>
         </section>
     </main>
 
+    ---
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <a href="basic_transient_analysis.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: Basic Transient Analysis
+            </a>
+
+            <a href="ltspice_working_with_plots.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                Next: Working With Plot Windows
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Smooth Scrolling for internal links
             const navLinks = document.querySelectorAll('a[href^="#"]');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -94,6 +124,24 @@
                             block: 'start'
                         });
                     }
+                });
+            });
+
+            // Scroll-to-Top button functionality
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
                 });
             });
         });

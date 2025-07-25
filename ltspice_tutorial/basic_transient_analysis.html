@@ -13,7 +13,7 @@
     <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
         <nav class="container mx-auto flex justify-between items-center px-4">
             <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="ltspice_tutorial.html" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to Tutorials Index</a>
+            <a href="ltspice_tutorial.html" class="block text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Back to Tutorials Index</a>
         </nav>
     </header>
 
@@ -21,10 +21,12 @@
         <section id="transient-analysis-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
             <div class="container mx-auto px-4">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">3. Basic Transient Analysis: Observing Changes Over Time</h1>
-                <p class="text-gray-600 mb-6">Transient analysis shows how your circuit behaves over a period of time. This is crucial for understanding signals, oscillations, charging/discharging effects, and any time-varying behavior in your circuit.</p>
+                <p class="text-gray-600 mb-6"><b>Transient analysis</b> shows how your circuit behaves over a period of time. This is crucial for understanding signals, oscillations, charging/discharging effects, and any time-varying behavior in your circuit.</p>
+
+                <hr class="my-8 border-gray-300">
 
                 <h2 id="setup-circuit" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">3.1 Setting Up a Simple Circuit</h2>
-                <p class="text-gray-600 mb-4">Let's set up a simple RC (Resistor-Capacitor) circuit to observe its charging and discharging behavior:</p>
+                <p class="text-gray-600 mb-4">Let's set up a simple <b>RC (Resistor-Capacitor)</b> circuit to observe its charging and discharging behavior:</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li><b>New Schematic:</b> Open a new schematic (<b>File > New Schematic</b> or <b>Ctrl+N</b>).</li>
                     <li><b>Place Components:</b>
@@ -38,16 +40,17 @@
                     <li><b>Wire Circuit:</b> Connect them in series: Voltage Source (+) to Resistor, Resistor to Capacitor, Capacitor to Ground, Voltage Source (-) to Ground.</li>
                     <li><b>Save:</b> Save your circuit (e.g., <b>rc_transient.asc</b>).</li>
                 </ol>
-                <img src="assets/Basic_transient/rc_transient.png" alt="LTSpice RC Circuit Schematic" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Basic_transient/rc_transient.png" alt="Schematic of a simple RC circuit with a voltage source, resistor, and capacitor in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">For the voltage source, you can add a small series resistance (e.g., <b>1mOhm</b>) if you encounter convergence issues, though it's often not needed for simple RC circuits.</p>
 
+                <hr class="my-8 border-gray-300">
 
                 <h2 id="configure-transient" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">3.2 Configuring the Transient Analysis</h2>
-                <p class="text-gray-600 mb-4">Now, we'll tell LTSpice to simulate this circuit over a specific period.</p>
+                <p class="text-gray-600 mb-4">Now, we'll tell <b>LTSpice</b> to simulate this circuit over a specific period.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li>Go to <b>Simulate > Edit Simulation Cmd</b> from the menu bar.</li>
                     <li>In the <b>Edit Simulation Command</b> dialog box, select the <b>Transient</b> tab.</li>
-                    <li>Set the <b>Stop time</b>. For our RC circuit (1kΩ, 1µF), the time constant ($\tau = R \times C = <b>1k</b> \times <b>1\mu</b> = <b>1ms</b>$). To see the full charge, let's simulate for about 5 time constants, so enter <b>5m</b> (for 5 milliseconds).
+                    <li>Set the <b>Stop time</b>. For our RC circuit (1kΩ, 1µF), the time constant ($\tau = R \times C = \text{<b>1k</b>} \times \text{<b>1µ</b>} = \text{<b>1ms</b>}$). To see the full charge, let's simulate for about 5 time constants, so enter <b>5m</b> (for 5 milliseconds).
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
                             <li><b>Time to start saving data:</b> (Optional) Leave blank or set to <b>0</b> to save from the beginning.</li>
                             <li><b>Maximum time step:</b> (Optional, but useful for detail) Enter a value like <b>1u</b> (1 microsecond) for smoother waveforms, especially if your circuit has fast changes.</li>
@@ -56,9 +59,11 @@
                     <li>Check <b>Skip Initial Operating Point Solution</b>.</li>
                     <li>Click <b>OK</b>. A <b>.tran 0 5ms 0 1u</b> (or similar) directive will appear on your cursor. Click to place it on your schematic.</li>
                 </ol>
-                <img src="assets/Basic_transient/transient_setup.png" alt="LTSpice Transient Analysis Setup Dialog" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Basic_transient/transient_setup.png" alt="Transient analysis setup dialog in LTSpice showing stop time, time to start saving data, and maximum time step settings" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 mb-4 font-semibold">LTSpice Command (<b>.tran</b> directive in schematic):</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.tran 0 5m 0 1u</code></pre>
+
+                <hr class="my-8 border-gray-300">
 
                 <h2 id="viewing-waveforms" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">3.3 Running the Simulation and Viewing Waveforms</h2>
                 <p class="text-gray-600 mb-4">Now that the simulation is configured, let's run it and plot the results.</p>
@@ -69,15 +74,42 @@
                     <li>To plot current, hover over a component body (e.g., the resistor). A <b>blue probe</b> (for current) will appear. Click on the resistor to plot the current through it.</li>
                 </ol>
                 <p class="text-gray-600 mb-4">You should see the capacitor voltage gradually rise from <b>0V</b> towards <b>5V</b> (charging), and the current through the resistor initially high, then decaying to zero as the capacitor charges.</p>
-                <img src="assets/Basic_transient/transient_graph.png" alt="LTSpice Transient Analysis Waveform Viewer" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <img src="assets/Basic_transient/transient_graph.png" alt="Waveform viewer in LTSpice showing the capacitor charging voltage and resistor current over time during a transient analysis" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 italic mb-6">You can zoom in/out on the waveform viewer, measure points with cursors, and add more traces as needed.</p>
                 <p class="text-gray-600">You've successfully performed a transient analysis! This is fundamental for analyzing dynamic circuit behavior.</p>
             </div>
         </section>
     </main>
 
+    ---
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <a href="ltspice_dc_sweep.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: DC Sweep (.dc Analysis)
+            </a>
+
+            <a href="basic_frequency_response.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+                Next: AC Analysis (Frequency Response)
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Smooth Scrolling for internal links
             const navLinks = document.querySelectorAll('a[href^="#"]');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -90,6 +122,24 @@
                             block: 'start'
                         });
                     }
+                });
+            });
+
+            // Scroll-to-Top button functionality
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
                 });
             });
         });
