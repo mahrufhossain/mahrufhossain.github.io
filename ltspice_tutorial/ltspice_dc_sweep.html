@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DC Sweep (.dc Analysis) - LTSpice Tutorial - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
+            <a href="ltspice_tutorial.html" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to Tutorials Index</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="dc-sweep-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">2. DC Sweep (.dc Analysis): Component Characteristics & Transfer Functions</h1>
+                <p class="text-gray-600 mb-6"><b>DC Sweep analysis</b> (often just called <b>.dc analysis</b>) in <b>LTSpice</b> allows you to vary a DC voltage or current source over a specified range and observe its effect on other voltages or currents in the circuit. This is invaluable for generating <b>I-V curves</b> for components (like diodes or transistors), analyzing transfer characteristics of amplifiers, or understanding the DC operating behavior of a circuit across different input conditions.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="setup-dc-circuit" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">2.1 Setting Up a Circuit for DC Sweep (Diode I-V Curve Example)</h2>
+                <p class="text-gray-600 mb-4">Let's set up a simple circuit to generate the I-V (current-voltage) curve of a diode. We'll vary the voltage across the diode and plot the current flowing through it.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li><b>New Schematic:</b> Open a new schematic (<b>File > New Schematic</b> or <b>Ctrl+N</b>).</li>
+                    <li><b>Place Components:</b>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li>A Voltage Source (<b>voltage</b>): This will be our swept source. We'll name it <b>V1</b> (default name is fine). No need to set its DC value initially(0V), as the sweep command will define it.</li>
+                            <li>A Diode (<b>diode</b>): Go to <b>Component</b> (<b>P</b>) and select <b>diode</b>.</li>
+                            <li>A Resistor (<b>res</b>): Add a small series resistor (e.g., <b>10R</b> for 10 Ohms) in series with the diode. This is good practice to limit current in simulations, especially when sweeping voltage across non-linear components.</li>
+                            <li>A Ground (<b>GND</b>).</li>
+                        </ul>
+                    </li>
+                    <li><b>Wire Circuit:</b> Connect <b>V1</b> (+) to the resistor, resistor to the diode's anode, diode's cathode to <b>GND</b>, and <b>V1</b> (-) to <b>GND</b>.</li>
+                    <li><b>Save:</b> Save your circuit (e.g., <b>diode_iv_curve.asc</b>).</li>
+                </ol>
+                <img src="assets/DC_Sweep/diode_res.png" alt="LTSpice Diode I-V Curve Schematic" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">The series resistor `R1` helps prevent extremely high currents that could occur when sweeping the voltage across the diode, aiding in simulation convergence.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="configure-dc" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">2.2 Configuring the .dc Analysis Command</h2>
+                <p class="text-gray-600 mb-4">Now, let's tell <b>LTSpice</b> to perform the DC sweep.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>Go to <b>Simulate > Edit Simulation Cmd</b> from the menu bar.</li>
+                    <li>In the <b>Edit Simulation Command</b> dialog, select the <b>DC sweep</b> tab.</li>
+                    <li>Set the parameters as follows:
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li><b>Name of 1st Source to Sweep:</b> Type <b>V1</b> (this must match the name of your voltage source).</li>
+                            <li><b>Type of Sweep:</b> Select <b>Linear</b>. This will sweep <b>V1</b> in equal voltage steps.</li>
+                            <li><b>Start Value:</b> Enter <b>0</b> (start from 0V).</li>
+                            <li><b>Stop Value:</b> Enter <b>1</b> (sweep up to 1V).</li>
+                            <li><b>Increment:</b> Enter <b>0.01</b> (take a data point every 0.01V).</li>
+                        </ul>
+                    </li>
+                    <li>Click <b>OK</b>. A <b>.dc V1 0 1 0.01</b> directive will appear on your cursor. Click to place it on your schematic.</li>
+                </ol>
+                <img src="assets/DC_Sweep/dc_sweep.png" alt="LTSpice DC Sweep Analysis Setup Dialog" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 mb-4 font-semibold">LTSpice Command (<b>.dc</b> directive in schematic):</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.dc V1 0 1 0.01</code></pre>
+                <p class="text-gray-600 italic mb-6">You can also sweep temperature, global parameters (from a <b>.param</b> statement), or a model parameter by selecting the appropriate type of sweep.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="analyze-dc-results" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">2.3 Running the Simulation and Analyzing Results</h2>
+                <p class="text-gray-600 mb-4">Now, let's run the simulation and plot the diode's I-V curve.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>Go to <b>Simulate > Run</b> (or click the <b>Play</b> icon on the toolbar) or press <b>ALT + R</b>.</li>
+                    <li>A plot window will appear. The X-axis will automatically be set to the swept source, <b>V1</b>, ranging from 0V to 1V.</li>
+                    <li>To plot the current through the diode, move your mouse over the diode symbol. A <b>current probe</b> icon will appear. Click on the diode.</li>
+                </ol>
+                <p class="text-gray-600 mb-4">You should see a curve showing the current through the diode (<b>Id(D1)</b>) as a function of the voltage across it (which is approximately <b>V(n001)</b> if you probe that node, assuming <b>R1</b> is small). The current will be very small initially and then rise exponentially once the forward voltage (around 0.7V for a silicon diode) is reached.</p>
+                <img src="assets/DC_Sweep/diode_iv_plot.png" alt="LTSpice Diode I-V Curve Plot" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">You can also plot a transfer function (output voltage vs. input voltage) by setting up a circuit like an amplifier and probing its output while sweeping the input source.</p>
+                <p class="text-gray-600">The <b>DC Sweep analysis</b> is a powerful way to understand the steady-state behavior of your circuit and the characteristics of its components over a range of DC input conditions.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

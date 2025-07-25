@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Op-Amp Basics: Inverting Amplifier - LTSpice Tutorial - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
+            <a href="ltspice_tutorial.html" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to Tutorials Index</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="opamp-inverting-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">8. Op-Amp Basics: Inverting Amplifier</h1>
+                <p class="text-gray-600 mb-6">The <b>Operational Amplifier (Op-Amp)</b> is a fundamental building block in analog electronics, known for its high gain and versatility. The <b>inverting amplifier</b> is one of its most basic and widely used configurations, providing a stable, predictable gain with a 180-degree phase shift. In this tutorial, we'll simulate an ideal inverting amplifier in <b>LTSpice</b>.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="setup-inverting" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.1 Setting Up the Ideal Inverting Amplifier Circuit</h2>
+                <p class="text-gray-600 mb-4">Let's build the basic inverting amplifier circuit:</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li><b>New Schematic:</b> Open a new schematic (<b>File > New Schematic</b> or <b>Ctrl+N</b>).</li>
+                    <li><b>Place Op-Amp:</b> Go to <b>Component</b> (or press <b>F2</b>) and type <b>opamp</b>. Place it on the schematic. This is <b>LTSpice's</b> ideal Op-Amp model.</li>
+                    <li><b>Place Resistors:</b> Add two resistors (<b>res</b>):
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li>An input resistor, <b>R1</b> (e.g., <b>1k</b>).</li>
+                            <li>A feedback resistor, <b>R2</b> (e.g., <b>10k</b>).</li>
+                        </ul>
+                    </li>
+                    <li><b>Place Voltage Source (Input):</b> Add a voltage source (<b>voltage</b>). <b>Right-click</b> it and set:
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li><b>DC value:</b> Leave as <b>0</b>.</li>
+                            <li><b>SINE:</b> Click the <b>Advanced</b> button. Select <b>Sine</b>. Set <b>Amplitude</b> to <b>1V</b> and <b>Freq</b> to <b>1k</b> (1 kHz). This will be our input signal, <b>Vin</b>.</li>
+                        </ul>
+                    </li>
+                    <li><b>Place Voltage Sources (Power Supplies):</b> Op-Amps need DC power. Add two more voltage sources:
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li>For positive supply: <b>Right-click</b> and set <b>DC value</b> to <b>15V</b>. Label its positive node <b>Vcc</b> (by clicking <b>Label Net</b> or <b>F4</b>).</li>
+                            <li>For negative supply: <b>Right-click</b> and set <b>DC value</b> to <b>-15V</b>. Label its negative node <b>Vee</b>.</li>
+                        </ul>
+                    </li>
+                    <li><b>Place Grounds:</b> Add several <b>GND</b> symbols.</li>
+                    <li><b>Wire Circuit:</b>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li>Connect <b>Vin</b> to <b>R1</b>.</li>
+                            <li>Connect <b>R1</b> to the <b>inverting input (-)</b> of the Op-Amp.</li>
+                            <li>Connect the <b>output</b> of the Op-Amp to <b>R2</b>, and <b>R2</b> back to the <b>inverting input (-)</b> (this forms the negative feedback).</li>
+                            <li>Connect the <b>non-inverting input (+)</b> of the Op-Amp to <b>GND</b>.</li>
+                            <li>Connect the Op-Amp's positive supply pin (V+) to the <b>Vcc</b> net.</li>
+                            <li>Connect the Op-Amp's negative supply pin (V-) to the <b>Vee</b> net.</li>
+                        </ul>
+                    </li>
+                    <li><b>Save:</b> Save your circuit (e.g., <b>inverting_amp.asc</b>).</li>
+                </ol>
+                <img src="assets/opamp_inverting_schematic.png" alt="LTSpice Inverting Amplifier Schematic" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">The gain of an ideal inverting amplifier is given by the formula $A_v = -\frac{R_f}{R_{in}}$. For $R_{in}=1k\Omega$ and $R_f=10k\Omega$, the expected gain is $-10$.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="configure-simulation" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.2 Configuring Simulation (Transient Analysis)</h2>
+                <p class="text-gray-600 mb-4">We'll use a <b>Transient Analysis</b> to observe the amplifier's response over time.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>Go to <b>Simulate > Edit Simulation Cmd</b>.</li>
+                    <li>Select the <b>Transient</b> tab.</li>
+                    <li>Set <b>Stop Time</b> to <b>10ms</b> (10 milliseconds), which is sufficient for several cycles of our 1kHz input signal.</li>
+                    <li>Click <b>OK</b> and place the <b>.tran</b> directive on your schematic.</li>
+                </ol>
+                <p class="text-gray-600 mb-4 font-semibold">LTSpice Command (<b>.tran</b> directive in schematic):</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.tran 10m</code></pre>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="analyze-waveforms" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.3 Running the Simulation and Analyzing Waveforms</h2>
+                <p class="text-gray-600 mb-4">Now, let's run the simulation and observe the amplified output.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>Go to <b>Simulate > Run</b> (or click the <b>Running Man</b> icon).</li>
+                    <li>A plot window will appear. Probe the input voltage (<b>Vin</b>, the wire coming from your sine source) and the output voltage (<b>Vout</b>, the wire at the Op-Amp's output pin).</li>
+                    <li>You should see two sine waves. The output waveform should be:
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li>**Amplified:** Its peak amplitude should be approximately 10V (since our gain is -10 and input is 1V peak).</li>
+                            <li>**Inverted:** It should be 180 degrees out of phase with the input (when input is positive, output is negative, and vice-versa).</li>
+                        </ul>
+                    </li>
+                </ol>
+                <img src="assets/opamp_inverting_waveform.png" alt="LTSpice Inverting Amplifier Waveforms" class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600">This confirms the expected behavior of an inverting amplifier! The output is a scaled, inverted version of the input signal.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="opamp-considerations" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.4 Key Considerations for Op-Amp Simulations</h2>
+                <p class="text-gray-600 mb-4">Keep these points in mind when simulating Op-Amps:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li><b>Power Supplies are Essential:</b> Even LTSpice's ideal <b>opamp</b> model requires correctly connected positive (V+) and negative (V-) power supplies. Without them, it will not function correctly.</li>
+                    <li><b>Ideal vs. Real Op-Amps:</b> The <b>opamp</b> model is ideal. It has infinite gain, infinite input impedance, zero output impedance, and infinite bandwidth. For more realistic simulations, you'll need to use a **third-party Op-Amp model** (refer to <a href="ltspice_third_party_models.html" class="text-teal-600 hover:text-teal-800 font-semibold">Tutorial 6: Using Third-Party Models</a>).</li>
+                    <li><b>Output Saturation:</b> If the amplified output signal exceeds the power supply rails (e.g., +15V or -15V in our example), the Op-Amp's output will "clip" or **saturate** at those limits. This is a common issue with high gain or large input signals.</li>
+                    <li><b>Negative Feedback:</b> The connection of the output back to the inverting input is crucial for stable operation and predictable gain. Without it, the Op-Amp typically acts as a comparator.</li>
+                </ul>
+                <p class="text-gray-600">You've now successfully simulated a fundamental Op-Amp circuit! This understanding forms the basis for more complex Op-Amp applications.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

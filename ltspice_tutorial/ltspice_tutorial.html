@@ -18,10 +18,14 @@
     </header>
 
     <main>
-        <section class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 text-center">
+        <section class="max-w-6xl mx-4 md:mx-auto mt-8 py-12
+            bg-gradient-to-r from-gray-900 to-gray-500
+            text-center
+            rounded-xl shadow-lg
+            section-padding">
             <div class="container mx-auto px-4">
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">LTSpice Tutorials</h1>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">LTSpice Tutorials</h1>
+                <p class="text-lg text-white max-w-3xl mx-auto">
                     A collection of concise tutorials covering fundamental to advanced concepts in LTSpice, designed to help you master circuit simulation. Click on a topic below to get started!
                 </p>
             </div>
@@ -43,20 +47,39 @@
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_transient_analysis.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        2. Basic Transient Analysis: Observing Changes Over Time
+                    <a href="ltspice_dc_sweep.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
+                        2. DC Sweep (.dc Analysis): Component Characteristics<p class="text-gray-600 text-sm mt-1">Generate I-V curves for components or analyze circuit transfer functions.</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="basic_transient_analysis.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
+                        3. Basic Transient Analysis: Observing Changes Over Time
                         <p class="text-gray-600 text-sm mt-1">Simulate circuit behavior over time and plot waveforms for dynamic analysis.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_parameter_sweep.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        3. Advanced: Parameter Sweeps (.STEP Command)
-                        <p class="text-gray-600 text-sm mt-1">Optimize your designs by running multiple simulations with varying component values.</p>
+                    <a href="basic_frequency_response.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
+                        4. Basic AC Analysis (Frequency Response)<p class="text-gray-600 text-sm mt-1">Explore how circuits respond to different input frequencies, crucial for filter design.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_opamp_basics.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        4. Op-Amp Basics: Inverting Amplifier
+                    <a href="ltspice_working_with_plots.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
+                        5. Working with Plot Windows<p class="text-gray-600 text-sm mt-1">Learn to effectively analyze simulation results by manipulating plot scales, panes, and cursors.</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="ltspice_parameter_sweep.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
+                        6. Advanced: Parameter Sweeps (.STEP Command)<p class="text-gray-600 text-sm mt-1">Optimize your designs by running multiple simulations with varying component values.</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="ltspice_third_party_models.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
+                        7. Advanced: Using Third-Party Models<p class="text-gray-600 text-sm mt-1">Integrate manufacturer-specific SPICE models for accurate real-world component simulations.</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="ltspice_opamp_inverting_amplifier.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
+                        8. Op-Amp Basics: Inverting Amplifier
                         <p class="text-gray-600 text-sm mt-1">Understand and simulate a fundamental operational amplifier configuration.</p>
                     </a>
                 </li>

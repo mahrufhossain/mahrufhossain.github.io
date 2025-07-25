@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working with Plot Windows - LTSpice Tutorial - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
+            <a href="ltspice_tutorial.html" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to Tutorials Index</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="plot-window-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">5. Working with Plot Windows: Analyzing Waveforms Effectively</h1>
+                <p class="text-gray-600 mb-6">After running a simulation (Transient or AC Analysis), <b>LTSpice</b> displays the results in a dedicated plot window. Mastering this window is crucial for accurately analyzing your circuit's behavior. This guide will show you how to customize plots, use cursors for precise measurements, and more.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="navigate-plot" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.1 Navigating the Plot Window</h2>
+                <p class="text-gray-600 mb-4">Once you run a simulation, a new window automatically opens, displaying your waveforms. You'll typically see voltage and current traces plotted against time (for <b>Transient Analysis</b>) or frequency (for <b>AC Analysis</b>). </p>
+                <img src="assets/plot_window/frequency_plot.png" alt="LTSpice Plot Window Overview" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">You can select different traces by clicking on the wire/component in your schematic or by using the <b>Add Trace</b> option in the plot window.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="plot-panes" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.2 Adding/Removing Plot Panes</h2>
+                <p class="text-gray-600 mb-4">For complex simulations, it's often helpful to separate different types of traces (e.g., voltage and current) into their own plot panes for clearer viewing.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li><b>Adding a Plot Pane:</b>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li>In the plot window menu, <b>right click>Add Plot Pane Above or Add Plot Pane Below</b>. A new, empty plot area will appear.</li>
+                            <img src="assets/plot_window/add_plot_pane.png" alt="LTSpice Plot Window Overview" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                            <li>You can then drag existing traces to the new pane or add new traces directly to it.</li>
+                            <img src="assets/plot_window/splitted_plot.png" alt="LTSpice Plot Window Overview" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                        </ul>
+                    </li>
+                    <li><b>Removing a Plot Pane:</b>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li>To remove a pane, ensure it's the active pane (click on it). Then <b>Right Click>Delete this Pane</b>.</li>
+                            <img src="assets/plot_window/deleting_pane.png" alt="LTSpice Plot Window Overview" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                            <li>Alternatively, if a pane becomes empty (all its traces are removed or moved), it will automatically disappear.</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p class="text-gray-600 italic mb-6">Using separate panes is particularly useful when comparing signals with vastly different magnitudes or units, like voltage and current.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="adjust-scales" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.3 Adjusting Plot Scales</h2>
+                <p class="text-gray-600 mb-4">You can customize both the X-axis (time/frequency) and Y-axis (voltage/current) scales to better visualize your data.</p>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2 mt-4">Changing Y-axis (Voltage/Current) Scale:</h3>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li><b>Right-click</b> on the <b>Y-axis</b> of the plot pane you want to modify.</li>
+                    <li>A menu will appear with options:
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li><b>Linear/Logarithmic:</b> Toggle between linear and logarithmic scaling for the amplitude. For most voltage/current plots, <b>Linear</b> is standard, but <b>Logarithmic</b> can be useful for very wide dynamic ranges.</li>
+                            <li><b>Manual Limits:</b> Enter custom values for the <b>Top</b> and <b>Bottom</b> of the Y-axis range. This is great for focusing on specific signal levels.</li>
+                            <li><b>Automatic:</b> Reverts to auto-scaling based on the trace data.</li>
+                        </ul>
+                    </li>
+                    <img src="assets/plot_window/scale_changing_menu.png" alt="LTSpice Plot Window Overview" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                </ol>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2 mt-4">Changing X-axis (Time/Frequency) Scale:</h3>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li><b>Right-click</b> on the <b>X-axis</b> of the plot.</li>
+                    <li>Similar options to the Y-axis will appear:
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li><b>Linear/Logarithmic:</b>
+                                <ul>
+                                    <li>For <b>Transient Analysis</b> (Time): Typically use <b>Linear</b>.</li>
+                                    <li>For <b>AC Analysis</b> (Frequency): Almost always use <b>Logarithmic</b> (<b>Decade</b> or <b>Octave</b>) to properly visualize frequency responses like filters.</li>
+                                </ul>
+                            </li>
+                            <li><b>Manual Limits:</b> Set custom <b>Left</b> and <b>Right</b> bounds for the X-axis.</li>
+                        </ul>
+                    </li>
+                    <img src="assets/plot_window/x_axis.png" alt="LTSpice Plot Window Overview" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                </ol>
+                <p class="text-gray-600 italic mb-6">Always choose the appropriate X-axis scale (linear for time, logarithmic for frequency) to ensure correct interpretation of your simulation results.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="use-cursors" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.4 Using Cursors for Measurement</h2>
+                <p class="text-gray-600 mb-4">Cursors are powerful tools for taking precise measurements on your waveforms, such as voltage at a specific time, frequency, or the difference between two points.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li><b>Activating Cursors:</b>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li><b>Method 1 (Quick):</b> Click on the <b>trace name</b> (e.g., V(out), I(R1)) at the bottom of the plot window. A single cursor (<b>Cursor 1</b>) will appear.</li>
+                            <li><b>Method 2 (Right-click):</b> <b>Right-click</b> anywhere on the plot background and select <b>Place Cursor on Active Trace</b>.</li>
+                        </ul>
+                        <img src="assets/plot_window/cursor_01.png" alt="LTSpice Plot Window Overview" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                    </li>
+                    <li><b>Changing Cursor Types (Single vs. Dual):</b>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li><b>Single Cursor (Cursor 1):</b> Appears after one click on the trace name. Drag it along the waveform to read values at that point.</li>
+                            <li><b>Dual Cursors (Cursor 1 & Cursor 2):</b>
+                                <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                                    <li><b>Method 1:</b> Click the same <b>trace name</b> a second time.</li>
+                                    <li><b>Method 2:</b> While <b>Cursor 1</b> is active, hold <b>Ctrl</b> and <b>click</b> on another (or the same) trace name.</li>
+                                </ul>
+                                Dual cursors allow you to measure differences between two points.</li>
+                        </ul>
+                    </li>
+                    <li><b>Reading Cursor Values:</b>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li>A small pop-up box will appear near the cursors, displaying the X and Y values for each cursor, and crucially, the differences.</li>
+                            <li>For <b>AC Analysis</b> plots, it will also show the magnitude in dB and phase in degrees.</li>
+                        </ul>
+                    </li>
+                    <li><b>Moving Cursors Precisely:</b>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li><b>Drag:</b> Simply click and drag the cursor.</li>
+                            <li><b>Arrow Keys:</b> With a cursor active, use the <b>Left/Right arrow keys</b> to move it along the X-axis. Use the <b>Up/Down arrow keys</b> to snap the cursor to peaks, troughs, or zero crossings of the active trace.</li>
+                            <li><b>Numerical Input:</b> For very precise placement, <b>right-click</b> on a cursor (its vertical line) and enter a specific X-axis value.</li>
+                        </ul>
+                    </li>
+                </ol>
+                <img src="assets/plot_window/cursor_02.png" alt="LTSpice Cursors Activated" class="w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">Experiment with cursors to quickly find rise times, fall times, bandwidths, phase shifts, and other critical parameters.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="advanced-plots" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.5 Advanced Plot Interactions</h2>
+                <p class="text-gray-600 mb-4">Beyond the basics, <b>LTSpice</b> offers several other ways to interact with your plots:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li><b>Zooming:</b>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li><b>Box Zoom:</b> Click and drag your mouse to draw a box around the area you want to magnify.</li>
+                            <li><b>Zoom to Fit:</b> Click the <b>magnifying glass with an 'X'</b> icon on the toolbar to reset the zoom to fit all data.</li>
+                            <li><b>Zoom In/Out:</b> Use the dedicated zoom icons or your mouse scroll wheel (if configured).</li>
+                        </ul>
+                    </li>
+                    <li><b>Adding/Deleting Traces:</b>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li>To add more traces, simply click on other wires or components in your schematic while the plot window is open.</li>
+                            <li>To remove a trace, <b>right-click</b> on its name at the bottom of the plot and select <b>Delete This Trace</b>.</li>
+                        </ul>
+                    </li>
+                    <li><b>Saving Plot Data/Images:</b>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                            <li><b>File > Save Plot Data As:</b> Saves the raw data for external analysis.</li>
+                            <li><b>File > Print:</b> Prints the plot.</li>
+                            <li><b>Edit > Copy Bitmap to Clipboard:</b> Copies the plot image to your clipboard.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p class="text-gray-600">Mastering these plot manipulation techniques will significantly enhance your ability to extract meaningful insights from your <b>LTSpice</b> simulations. Practice by simulating various circuits and playing with the plot window features!</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
