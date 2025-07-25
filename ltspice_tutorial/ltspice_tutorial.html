@@ -5,21 +5,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LTSpice Tutorials Index - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff; /* A very light, cool grey for a fresh background */
+            line-height: 1.6; /* Enhance overall readability */
+        }
+
+        /* Header Navigation - Enhancing "Back to My Work" for mobile */
+        /* Hide mobile-specific back icon by default */
+        .header-nav-back-icon-mobile {
+            display: none;
+            padding: 0.5rem; /* Adjust padding for icon link */
+            border-radius: 0.375rem; /* Rounded corners */
+            margin-left: auto; /* Push to the right */
+            color: #4b5563; /* Default icon color (gray-600 equivalent) */
+        }
+
+        @media (max-width: 767px) {
+            /* Show mobile-specific back icon on mobile */
+            .header-nav-back-icon-mobile {
+                display: block; /* Show the back icon on mobile */
+            }
+            /* Hide desktop "Back to My Work" text link on mobile */
+            .header-nav-link-desktop {
+                display: none;
+            }
+            /* Adjust header alignment for mobile */
+            header nav {
+                flex-direction: row; /* Keep items in a row */
+                justify-content: space-between; /* Space out title and icon */
+                align-items: center; /* Vertically align items */
+                padding-bottom: 0; /* Remove extra padding */
+            }
+            header .text-2xl {
+                font-size: 1.75rem; /* Slightly smaller title for mobile */
+                margin-bottom: 0; /* No extra margin */
+            }
+            /* Remove margin from icon as it's now properly aligned by flexbox */
+            .header-nav-back-icon-mobile {
+                margin-top: 0;
+                color: #4b5563; /* Ensure icon color is consistent with gray-600 */
+            }
+            .header-nav-back-icon-mobile:hover {
+                color: #0d9488; /* Teal color on hover (teal-700 equivalent) */
+            }
+        }
+
+
+        /* Hero Section - Keeping the original gradient and style */
+        .hero-section-base {
+            background-image: linear-gradient(to right, #1f2937, #4b5563);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* A bit softer shadow */
+        }
+        .hero-section-base h1 {
+            font-weight: 800; /* Original bold */
+        }
+        .hero-section-base p {
+            font-weight: 400; /* Original regular weight */
+            opacity: 0.9; /* Slightly transparent */
+        }
+
+        /* Table of Contents - Cleaner structure */
+        .toc-container-base {
+            background-color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Lighter shadow */
+            border-radius: 0.75rem; /* Standard rounded corners */
+            padding: 1.5rem; /* Standard internal spacing */
+        }
+        .toc-heading-base {
+            color: #1f2937; /* Darker heading for contrast */
+            border-bottom: 1px solid #e2e8f0; /* Subtle grey underline */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Tutorial List Items - The "Lightbox" effect with NO color changes */
+        .tutorial-item-lightbox {
+            background-color: #ffffff; /* White background for the box */
+            border-radius: 0.75rem; /* Rounded corners for the box */
+            padding: 1rem 1.25rem; /* Internal padding for content */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Initial subtle shadow */
+            transition: all 0.3s ease-in-out; /* Smooth transitions for hover effects */
+            display: block; /* Ensures the whole box is clickable */
+            border: 1px solid #e2e8f0; /* Light border to define the box */
+        }
+
+        .tutorial-item-lightbox:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* More prominent shadow on hover */
+            /* Crucially, NO border-color change here to preserve theme */
+            /* The text colors are handled by Tailwind's hover classes in HTML */
+        }
+
+
+
+
+
+        /* Mobile specific spacing adjustments */
+        @media (max-width: 767px) {
+            .section-padding {
+                padding-top: 2.5rem;
+                padding-bottom: 2.5rem;
+            }
+            .toc-container-base {
+                padding: 1rem;
+            }
+            .tutorial-item-lightbox {
+                padding: 0.8rem 1rem; /* Slightly less padding on smaller screens */
+            }
+            /* Using Tailwind's text-xl and text-sm here, no custom mobile font sizes */
+        }
+    </style>
 </head>
 <body class="antialiased">
 
     <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
         <nav class="container mx-auto flex justify-between items-center px-4">
             <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="../index.html#my-work" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 hidden md:block">Back to My Work</a>
+            <a href="../index.html#my-work" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 header-nav-link-desktop">Back to My Work</a>
+            <a href="../index.html#my-work" class="header-nav-back-icon-mobile hover:bg-gray-100 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </a>
         </nav>
     </header>
 
     <main>
         <section class="max-w-6xl mx-4 md:mx-auto mt-8 py-12
-            bg-gradient-to-r from-gray-900 to-gray-500
+            hero-section-base
             text-center
             rounded-xl shadow-lg
             section-padding">
@@ -31,56 +149,60 @@
             </div>
         </section>
 
-        <nav class="container mx-auto p-6 bg-white rounded-lg shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl mb-12">
-            <h3 class="text-2xl font-bold text-gray-800 mb-4">Table of Contents</h3>
+        <nav class="container mx-auto p-6 mt-8 mx-4 md:mx-auto max-w-6xl mb-12 toc-container-base">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 toc-heading-base">Table of Contents</h3>
             <ul class="list-none space-y-4">
                 <li>
-                    <a href="ltspice_installation.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        0. LTSpice Installation Guide (Windows, macOS, Linux)
+                    <a href="ltspice_installation.html" class="tutorial-item-lightbox">
+                        <span class="text-teal-800 font-bold  text-xl text-bold">0. LTSpice Installation Guide (Windows, macOS, Linux)</span>
                         <p class="text-gray-600 text-sm mt-1">Get LTSpice up and running on your preferred operating system.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_basic_simulation.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        1. Basic Circuit Simulation: DC Operating Point Analysis
+                    <a href="ltspice_basic_simulation.html" class="tutorial-item-lightbox">
+                        <span class="text-teal-800 font-bold  text-xl">1. Basic Circuit Simulation: DC Operating Point Analysis</span>
                         <p class="text-gray-600 text-sm mt-1">Learn how to place components, wire circuits, and perform a DC operating point simulation.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_dc_sweep.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        2. DC Sweep (.dc Analysis): Component Characteristics<p class="text-gray-600 text-sm mt-1">Generate I-V curves for components or analyze circuit transfer functions.</p>
+                    <a href="ltspice_dc_sweep.html" class="tutorial-item-lightbox">
+                        <span class="text-teal-800 font-bold  text-xl">2. DC Sweep (.dc Analysis): Component Characteristics</span>
+                        <p class="text-gray-600 text-sm mt-1">Generate I-V curves for components or analyze circuit transfer functions.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="basic_transient_analysis.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        3. Basic Transient Analysis: Observing Changes Over Time
+                    <a href="basic_transient_analysis.html" class="tutorial-item-lightbox">
+                        <span class="text-teal-800 font-bold  text-xl">3. Basic Transient Analysis: Observing Changes Over Time</span>
                         <p class="text-gray-600 text-sm mt-1">Simulate circuit behavior over time and plot waveforms for dynamic analysis.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="basic_frequency_response.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        4. Basic AC Analysis (Frequency Response)<p class="text-gray-600 text-sm mt-1">Explore how circuits respond to different input frequencies, crucial for filter design.</p>
+                    <a href="basic_frequency_response.html" class="tutorial-item-lightbox">
+                        <span class="text-teal-800 font-bold  text-xl">4. Basic AC Analysis (Frequency Response)</span>
+                        <p class="text-gray-600 text-sm mt-1">Explore how circuits respond to different input frequencies, crucial for filter design.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_working_with_plots.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        5. Working with Plot Windows<p class="text-gray-600 text-sm mt-1">Learn to effectively analyze simulation results by manipulating plot scales, panes, and cursors.</p>
+                    <a href="ltspice_working_with_plots.html" class="tutorial-item-lightbox">
+                        <span class="text-teal-800 font-bold  text-xl">5. Working with Plot Windows</span>
+                        <p class="text-gray-600 text-sm mt-1">Learn to effectively analyze simulation results by manipulating plot scales, panes, and cursors.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_parameter_sweep.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        6. Advanced: Parameter Sweeps (.STEP Command)<p class="text-gray-600 text-sm mt-1">Optimize your designs by running multiple simulations with varying component values.</p>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="ltspice_third_party_models.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        7. Advanced: Using Third-Party Models<p class="text-gray-600 text-sm mt-1">Integrate manufacturer-specific SPICE models for accurate real-world component simulations.</p>
+                    <a href="ltspice_parameter_sweep.html" class="tutorial-item-lightbox">
+                        <span class="text-teal-800 font-bold  text-xl">6. Advanced: Parameter Sweeps (.STEP Command)</span>
+                        <p class="text-gray-600 text-sm mt-1">Optimize your designs by running multiple simulations with varying component values.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_opamp_inverting_amplifier.html" class="block text-teal-700 hover:text-teal-900 font-semibold text-xl transition duration-300 transform hover:translate-x-1">
-                        8. Op-Amp Basics: Inverting Amplifier
+                    <a href="ltspice_third_party_models.html" class="tutorial-item-lightbox">
+                        <span class="text-teal-800 font-bold  text-xl">7. Advanced: Using Third-Party Models</span>
+                        <p class="text-gray-600 text-sm mt-1">Integrate manufacturer-specific SPICE models for accurate real-world component simulations.</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="ltspice_opamp_inverting_amplifier.html" class="tutorial-item-lightbox">
+                        <span class="text-teal-800 font-bold  text-xl">8. Op-Amp Basics: Inverting Amplifier</span>
                         <p class="text-gray-600 text-sm mt-1">Understand and simulate a fundamental operational amplifier configuration.</p>
                     </a>
                 </li>
