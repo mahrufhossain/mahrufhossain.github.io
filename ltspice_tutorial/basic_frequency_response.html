@@ -1,35 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic AC Analysis (Frequency Response) - LTSpice Tutorial - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class', // This tells Tailwind to enable dark mode when the 'dark' class is present on the <html> tag
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
-<body class="antialiased">
+<body class="antialiased transition-colors duration-300 flex flex-col min-h-screen">
 
-    <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
+    <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
         <nav class="container mx-auto flex justify-between items-center px-4">
-            <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="ltspice_tutorial.html" class="block text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Back to Tutorials Index</a>
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800  transition duration-300">Mahruf Hossain</a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="ltspice_tutorial.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-800">Back to Tutorials Index</a>
+                
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.325-4.825l.707-.707M4.968 19.032l.707-.707M19.032 4.968l-.707.707M4.968 4.968l-.707.707M12 17a5 5 0 100-10 5 5 0 000 10z"></path>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 opacity-0 pointer-events-none text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            </div>
+
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                    <svg id="sun-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.325-4.825l.707-.707M4.968 19.032l.707-.707M19.032 4.968l-.707.707M4.968 4.968l-.707.707M12 17a5 5 0 100-10 5 5 0 000 10z"></path>
+                    </svg>
+                    <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300 opacity-0 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
         </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300">
+            <a href="ltspice_tutorial.html" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Back to Tutorials Index</a>
+            <a href="../index.html#home" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+            <a href="../index.html#about" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+            <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Projects</a>
+            <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">My Work</a>
+            <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+        </div>
     </header>
 
-    <main>
-        <section id="ac-analysis-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+    <main class="flex-grow">
+        <section id="ac-analysis-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 border border-gray-200 transition-colors duration-300 dark:bg-gray-800 dark:border-gray-700">
             <div class="container mx-auto px-4">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">4. AC Analysis (Frequency Response): Understanding Filter Behavior</h1>
-                <p class="text-gray-600 mb-6"><b>AC analysis</b>, also known as frequency response analysis, helps you understand how your circuit behaves across different frequencies. This is fundamental for designing and analyzing filters, amplifiers, and communication circuits.</p>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 dark:text-gray-100">4. AC Analysis (Frequency Response): Understanding Filter Behavior</h1>
+                <p class="text-gray-600 mb-6 dark:text-gray-300"><b>AC analysis</b>, also known as frequency response analysis, helps you understand how your circuit behaves across different frequencies. This is fundamental for designing and analyzing filters, amplifiers, and communication circuits.</p>
 
-                <hr class="my-8 border-gray-300">
-                <h2 id="setup-circuit-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.1 Setting Up an RC Circuit</h2>
-                <p class="text-gray-600 mb-4">Let's set up a simple RC low-pass filter to observe its frequency response:</p>
-                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                <hr class="my-8 border-gray-300 dark:border-gray-600">
+                <h2 id="setup-circuit-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">4.1 Setting Up an RC Circuit</h2>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">Let's set up a simple RC low-pass filter to observe its frequency response:</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
                     <li><b>New Schematic:</b> Open a new schematic (<b>File > New Schematic</b> or <b>Ctrl+N</b>).</li>
                     <li><b>Place Components:</b>
-                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
                             <li>An AC Voltage Source (<b>voltage</b>): Right-click and click <b>Advanced</b> set its <b>AC Amplitude</b> to <b>1</b> (for 1 Volt). Leave <b>DC value</b> at <b>0</b>.</li>
                             <li>A Resistor (<b>res</b>): Right-click and set its <b>Resistance</b> to <b>1k</b>.</li>
                             <li>A Capacitor (<b>cap</b>): Right-click and set its <b>Capacitance</b> to <b>100n</b> (for 100 nanofarads).</li>
@@ -39,17 +87,17 @@
                     <li><b>Wire Circuit:</b> Connect them in series: Voltage Source (+) to Resistor, Resistor to Capacitor, Capacitor to Ground, Voltage Source (-) to Ground.</li>
                     <li><b>Save:</b> Save your circuit (e.g., <b>rc_ac_filter.asc</b>).</li>
                 </ol>
-                <img src="assets/Frequency_RC/schematic.png" alt="Schematic of an RC low-pass filter with an AC voltage source, resistor, and capacitor in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">For AC analysis, the <b>AC Amplitude</b> of the voltage source is crucial. It defines the magnitude of the input signal for the frequency sweep.</p>
+                <img src="assets/Frequency_RC/schematic.png" alt="Schematic of an RC low-pass filter with an AC voltage source, resistor, and capacitor in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+                <p class="text-gray-600 italic mb-6 dark:text-gray-400">For AC analysis, the <b>AC Amplitude</b> of the voltage source is crucial. It defines the magnitude of the input signal for the frequency sweep.</p>
 
-                <hr class="my-8 border-gray-300">
-                <h2 id="configure-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.2 Configuring the AC Analysis</h2>
-                <p class="text-gray-600 mb-4">Now, we'll tell LTSpice to sweep the frequency and calculate the circuit's response.</p>
-                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                <hr class="my-8 border-gray-300 dark:border-gray-600">
+                <h2 id="configure-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">4.2 Configuring the AC Analysis</h2>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">Now, we'll tell LTSpice to sweep the frequency and calculate the circuit's response.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
                     <li>Go to <b>Simulate > Edit Simulation Cmd</b> from the menu bar.</li>
                     <li>In the <b>Edit Simulation Command</b> dialog box, select the <b>AC Analysis</b> tab.</li>
                     <li>Set the parameters as follows:
-                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
                             <li><b>Type of Sweep:</b> Select <b>Decade</b> (for logarithmic spacing of frequency points, common for filters).</li>
                             <li><b>Number of Points per Decade:</b> Enter <b>100</b> (more points give a smoother curve).</li>
                             <li><b>Start Frequency:</b> Enter <b>10</b> (for 10 Hz).</li>
@@ -58,52 +106,51 @@
                     </li>
                     <li>Click <b>OK</b>. A <b>.ac dec 100 10 1Meg</b> (or similar) directive will appear on your cursor. Click to place it on your schematic.</li>
                 </ol>
-                <img src="assets/Frequency_RC/setup_analysis.png" alt="AC Analysis setup dialog in LTSpice showing Decade sweep type, 100 points per decade, and frequency range from 10 Hz to 1 MHz" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 mb-4 font-semibold">LTSpice Command (<b>.ac</b> directive in schematic):</p>
+                <img src="assets/Frequency_RC/setup_analysis.png" alt="AC Analysis setup dialog in LTSpice showing Decade sweep type, 100 points per decade, and frequency range from 10 Hz to 1 MHz" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+                <p class="text-gray-600 mb-4 font-semibold dark:text-gray-200">LTSpice Command (<b>.ac</b> directive in schematic):</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.ac dec 100 10 1Meg</code></pre>
 
-                <hr class="my-8 border-gray-300">
-                <h2 id="viewing-waveforms-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.3 Running the Simulation and Viewing Waveforms</h2>
-                <p class="text-gray-600 mb-4">Now, let's run the simulation and plot the frequency response.</p>
-                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                <hr class="my-8 border-gray-300 dark:border-gray-600">
+                <h2 id="viewing-waveforms-ac" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">4.3 Running the Simulation and Viewing Waveforms</h2>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">Now, let's run the simulation and plot the frequency response.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
                     <li>Go to <b>Simulate > Run</b> (or click the <b>Play</b> icon on the toolbar) or press <b>ALT + R</b>.</li>
                     <li>A new plot window will appear, with the X-axis representing frequency on a logarithmic scale.</li>
                     <li>Move your mouse over the wire connected to the capacitor (the output of the filter). A <b>red probe</b> will appear. Click on it to plot the output voltage's magnitude (in dB) and phase.</li>
                 </ol>
-                <p class="text-gray-600 mb-4">You should see two plots:
-                    <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
+                <p class="text-gray-600 mb-4 dark:text-gray-300">You should see two plots:
+                    <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
                         <li>The <b>Magnitude Plot (dB)</b>: This shows how much the signal is attenuated or amplified at different frequencies. For an RC low-pass filter, you'll see it start at 0dB (no attenuation) and then decrease (roll-off) as frequency increases.</li>
                         <li>The <b>Phase Plot (degrees)</b>: This shows the phase shift introduced by the circuit at different frequencies.</li>
                     </ul>
                 </p>
-                <img src="assets/Frequency_RC/frequency_plot.png" alt="LTSpice waveform viewer showing the magnitude (in dB) and phase response of an RC low-pass filter plotted against frequency" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">The cutoff frequency (or -3dB frequency) for this RC low-pass filter is $f_c = \frac{1}{2\pi RC}$. For R=1kΩ and C=100nF, $f_c \approx 1.59$ kHz. You should observe the magnitude drop by 3dB around this frequency on your plot.</p>
-                <p class="text-gray-600">You've successfully performed an AC analysis! This allows you to characterize your circuit's behavior across the frequency spectrum.</p>
+                <img src="assets/Frequency_RC/frequency_plot.png" alt="LTSpice waveform viewer showing the magnitude (in dB) and phase response of an RC low-pass filter plotted against frequency" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+                <p class="text-gray-600 italic mb-6 dark:text-gray-400">The cutoff frequency (or -3dB frequency) for this RC low-pass filter is 1.59kHz. You should observe the magnitude drop by 3dB around this frequency on your plot.</p>
+                <p class="text-gray-600 dark:text-gray-300">You've successfully performed an AC analysis! This allows you to characterize your circuit's behavior across the frequency spectrum.</p>
             </div>
         </section>
     </main>
 
-    ---
-
     <section class="container mx-auto px-4 mt-12 mb-16">
-        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
-            <a href="basic_transient_analysis.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200 transition-colors duration-300 dark:bg-gray-800 dark:border-gray-700">
+            <a href="basic_transient_analysis.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300 dark:text-teal-400 dark:hover:text-teal-600">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 Previous: Basic Transient Analysis
             </a>
 
-            <a href="ltspice_working_with_plots.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+            <a href="ltspice_working_with_plots.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300 dark:text-teal-400 dark:hover:text-teal-600">
                 Next: Working With Plot Windows
                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </a>
         </div>
     </section>
 
-    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-lg">
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
         <div class="container mx-auto px-4">
             <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
         </div>
     </footer>
+
 
     <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
@@ -111,39 +158,156 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Smooth Scrolling for internal links
-            const navLinks = document.querySelectorAll('a[href^="#"]');
-            navLinks.forEach(link => {
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when a link inside it is clicked
+                const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"], a[href^="../index.html#"]');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    });
+                });
+            }
+
+            // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
+            const allNavLinks = document.querySelectorAll('a[href^="#"], a[href^="../index.html#"]');
+            allNavLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                    const href = this.getAttribute('href');
+                    const currentPath = window.location.pathname.split('/').pop();
+
+                    // Check if it's an internal hash link on the current page
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.split('#')[1];
+                        const targetElement = document.getElementById(targetId);
+
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    } else if (href.startsWith('../index.html#')) {
+                        // This is a link back to index.html with a specific section
+                        // If current page is already index.html, smooth scroll. Otherwise, navigate.
+                        if (currentPath === 'index.html' || currentPath === '') { // currentPath could be '' for root
+                            e.preventDefault();
+                            const targetId = href.split('#')[1];
+                            const targetElement = document.getElementById(targetId);
+                            if (targetElement) {
+                                targetElement.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                            }
+                        } else {
+                            // Let the browser handle navigation to index.html#section
+                        }
                     }
                 });
             });
 
-            // Scroll-to-Top button functionality
+            // --- Scroll-to-Top button functionality ---
             const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            const scrollThreshold = 300; // Pixels from top to show the button
 
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
-                    scrollToTopBtn.style.display = 'block';
+            function toggleScrollToTopButton() {
+                if (window.pageYOffset > scrollThreshold) {
+                    scrollToTopBtn.style.display = 'flex'; // Use flex to center SVG
                 } else {
                     scrollToTopBtn.style.display = 'none';
                 }
-            });
+            }
 
+            window.addEventListener('scroll', toggleScrollToTopButton);
             scrollToTopBtn.addEventListener('click', () => {
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
             });
+            toggleScrollToTopButton(); // Call once on load to set initial state
+
+            // --- Dark Theme Toggle Logic ---
+            const htmlElement = document.documentElement;
+
+            const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+            const sunIconDesktop = document.getElementById('sun-icon-desktop');
+            const moonIconDesktop = document.getElementById('moon-icon-desktop');
+
+            const themeToggleMobileHeader = document.getElementById('theme-toggle-mobile-header');
+            const sunIconMobileHeader = document.getElementById('sun-icon-mobile-header');
+            const moonIconMobileHeader = document.getElementById('moon-icon-mobile-header');
+
+            // Function to apply theme classes and update header background
+            function setTheme(theme) {
+                const header = document.querySelector('header');
+                const mobileMenu = document.getElementById('mobile-menu');
+                const mainContent = document.getElementById('ac-analysis-content');
+                const footer = document.querySelector('footer');
+                const navButtons = document.querySelectorAll('.container.mx-auto.px-4.mt-12.mb-16 div');
+
+
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    // Update desktop icons
+                    if (sunIconDesktop) sunIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                    if (moonIconDesktop) moonIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                    // Update mobile header icons
+                    if (sunIconMobileHeader) sunIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                    if (moonIconMobileHeader) moonIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    htmlElement.classList.remove('dark');
+                    // Update desktop icons
+                    if (sunIconDesktop) sunIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                    if (moonIconDesktop) moonIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                    // Update mobile header icons
+                    if (sunIconMobileHeader) sunIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                    if (moonIconMobileHeader) moonIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            // Set initial theme based on localStorage or system preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+
+            // Event listeners for theme toggles
+            if (themeToggleDesktop) {
+                themeToggleDesktop.addEventListener('click', () => {
+                    if (htmlElement.classList.contains('dark')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
+            if (themeToggleMobileHeader) {
+                themeToggleMobileHeader.addEventListener('click', () => {
+                    if (htmlElement.classList.contains('dark')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
         });
     </script>
 </body>

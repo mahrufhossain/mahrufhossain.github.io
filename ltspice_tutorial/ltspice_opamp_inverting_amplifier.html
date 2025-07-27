@@ -1,24 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Op-Amp Basics: Inverting Amplifier - LTSpice Tutorial - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class', // This tells Tailwind to enable dark mode when the 'dark' class is present on the <html> tag
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
-<body class="antialiased">
+<body class="antialiased transition-colors duration-300">
 
-    <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
+    <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
         <nav class="container mx-auto flex justify-between items-center px-4">
-            <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="ltspice_tutorial.html" class="block text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100">Back to Tutorials Index</a>
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800  transition duration-300">Mahruf Hossain</a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="ltspice_tutorial.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-800">Back to Tutorials Index</a>
+                
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.325-4.825l.707-.707M4.968 19.032l.707-.707M19.032 4.968l-.707.707M4.968 4.968l-.707.707M12 17a5 5 0 100-10 5 5 0 000 10z"></path>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 opacity-0 pointer-events-none text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            </div>
+
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                    <svg id="sun-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.325-4.825l.707-.707M4.968 19.032l.707-.707M19.032 4.968l-.707.707M4.968 4.968l-.707.707M12 17a5 5 0 100-10 5 5 0 000 10z"></path>
+                    </svg>
+                    <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300 opacity-0 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
         </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300">
+            <a href="ltspice_tutorial.html" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Back to Tutorials Index</a>
+            <a href="../index.html#home" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+            <a href="../index.html#about" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+            <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Projects</a>
+            <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">My Work</a>
+            <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+        </div>
     </header>
 
     <main>
-        <section id="opamp-inverting-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+        <section id="opamp-inverting-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 border border-gray-200">
             <div class="container mx-auto px-4">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">8. Op-Amp Basics: Inverting Amplifier</h1>
                 <p class="text-gray-600 mb-6">The <b>Operational Amplifier (Op-Amp)</b> is a fundamental building block in analog electronics, known for its high gain and versatility. The <b>inverting amplifier</b> is one of its most basic and widely used configurations, providing a stable, predictable gain with a 180-degree phase shift. In this tutorial, we'll simulate an ideal inverting amplifier in <b>LTSpice</b>.</p>
@@ -62,7 +110,6 @@
                     <li><b>Save:</b> Save your circuit (e.g., <b>inverting_amp.asc</b>).</li>
                 </ol>
                 <img src="assets/Inverting_Amp/schematic.png" alt="LTSpice schematic of an inverting amplifier circuit with an ideal op-amp, input resistor (R1), feedback resistor (R2), input sine wave source (Vin), and dual power supplies (+Vcc, -Vee)." class="w-full h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">The gain of an ideal inverting amplifier is given by the formula $A_v = -\frac{R_f}{R_{in}}$. For $R_{in}=1k\Omega$ and $R_f=10k\Omega$, the expected gain is $-10$.</p>
 
                 <hr class="my-8 border-gray-300">
 
@@ -109,23 +156,21 @@
         </section>
     </main>
 
-    ---
-
     <section class="container mx-auto px-4 mt-12 mb-16">
         <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
-            <a href="ltspice_third_party_models.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+            <a href="ltspice_third_party_models.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 Previous: Advanced: Using Third-Party Models
             </a>
 
-            <a href="opamp_non_inverting_amplifier.html" class="flex items-center text-teal-700 hover:text-teal-900 font-semibold transition duration-300">
+            <a href="opamp_non_inverting_amplifier.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
                 Next: Op-Amp Basics: Non-Inverting Amplifier (Coming Soon)
                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </a>
         </div>
     </section>
 
-    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-lg">
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
         <div class="container mx-auto px-4">
             <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
         </div>
@@ -137,39 +182,151 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Smooth Scrolling for internal links
-            const navLinks = document.querySelectorAll('a[href^="#"]');
-            navLinks.forEach(link => {
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when a link inside it is clicked
+                const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"], a[href^="../index.html#"]'); // Include external links
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    });
+                });
+            }
+
+            // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
+            // This now handles both internal hash links and external index.html hash links
+            const allNavLinks = document.querySelectorAll('a[href^="#"], a[href^="../index.html#"]');
+            allNavLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                    const href = this.getAttribute('href');
+                    const currentPath = window.location.pathname.split('/').pop();
+
+                    // Check if it's an internal hash link on the current page
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.split('#')[1];
+                        const targetElement = document.getElementById(targetId);
+
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    } else if (href.startsWith('../index.html#')) {
+                        // This is a link back to index.html with a specific section
+                        // If current page is already index.html, smooth scroll. Otherwise, navigate.
+                        if (currentPath === 'index.html' || currentPath === '') { // currentPath could be '' for root
+                            e.preventDefault();
+                            const targetId = href.split('#')[1];
+                            const targetElement = document.getElementById(targetId);
+                            if (targetElement) {
+                                targetElement.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                            }
+                        } else {
+                            // Let the browser handle navigation to index.html#section
+                            // No 'e.preventDefault()' here so the link behaves normally.
+                        }
                     }
                 });
             });
 
-            // Scroll-to-Top button functionality
+            // --- Scroll-to-Top button functionality ---
             const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            const scrollThreshold = 300; // Pixels from top to show the button
 
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
-                    scrollToTopBtn.style.display = 'block';
+            function toggleScrollToTopButton() {
+                if (window.pageYOffset > scrollThreshold) {
+                    scrollToTopBtn.style.display = 'flex'; // Use flex to center SVG
                 } else {
                     scrollToTopBtn.style.display = 'none';
                 }
-            });
+            }
 
+            window.addEventListener('scroll', toggleScrollToTopButton);
             scrollToTopBtn.addEventListener('click', () => {
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
             });
+            // Initial check in case the page is loaded with scroll already
+            toggleScrollToTopButton();
+
+            // --- Dark Theme Toggle Logic ---
+            const htmlElement = document.documentElement;
+
+            const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+            const sunIconDesktop = document.getElementById('sun-icon-desktop');
+            const moonIconDesktop = document.getElementById('moon-icon-desktop');
+
+            const themeToggleMobileHeader = document.getElementById('theme-toggle-mobile-header');
+            const sunIconMobileHeader = document.getElementById('sun-icon-mobile-header');
+            const moonIconMobileHeader = document.getElementById('moon-icon-mobile-header');
+
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    // Update desktop icons
+                    if (sunIconDesktop) sunIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                    if (moonIconDesktop) moonIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                    // Update mobile header icons
+                    if (sunIconMobileHeader) sunIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                    if (moonIconMobileHeader) moonIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    htmlElement.classList.remove('dark');
+                    // Update desktop icons
+                    if (sunIconDesktop) sunIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                    if (moonIconDesktop) moonIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                    // Update mobile header icons
+                    if (sunIconMobileHeader) sunIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                    if (moonIconMobileHeader) moonIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            // Set initial theme based on localStorage or system preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+
+            // Event listeners for theme toggles
+            if (themeToggleDesktop) {
+                themeToggleDesktop.addEventListener('click', () => {
+                    if (htmlElement.classList.contains('dark')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
+            if (themeToggleMobileHeader) {
+                themeToggleMobileHeader.addEventListener('click', () => {
+                    if (htmlElement.classList.contains('dark')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
         });
     </script>
 </body>

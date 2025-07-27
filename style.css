@@ -1,68 +1,551 @@
-/* General Body Styles */
+/* Base Styles & Font Import */
 body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f4f7f6; /* Light background for the whole page */
+    color: var(--color-text-primary); /* Uses primary text color variable */
+    background-color: var(--color-bg-body); /* Uses body background variable */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for theme change */
 }
 
-/* Section Padding for consistent spacing */
+/* Custom CSS Variables for Theming */
+:root {
+    /* Light Theme Colors (Default) */
+    --color-bg-body: #f9fafb; /* Lighter gray/off-white for body - closer to original background */
+    --color-bg-primary: #ffffff; /* White for header, sections, main content backgrounds */
+    --color-text-primary: #111827; /* Near black (gray-900 equivalent) */
+    --color-text-secondary: #4b5563; /* Medium gray (gray-700 equivalent) */
+    --color-heading: #1f2937; /* Dark gray (gray-800 equivalent for headings) */
+    --color-accent: #0d9488; /* Teal-600 */
+    --color-accent-hover: #14b8a6; /* Teal-500 (lighter teal for hover) */
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    --color-border: #e5e7eb; /* Light gray (gray-200 equivalent) */
+    --color-code-bg: #e5e7eb; /* Light gray for code/tags (gray-200 equivalent) */
+    --color-code-text: #1f2937; /* Dark gray for code/tags text (gray-800 equivalent) */
+
+    /* Specific project card background colors */
+    --color-project-card-bg: #f6f6f6; /* Pure white for light mode project cards */
+    --color-project-card-shadow: rgba(0, 0, 0, 0.05); /* Softer shadow for cards */
+
+    /* Specific tag colors */
+    --color-tag-bg-default: #374151; /* Gray-700 equivalent for default tags */
+    --color-tag-text-default: #f9fafb; /* Off-white for default tag text */
+    --color-tag-blue-bg: #e0f2f7; /* Tailwind blue-100 equivalent */
+    --color-tag-blue-text: #083344; /* Tailwind blue-900 equivalent */
+    --color-tag-green-bg: #d1fae5; /* Tailwind green-100 equivalent */
+    --color-tag-green-text: #064e3b; /* Tailwind green-900 equivalent */
+    --color-tag-yellow-bg: #fffbe6; /* Tailwind yellow-100 equivalent */
+    --color-tag-yellow-text: #78350f; /* Tailwind yellow-900 equivalent */
+    --color-tag-purple-bg: #ede9fe; /* Tailwind purple-100 equivalent */
+    --color-tag-purple-text: #4c0519; /* Tailwind purple-900 equivalent */
+
+
+    /* Alert box colors (light mode) */
+    --color-info-bg: #ecfdf5; /* Green-50 for background */
+    --color-info-border: #34d399; /* Green-500 for border */
+    --color-info-text: #065f46; /* Green-900 for text */
+    --color-info-link: #10b981; /* Green-600 for link */
+    --color-info-link-hover: #059669; /* Green-700 for link hover */
+
+    /* Footer colors */
+    --color-footer-bg: #1f2937; /* Gray-800 for footer */
+    --color-footer-text: #d1d5db; /* Gray-300 for footer text */
+}
+
+/* Dark Theme Colors */
+html.dark {
+    --color-bg-body: #111827; /* Darkest gray (gray-900 equivalent) for body */
+    --color-bg-primary: #1f2937; /* Darker gray (gray-800 equivalent) for sections */
+    --color-text-primary: #f3f4f6; /* Off-white (gray-100 equivalent) */
+    --color-text-secondary: #d1d5db; /* Light gray (gray-300 equivalent) */
+    --color-heading: #f3f4f6; /* Off-white (gray-100 equivalent) for headings */
+    --color-accent: #0d9488; /* Teal-600 (can be same or darker, but keeping for consistency) */
+    --color-accent-hover: #14b8a6; /* Teal-500 (can be same or darker, but keeping for consistency) */
+    --color-shadow: rgba(255, 255, 255, 0.05); /* Lighter shadow for dark theme */
+    --color-border: #374151; /* Dark gray (gray-700 equivalent) */
+    --color-code-bg: #374151; /* Dark gray for code/tags (gray-700 equivalent) */
+    --color-code-text: #f3f4f6; /* Off-white for code/tags text (gray-100 equivalent) */
+
+    /* Specific project card background colors for dark theme */
+    --color-project-card-bg: #323c49; /* Custom dark background for cards */
+    --color-project-card-shadow: rgba(0, 0, 0, 0.2); /* Darker shadow for cards */
+
+    /* Specific tag colors for dark theme */
+    --color-tag-bg-default: #00695c; /* Darker teal (teal-800 equivalent) for default tags */
+    --color-tag-text-default: #e0f2f7; /* Light cyan (cyan-100 equivalent) for default tag text */
+    --color-tag-blue-bg: #0c4a6e; /* Darker blue */
+    --color-tag-blue-text: #bfdbfe; /* Lighter blue */
+    --color-tag-green-bg: #047857; /* Darker green */
+    --color-tag-green-text: #a7f3d0; /* Lighter green */
+    --color-tag-yellow-bg: #92400e; /* Darker yellow */
+    --color-tag-yellow-text: #fde68a; /* Lighter yellow */
+    --color-tag-purple-bg: #6b21a8; /* Darker purple */
+    --color-tag-purple-text: #e9d5ff; /* Lighter purple */
+
+
+    /* Alert box colors (dark mode) */
+    --color-info-bg: #064e3b; /* Darker green for background */
+    --color-info-border: #34d399; /* Green-500 for border */
+    --color-info-text: #a7f3d0; /* Lighter green for text */
+    --color-info-link: #6ee7b7; /* Green-300 for link */
+    --color-info-link-hover: #34d399; /* Green-500 for link hover */
+
+    /* Footer colors */
+    --color-footer-bg: #111827; /* Gray-900 for footer in dark mode */
+    --color-footer-text: #f3f4f6; /* Gray-100 for footer text */
+}
+
+
+/* --- General Layout & Section Padding --- */
 .section-padding {
-    padding: 4rem 1rem; /* Default padding for all sections */
+    padding-top: 3rem; /* py-12 / 4 = 3rem */
+    padding-bottom: 3rem; /* py-12 / 4 = 3rem */
 }
 
-/* Responsive adjustments for larger screens */
-@media (min-width: 768px) {
+/* --- Element-specific styles using variables --- */
+
+/* Header & Navigation */
+header {
+    background-color: var(--color-bg-primary);
+    box-shadow: 0 4px 6px -1px var(--color-shadow);
+    border-bottom-left-radius: 0; /* rounded-xl */
+    border-bottom-right-radius: 0; /* rounded-xl */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* For the logo text (Mahruf Hossain) */
+header nav a.text-2xl.font-bold.text-gray-900 {
+    color: var(--color-heading);
+    transition: color 0.3s ease;
+}
+header nav a.text-2xl.font-bold.text-gray-900.hover\:bg-gray-100:hover {
+    background-color: var(--color-bg-body); /* Subtle hover for logo */
+}
+html.dark header nav a.text-2xl.font-bold.text-gray-900.hover\:bg-gray-100:hover {
+    background-color: var(--color-bg-primary); /* Subtle hover for logo */
+}
+/* For general nav links (e.g., "Back to Tutorials Index") */
+header nav a.font-bold.text-gray-700 { /* Targeting the specific classes for desktop links */
+    color: var(--color-text-secondary);
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+header nav a.font-bold.text-gray-700.hover\:text-teal-700:hover {
+    color: var(--color-accent); /* Standard teal hover */
+}
+header nav a.font-bold.text-gray-700.hover\:bg-gray-100:hover {
+    background-color: var(--color-bg-body); /* Light mode hover */
+}
+
+
+
+/* Theme Toggle Buttons (Desktop and Mobile Header) */
+#theme-toggle-desktop, #theme-toggle-mobile-header {
+    color: var(--color-text-secondary); /* Icon color */
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+#theme-toggle-desktop.hover\:bg-gray-100:hover,
+#theme-toggle-mobile-header.hover\:bg-gray-100:hover {
+    background-color: var(--color-bg-body); /* Light mode hover */
+}
+/* Dark mode override for hover background */
+html.dark #theme-toggle-desktop.dark\:hover\:bg-gray-700:hover,
+html.dark #theme-toggle-mobile-header.dark\:hover\:bg-gray-700:hover {
+    background-color: var(--color-bg-primary); /* Darker hover background in dark mode */
+}
+
+
+/* Mobile Menu */
+#mobile-menu {
+    background-color: var(--color-bg-primary);
+    box-shadow: 0 4px 6px -1px var(--color-shadow);
+    border-bottom-left-radius: 0.75rem; /* rounded-xl */
+    border-bottom-right-radius: 0.75rem; /* rounded-xl */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#mobile-menu a.block.px-4.py-3.text-gray-700 { /* Target specific text color for mobile menu links */
+    color: var(--color-text-secondary);
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+#mobile-menu a.block.px-4.py-3.text-gray-700.hover\:bg-gray-100:hover { /* Target specific hover background for mobile menu links */
+    background-color: var(--color-bg-body); /* Light mode hover */
+}
+html.dark #mobile-menu a.block.px-4.py-3.text-gray-700.hover\:bg-gray-100:hover {
+    background-color: var(--color-bg-primary); /* Dark mode hover */
+}
+
+
+/* About Section (from index.html) */
+#about {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-secondary); /* Text color for paragraphs */
+    box-shadow: 0 4px 6px -1px var(--color-shadow);
+    border-radius: 0.75rem; /* rounded-xl */
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#about h2, #about h3 {
+    color: var(--color-heading);
+    transition: color 0.3s ease;
+}
+
+/* Skills tags in About section (e.g., span.bg-gray-800) */
+#about .flex-wrap span {
+    background-color: var(--color-tag-bg-default);
+    color: var(--color-tag-text-default);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Projects and My Work Sections (from index.html) */
+#projects, #my-work, #circuit-designs, #embedded-systems-projects, #computer-aided-designs, #pcb-design-projects {
+    background-color: var(--color-bg-primary);
+    box-shadow: 0 4px 6px -1px var(--color-shadow);
+    border-radius: 0.75rem; /* rounded-xl */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#projects h2, #my-work h2, #circuit-designs h2, #embedded-systems-projects h2, #computer-aided-designs h2, #pcb-design-projects h2 {
+    color: var(--color-heading);
+    transition: color 0.3s ease;
+}
+
+.project-card {
+    background-color: var(--color-project-card-bg);
+    box-shadow: 0 4px 6px -1px var(--color-project-card-shadow);
+    color: var(--color-text-secondary); /* Default text for description */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.project-card h3 {
+    color: var(--color-heading);
+    transition: color 0.3s ease;
+}
+
+/* Specific skill tags within project cards (targeting their original Tailwind classes) */
+.project-card span.bg-blue-100 {
+    background-color: var(--color-tag-blue-bg);
+    color: var(--color-tag-blue-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.project-card span.bg-green-100 {
+    background-color: var(--color-tag-green-bg);
+    color: var(--color-tag-green-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.project-card span.bg-yellow-100 {
+    background-color: var(--color-tag-yellow-bg);
+    color: var(--color-tag-yellow-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.project-card span.bg-purple-100 {
+    background-color: var(--color-tag-purple-bg);
+    color: var(--color-tag-purple-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+/* For the gray-800 dark:bg-teal-800 tags */
+.project-card span.bg-gray-800 { /* This applies in light mode */
+    background-color: var(--color-tag-bg-default);
+    color: var(--color-tag-text-default);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode directly */
+    background-color: var(--color-tag-bg-default); /* Uses the dark mode default tag bg from root */
+    color: var(--color-tag-text-default); /* Uses the dark mode default tag text from root */
+}
+
+
+/* Contact Section (from index.html) */
+#contact {
+    background-color: var(--color-bg-primary);
+    box-shadow: 0 4px 6px -1px var(--color-shadow);
+    border-radius: 0.75rem; /* rounded-xl */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#contact h2 {
+    color: var(--color-heading);
+    transition: color 0.3s ease;
+}
+
+#contact a { /* For the social icons/links */
+    color: var(--color-text-secondary); /* Icon/link color */
+    transition: color 0.3s ease;
+}
+
+#contact a:hover {
+    color: var(--color-accent);
+}
+
+
+/* --- LTSpice Tutorial Page Specific Content Styling --- */
+/* (Applies to ltspice_installation.html, basic_simulation.html, basic_transient_analysis.html, basic_ac_analysis.html, working_with_plots.html, dc_sweep.html, opamp_inverting.html, third_party_models.html, parameter_sweep.html) */
+#ltspice-installation, #basic-simulation-content, #transient-analysis-content, #ac-analysis-content, #plot-window-content, #dc-sweep-content, #opamp-inverting-content, #third-party-models-content, #parameter-sweep-content {
+    background-color: var(--color-bg-primary); /* bg-white */
+    box-shadow: 0 4px 6px -1px var(--color-shadow); /* shadow-lg */
+    border-radius: 0.75rem; /* rounded-xl */
+    border: 1px solid var(--color-border); /* border border-gray-200 */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Headings within tutorial content */
+#ltspice-installation h1, #ltspice-installation h2, #ltspice-installation h3,
+#basic-simulation-content h1, #basic-simulation-content h2, #basic-simulation-content h3,
+#transient-analysis-content h1, #transient-analysis-content h2, #transient-analysis-content h3,
+#ac-analysis-content h1, #ac-analysis-content h2, #ac-analysis-content h3,
+#plot-window-content h1, #plot-window-content h2, #plot-window-content h3,
+#dc-sweep-content h1, #dc-sweep-content h2, #dc-sweep-content h3,
+#opamp-inverting-content h1, #opamp-inverting-content h2, #opamp-inverting-content h3, /* Added */
+#third-party-models-content h1, #third-party-models-content h2, #third-party-models-content h3, /* Added */
+#parameter-sweep-content h1, #parameter-sweep-content h2, #parameter-sweep-content h3 { /* Added */
+    color: var(--color-heading); /* text-gray-800, text-gray-700 */
+    transition: color 0.3s ease;
+}
+
+/* Paragraphs and list items within tutorial content */
+#ltspice-installation p, #ltspice-installation ol li, #ltspice-installation ul li,
+#basic-simulation-content p, #basic-simulation-content ol li, #basic-simulation-content ul li,
+#transient-analysis-content p, #transient-analysis-content ol li, #transient-analysis-content ul li,
+#ac-analysis-content p, #ac-analysis-content ol li, #ac-analysis-content ul li,
+#plot-window-content p, #plot-window-content ol li, #plot-window-content ul li,
+#dc-sweep-content p, #dc-sweep-content ol li, #dc-sweep-content ul li,
+#opamp-inverting-content p, #opamp-inverting-content ol li, #opamp-inverting-content ul li, /* Added */
+#third-party-models-content p, #third-party-models-content ol li, #third-party-models-content ul li, /* Added */
+#parameter-sweep-content p, #parameter-sweep-content ol li, #parameter-sweep-content ul li { /* Added */
+    color: var(--color-text-secondary); /* text-gray-600 */
+    transition: color 0.3s ease;
+}
+
+/* Horizontal rule within tutorial content */
+#ltspice-installation hr,
+#basic-simulation-content hr,
+#transient-analysis-content hr,
+#ac-analysis-content hr,
+#plot-window-content hr,
+#dc-sweep-content hr,
+#opamp-inverting-content hr, /* Added */
+#third-party-models-content hr, /* Added */
+#parameter-sweep-content hr { /* Added */
+    border-color: var(--color-border); /* border-gray-300 */
+    transition: border-color 0.3s ease;
+}
+
+/* Links within tutorial content (e.g., text-blue-600) */
+#ltspice-installation a.text-blue-600,
+#basic-simulation-content a.text-blue-600,
+#transient-analysis-content a.text-blue-600,
+#ac-analysis-content a.text-blue-600,
+#plot-window-content a.text-blue-600,
+#dc-sweep-content a.text-blue-600,
+#opamp-inverting-content a.text-blue-600, /* Added */
+#third-party-models-content a.text-blue-600, /* Added */
+#parameter-sweep-content a.text-blue-600 { /* Added */
+    color: #2563eb; /* blue-600 (direct Tailwind value as it's not a general accent) */
+    transition: color 0.3s ease;
+}
+html.dark #ltspice-installation a.text-blue-600,
+html.dark #basic-simulation-content a.text-blue-600,
+html.dark #transient-analysis-content a.text-blue-600,
+html.dark #ac-analysis-content a.text-blue-600,
+html.dark #plot-window-content a.text-blue-600,
+html.dark #dc-sweep-content a.text-blue-600,
+html.dark #opamp-inverting-content a.text-blue-600, /* Added */
+html.dark #third-party-models-content a.text-blue-600, /* Added */
+html.dark #parameter-sweep-content a.text-blue-600 { /* Added */
+    color: #60a5fa; /* blue-400 for dark mode */
+}
+
+#ltspice-installation a.hover\:underline:hover,
+#basic-simulation-content a.hover\:underline:hover,
+#transient-analysis-content a.hover\:underline:hover,
+#ac-analysis-content a.hover\:underline:hover,
+#plot-window-content a.hover\:underline:hover,
+#dc-sweep-content a.hover\:underline:hover,
+#opamp-inverting-content a.hover\:underline:hover, /* Added */
+#third-party-models-content a.hover\:underline:hover, /* Added */
+#parameter-sweep-content a.hover\:underline:hover { /* Added */
+    text-decoration: underline;
+}
+#ltspice-installation a.text-blue-600:hover,
+#basic-simulation-content a.text-blue-600:hover,
+#transient-analysis-content a.text-blue-600:hover,
+#ac-analysis-content a.text-blue-600:hover,
+#plot-window-content a.text-blue-600:hover,
+#dc-sweep-content a.text-blue-600:hover,
+#opamp-inverting-content a.text-blue-600:hover, /* Added */
+#third-party-models-content a.text-blue-600:hover, /* Added */
+#parameter-sweep-content a.text-blue-600:hover { /* Added */
+    color: #1d4ed8; /* blue-700 hover */
+}
+html.dark #ltspice-installation a.text-blue-600:hover,
+html.dark #basic-simulation-content a.text-blue-600:hover,
+html.dark #transient-analysis-content a.text-blue-600:hover,
+html.dark #ac-analysis-content a.text-blue-600:hover,
+html.dark #plot-window-content a.text-blue-600:hover,
+html.dark #dc-sweep-content a.text-blue-600:hover,
+html.dark #opamp-inverting-content a.text-blue-600:hover, /* Added */
+html.dark #third-party-models-content a.text-blue-600:hover, /* Added */
+html.dark #parameter-sweep-content a.text-blue-600:hover { /* Added */
+    color: #3b82f6; /* blue-500 hover in dark mode */
+}
+
+/* Image borders within tutorial content */
+#ltspice-installation img.border-gray-200,
+#basic-simulation-content img.border-gray-200,
+#transient-analysis-content img.border-gray-200,
+#ac-analysis-content img.border-gray-200,
+#plot-window-content img.border-gray-200,
+#dc-sweep-content img.border-gray-200,
+#opamp-inverting-content img.border-gray-200, /* Added */
+#third-party-models-content img.border-gray-200, /* Added */
+#parameter-sweep-content img.border-gray-200 { /* Added */
+    border-color: var(--color-border); /* border-gray-200 */
+    transition: border-color 0.3s ease;
+}
+
+/* Code blocks within tutorial content */
+#ltspice-installation pre,
+#basic-simulation-content pre,
+#transient-analysis-content pre,
+#ac-analysis-content pre,
+#plot-window-content pre,
+#dc-sweep-content pre,
+#opamp-inverting-content pre, /* Added */
+#third-party-models-content pre, /* Added */
+#parameter-sweep-content pre { /* Added */
+    background-color: var(--color-code-bg);
+    color: var(--color-code-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+/* Alert box styling (for info/note boxes) */
+.alert-info { /* Assuming you'd wrap alert content with a class like this */
+    background-color: var(--color-info-bg);
+    border: 1px solid var(--color-info-border);
+    color: var(--color-info-text);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+.alert-info a {
+    color: var(--color-info-link);
+    transition: color 0.3s ease;
+}
+.alert-info a:hover {
+    color: var(--color-info-link-hover);
+}
+
+
+/* Pagination Navigation (Prev/Next buttons at bottom of tutorials) */
+.flex.justify-between.items-center.py-4.px-6.bg-white.rounded-xl.shadow-lg.border.border-gray-200 {
+    background-color: var(--color-bg-primary); /* bg-white */
+    box-shadow: 0 4px 6px -1px var(--color-shadow); /* shadow-lg */
+    border-color: var(--color-border); /* border-gray-200 */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.flex.justify-between.items-center.py-4.px-6.bg-white.rounded-xl.shadow-lg.border.border-gray-200 a.text-teal-700 {
+    color: var(--color-accent); /* text-teal-700 */
+    transition: color 0.3s ease;
+}
+.flex.justify-between.items-center.py-4.px-6.bg-white.rounded-xl.shadow-lg.border.border-gray-200 a.hover\:text-teal-900:hover {
+    color: var(--color-accent-hover); /* hover:text-teal-900 (using accent-hover for consistency) */
+}
+html.dark .flex.justify-between.items-center.py-4.px-6.bg-white.rounded-xl.shadow-lg.border.border-gray-200 {
+    background-color: var(--color-bg-primary); /* Ensures dark mode primary background */
+    border-color: var(--color-border);
+}
+
+
+/* Footer */
+footer {
+    background-color: var(--color-footer-bg); /* bg-gray-800 */
+    color: var(--color-footer-text); /* text-white */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+/* Scroll To Top Button */
+#scrollToTopBtn {
+    background-color: var(--color-accent); /* bg-teal-600 */
+    color: var(--color-bg-primary); /* text-white for icon */
+    transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+#scrollToTopBtn:hover {
+    background-color: var(--color-accent-hover); /* hover:bg-teal-700 */
+}
+html.dark #scrollToTopBtn {
+    color: var(--color-text-primary); /* Lighter icon in dark mode */
+}
+
+
+/* Mobile specific header adjustments (from ltspice_tutorials.html) */
+/* Hide mobile-specific back icon by default (if you add one) */
+.header-nav-back-icon-mobile {
+    display: none;
+    padding: 0.5rem; /* Adjust padding for icon link */
+    border-radius: 0.375rem; /* Rounded corners */
+    margin-left: auto; /* Push to the right */
+    color: var(--color-text-secondary); /* Default icon color */
+    transition: color 0.3s ease;
+}
+
+@media (max-width: 767px) {
+    /* Show mobile-specific back icon on mobile (if added) */
+    .header-nav-back-icon-mobile {
+        display: block;
+    }
+    /* Hide desktop "Back to Tutorials" text link on mobile */
+    .md\:flex.space-x-6.items-center a[href="ltspice_tutorial.html"] {
+        display: none;
+    }
+    /* Hide desktop theme toggle on mobile */
+    .md\:flex.space-x-6.items-center #theme-toggle-desktop {
+        display: none;
+    }
+    /* Show mobile header's "Back to Tutorials" text link on mobile */
+    /* This class is for the mobile menu links. If you added a specific "Back to Tutorials" link
+        inside the mobile header that is shown only on mobile, you'd target that.
+        For now, assuming the generic mobile menu links (handled below) suffice.
+    */
+    /* For the specific back link to "ltspice_tutorial.html" on mobile */
+    .md\:hidden.flex.items-center.space-x-2 a.block.text-gray-700[href="ltspice_tutorial.html"] {
+        display: block; /* Ensure it's visible if it exists in the mobile header directly */
+        margin-left: auto; /* Pushes it to the right */
+    }
+
+
+    /* Adjust header alignment for mobile */
+    header nav {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 0;
+    }
+    header .text-2xl { /* For "Mahruf Hossain" title */
+        font-size: 1.75rem;
+        margin-bottom: 0;
+    }
+    .header-nav-back-icon-mobile {
+        margin-top: 0;
+    }
+    .header-nav-back-icon-mobile:hover {
+        color: var(--color-accent);
+    }
+
+    /* Mobile specific spacing adjustments for content sections */
     .section-padding {
-        padding: 6rem 2rem;
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
     }
 }
 
-/* Specific styling for the header to ensure rounded corners */
-header {
-    border-bottom-left-radius: 1rem; /* Rounded bottom-left corner */
-    border-bottom-right-radius: 1rem; /* Rounded bottom-right corner */
-}
-
-/* Specific styling for sections to ensure rounded corners and margins */
-section {
-    margin-top: 2rem; /* Margin between sections */
-    border-radius: 1rem; /* Rounded corners for all sections */
-    overflow: hidden; /* Ensures content respects border-radius */
-}
-
-/* Adjustments for the hero section to have a larger bottom radius */
-#home {
-    border-bottom-left-radius: 0rem;
-    border-bottom-right-radius: 0rem;
-    border-top-left-radius: 0rem;
-    border-top-right-radius: 0rem;
-}
-
-/* Style for project cards (if you decide to add custom styling beyond Tailwind) */
-.project-card {
-    background-color: #ffffff;
-    border-radius: 0.75rem; /* Rounded corners */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.project-card:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
-}
-
-/* Style for form elements (if you decide to add custom styling beyond Tailwind) */
-form input[type="text"],
-form input[type="email"],
-form textarea {
-    border-radius: 0.5rem; /* Slightly rounded corners for form fields */
-}
-
-/* Ensure images within sections are responsive */
+/* Ensure images have smooth transitions too, if they change color/filter */
 img {
-    max-width: 100%;
-    height: auto;
-    display: block; /* Remove extra space below images */
+    transition: filter 0.3s ease;
 }
 
+/* Adjust image appearance in dark mode if needed (e.g., dim them slightly) */
+/* This is optional and depends on how the images look naturally in dark mode */
+/*
+html.dark img {
+    filter: brightness(0.8) contrast(1.1);
+}
+*/

@@ -1,93 +1,246 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" class="light"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embedded Systems - Mahruf Hossain</title> <script src="https://cdn.tailwindcss.com"></script>
+    <title>Embedded Systems - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class', // This tells Tailwind to enable dark mode when the 'dark' class is present on the <html> tag
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="antialiased">
-
-    <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
+    <link rel="stylesheet" href="style.css"> </head>
+<body class="antialiased transition-colors duration-300">
+ <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
     <nav class="container mx-auto flex justify-between items-center px-4">
-        <a href="index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-    </nav>
-</header>
-    <main>
-<section id="embedded-systems-projects" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12">
-    <div class="container mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">Embedded Systems</h2>
-        <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <a href="index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800  transition duration-300">
+            Mahruf Hossain
+        </a>
 
-            <a href="https://github.com/mahrufhossain/smart-home-automation" target="_blank" class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card block">
-                <img src="Assets/photo_2025-07-20_15-18-16.jpg" alt="Smart Home Automation System" class="w-full h-40 object-cover rounded-lg mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">Smart Home Automation System</h3>
-                <p class="text-gray-600 text-sm mb-4">Developed an IoT-enabled smart home automation system using ESP32, integrating various sensors and actuators for remote control and monitoring via a custom web interface.</p>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="bg-gray-900 text-white text-xs px-2.5 py-2 rounded-full">ESP32</span>
-                    <span class="bg-gray-900 text-white text-xs px-2.5 py-2 rounded-full">IoT</span>
-                    <span class="bg-gray-900 text-white text-xs px-2.5 py-2 rounded-full">Arduino IDE</span>
-                </div>
-                </a>
-
+        <div class="hidden md:flex space-x-6 items-center">
+            <a href="index.html#home" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                Home
+            </a>
+            <a href="index.html#about" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                About
+            </a>
+            <a href="index.html#projects" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                Projects
+            </a>
+            <a href="index.html#my-work" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                My Work
+            </a>
+            <a href="index.html#contact" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                Contact
+            </a>
+            
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.325-4.825l.707-.707M4.968 19.032l.707-.707M19.032 4.968l-.707.707M4.968 4.968l-.707.707M12 17a5 5 0 100-10 5 5 0 000 10z"></path>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 opacity-0 pointer-events-none text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
         </div>
-    </div>
-</section>
 
+        <div class="md:hidden flex items-center space-x-2">
+            <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.325-4.825l.707-.707M4.968 19.032l.707-.707M19.032 4.968l-.707.707M4.968 4.968l-.707.707M12 17a5 5 0 100-10 5 5 0 000 10z"></path>
+                </svg>
+                <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300 opacity-0 pointer-events-none text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            <button id="mobile-menu-button" class="focus:outline-none rounded-md p-2 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 hover:text-teal-800 dark:hover:text-teal-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <a href="index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            Home
+        </a>
+        <a href="index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            About
+        </a>
+        <a href="index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            Projects
+        </a>
+        <a href="index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            My Work
+        </a>
+        <a href="index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            Contact
+        </a>
+    </div>
+</header>
+
+    <main>
+        <section id="embedded-systems-projects" class="rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl transition-colors duration-300">
+            <div class="container mx-auto p-8 md:p-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Embedded Systems</h2>
+                <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <a href="https://github.com/mahrufhossain/smart-home-automation" target="_blank" class="p-6 rounded-xl shadow-lg transform hover:scale-105 active:scale-98 active:brightness-90 transition duration-300 project-card block">
+                        <img src="Assets/photo_2025-07-20_15-18-16.jpg" alt="Smart Home Automation System" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2">Smart Home Automation System</h3>
+                        <p class="text-sm mb-4">Developed an IoT-enabled smart home automation system using ESP32, integrating various sensors and actuators for remote control and monitoring via a custom web interface.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">ESP32</span>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">IoT</span>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">Arduino IDE</span>
+                        </div>
+                    </a>
+
+                    </div>
+            </div>
+        </section>
     </main>
-    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40">
+
+    <!-- Footer - bg-gray-800, text-white will be styled by CSS variables -->
+    <footer class="bg-gray-800 text-white text-center py-4 mt-20">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll To Top Button - bg-teal-600, hover:bg-teal-700, text-white will be styled by CSS variables -->
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
     </button>
 
-    <footer class="bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-6 text-center text-gray-500 text-sm mb-4">
-        <p>
-            &copy; 2025 Mahruf Hossain. All rights reserved.
-        </p>
-    </footer>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
-        // This is kept as it can be useful if you add internal #links within this page.
-        const allNavLinks = document.querySelectorAll('a[href^="#"]');
-        allNavLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
 
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
 
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
+                // Changed to target index.html links
+                const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="index.html#"]'); 
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
                     });
-                }
-            });
-        });
+                });
+            }
 
-        // --- Mobile Menu Toggle ---
-        // The following code is commented out because the HTML elements (mobile-menu-button and mobile-menu)
-        // are not present in the header of THIS specific file.
-        /*
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+            // --- Smooth Scrolling for ALL navigation links ---
+            const allNavLinks = document.querySelectorAll('a[href^="#"], a[href^="index.html#"]'); 
+            allNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    const currentPath = window.location.pathname.split('/').pop();
 
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
+                    if (href.startsWith('#') || (href.startsWith('index.html#') && currentPath === 'index.html')) {
+                        e.preventDefault();
+                        const targetId = href.split('#')[1];
+                        const targetElement = document.getElementById(targetId);
 
-            const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"]');
-            mobileNavLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
+                    } else if (href.startsWith('index.html#') && currentPath !== 'index.html') {
+                        window.location.href = href;
                     }
                 });
             });
-        }
-        */
-    });
-</script>
+
+            // --- Scroll-to-Top button functionality ---
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            const scrollThreshold = 300;
+            function toggleScrollToTopButton() {
+                if (window.pageYOffset > scrollThreshold) {
+                    scrollToTopBtn.style.display = 'flex';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            }
+            window.addEventListener('scroll', toggleScrollToTopButton);
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            toggleScrollToTopButton();
+
+
+            // --- Dark Theme Toggle Logic ---
+            const htmlElement = document.documentElement;
+
+            const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+            const sunIconDesktop = document.getElementById('sun-icon-desktop');
+            const moonIconDesktop = document.getElementById('moon-icon-desktop');
+
+            const themeToggleMobileHeader = document.getElementById('theme-toggle-mobile-header');
+            const sunIconMobileHeader = document.getElementById('sun-icon-mobile-header');
+            const moonIconMobileHeader = document.getElementById('moon-icon-mobile-header');
+
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    if (sunIconDesktop) sunIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                    if (moonIconDesktop) moonIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                    if (sunIconMobileHeader) sunIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                    if (moonIconMobileHeader) moonIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    htmlElement.classList.remove('dark');
+                    if (sunIconDesktop) sunIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                    if (moonIconDesktop) moonIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                    if (sunIconMobileHeader) sunIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                    if (moonIconMobileHeader) moonIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+            if (themeToggleDesktop) {
+                themeToggleDesktop.addEventListener('click', () => {
+                    if (htmlElement.classList.contains('dark')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
+            if (themeToggleMobileHeader) {
+                themeToggleMobileHeader.addEventListener('click', () => {
+                    if (htmlElement.classList.contains('dark')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

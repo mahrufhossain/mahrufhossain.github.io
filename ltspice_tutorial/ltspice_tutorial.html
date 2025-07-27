@@ -1,17 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LTSpice Tutorials Index - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class', // This tells Tailwind to enable dark mode when the 'dark' class is present on the <html> tag
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
     <style>
         /* Base styles */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff; /* A very light, cool grey for a fresh background */
             line-height: 1.6; /* Enhance overall readability */
         }
 
@@ -22,7 +32,6 @@
             padding: 0.5rem; /* Adjust padding for icon link */
             border-radius: 0.375rem; /* Rounded corners */
             margin-left: auto; /* Push to the right */
-            color: #4b5563; /* Default icon color (gray-600 equivalent) */
         }
 
         @media (max-width: 767px) {
@@ -48,10 +57,6 @@
             /* Remove margin from icon as it's now properly aligned by flexbox */
             .header-nav-back-icon-mobile {
                 margin-top: 0;
-                color: #4b5563; /* Ensure icon color is consistent with gray-600 */
-            }
-            .header-nav-back-icon-mobile:hover {
-                color: #0d9488; /* Teal color on hover (teal-700 equivalent) */
             }
         }
 
@@ -71,39 +76,36 @@
 
         /* Table of Contents - Cleaner structure */
         .toc-container-base {
-            background-color: #ffffff;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Lighter shadow */
             border-radius: 0.75rem; /* Standard rounded corners */
             padding: 1.5rem; /* Standard internal spacing */
         }
         .toc-heading-base {
-            color: #1f2937; /* Darker heading for contrast */
-            border-bottom: 1px solid #e2e8f0; /* Subtle grey underline */
+            border-bottom: 1px solid var(--border-color); /* Subtle grey underline, now theme-aware */
             padding-bottom: 0.5rem;
             margin-bottom: 1.25rem;
         }
 
         /* Tutorial List Items - The "Lightbox" effect with NO color changes */
+        /* Tutorial Item Base Styles (Light and Dark Mode handled by variables) */
         .tutorial-item-lightbox {
-            background-color: #ffffff; /* White background for the box */
             border-radius: 0.75rem; /* Rounded corners for the box */
             padding: 1rem 1.25rem; /* Internal padding for content */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Initial subtle shadow */
-            transition: all 0.3s ease-in-out; /* Smooth transitions for hover effects */
             display: block; /* Ensures the whole box is clickable */
-            border: 1px solid #e2e8f0; /* Light border to define the box */
+            transition: all 0.3s ease-in-out; /* Smooth transitions for hover effects */
+
+            /* Use theme-aware variables for background, border, and text */
+            background-color: var(--color-project-card-bg); /* Use a more specific background variable */
+            box-shadow: 0 4px 10px var(--color-shadow); /* Use theme-aware shadow variable */
+            border: 1px solid var(--color-border); /* Use theme-aware border variable */
+            color: var(--color-text-primary); /* Use theme-aware primary text color */
         }
 
         .tutorial-item-lightbox:hover {
             transform: translateY(-5px); /* Lift effect on hover */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* More prominent shadow on hover */
-            /* Crucially, NO border-color change here to preserve theme */
-            /* The text colors are handled by Tailwind's hover classes in HTML */
+            box-shadow: 0 8px 20px var(--color-shadow); /* More prominent shadow on hover, using theme-aware variable */
+            /* Text colors on hover are handled by Tailwind's hover:text-teal-700 directly in the HTML */
         }
-
-
-
-
 
         /* Mobile specific spacing adjustments */
         @media (max-width: 767px) {
@@ -117,23 +119,79 @@
             .tutorial-item-lightbox {
                 padding: 0.8rem 1rem; /* Slightly less padding on smaller screens */
             }
-            /* Using Tailwind's text-xl and text-sm here, no custom mobile font sizes */
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased transition-colors duration-300">
 
-    <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
-        <nav class="container mx-auto flex justify-between items-center px-4">
-            <a href="../index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-            <a href="../index.html#my-work" class="text-gray-700 hover:text-teal-700 font-bold transition duration-300 rounded-md p-2 hover:bg-gray-100 header-nav-link-desktop">Back to My Work</a>
-            <a href="../index.html#my-work" class="header-nav-back-icon-mobile hover:bg-gray-100 transition duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
+<header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
+    <nav class="container mx-auto flex justify-between items-center px-4">
+        <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800  transition duration-300">
+            Mahruf Hossain
+        </a>
+
+        <div class="hidden md:flex space-x-6 items-center">
+            <a href="../index.html#home" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                Home
             </a>
-        </nav>
-    </header>
+            <a href="../index.html#about" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                About
+            </a>
+            <a href="../index.html#projects" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                Projects
+            </a>
+            <a href="../index.html#my-work" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                My Work
+            </a>
+            <a href="../index.html#contact" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                Contact
+            </a>
+            
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.325-4.825l.707-.707M4.968 19.032l.707-.707M19.032 4.968l-.707.707M4.968 4.968l-.707.707M12 17a5 5 0 100-10 5 5 0 000 10z"></path>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 opacity-0 pointer-events-none text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="md:hidden flex items-center space-x-2">
+            <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.325-4.825l.707-.707M4.968 19.032l.707-.707M19.032 4.968l-.707.707M4.968 4.968l-.707.707M12 17a5 5 0 100-10 5 5 0 000 10z"></path>
+                </svg>
+                <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300 opacity-0 pointer-events-none text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            <button id="mobile-menu-button" class="focus:outline-none rounded-md p-2 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 hover:text-teal-800 dark:hover:text-teal-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            Home
+        </a>
+        <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            About
+        </a>
+        <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            Projects
+        </a>
+        <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            My Work
+        </a>
+        <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            Contact
+        </a>
+    </div>
+</header>
 
     <main>
         <section class="max-w-6xl mx-4 md:mx-auto mt-8 py-12
@@ -149,112 +207,227 @@
             </div>
         </section>
 
-        <nav class="container mx-auto p-6 mt-8 mx-4 md:mx-auto max-w-6xl mb-12 toc-container-base">
-            <h3 class="text-2xl font-bold text-gray-800 mb-4 toc-heading-base">Table of Contents</h3>
+         <nav class="container mx-auto p-6 mt-8 mx-4 md:mx-auto max-w-6xl mb-12 toc-container-base transition-colors duration-300">
+            <h3 class="text-2xl font-bold mb-4 toc-heading-base">Table of Contents</h3>
             <ul class="list-none space-y-4">
                 <li>
-                    <a href="ltspice_installation.html" class="tutorial-item-lightbox">
-                        <span class="text-gray-700  font-bold  text-xl text-bold">0. LTSpice Installation Guide (Windows, macOS, Linux)</span>
-                        <p class="text-gray-600 text-sm mt-1">Get LTSpice up and running on your preferred operating system.</p>
+                    <a href="ltspice_installation.html" class="tutorial-item-lightbox hover:text-teal-700 dark:hover:text-teal-700">
+                        <span class="font-bold text-xl">0. LTSpice Installation Guide (Windows, macOS, Linux)</span>
+                        <p class="text-sm mt-1">Get LTSpice up and running on your preferred operating system.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_basic_simulation.html" class="tutorial-item-lightbox">
-                        <span class="text-gray-700  font-bold  text-xl">1. Basic Circuit Simulation: DC Operating Point Analysis</span>
-                        <p class="text-gray-600 text-sm mt-1">Learn how to place components, wire circuits, and perform a DC operating point simulation.</p>
+                    <a href="ltspice_basic_simulation.html" class="tutorial-item-lightbox hover:text-teal-700 dark:hover:text-teal-700">
+                        <span class="font-bold text-xl">1. Basic Circuit Simulation: DC Operating Point Analysis</span>
+                        <p class="text-sm mt-1">Learn how to place components, wire circuits, and perform a DC operating point simulation.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_dc_sweep.html" class="tutorial-item-lightbox">
-                        <span class="text-gray-700  font-bold  text-xl">2. DC Sweep (.dc Analysis): Component Characteristics</span>
-                        <p class="text-gray-600 text-sm mt-1">Generate I-V curves for components or analyze circuit transfer functions.</p>
+                    <a href="ltspice_dc_sweep.html" class="tutorial-item-lightbox hover:text-teal-700 dark:hover:text-teal-700">
+                        <span class="font-bold text-xl">2. DC Sweep (.dc Analysis): Component Characteristics</span>
+                        <p class="text-sm mt-1">Generate I-V curves for components or analyze circuit transfer functions.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="basic_transient_analysis.html" class="tutorial-item-lightbox">
-                        <span class="text-gray-700  font-bold  text-xl">3. Basic Transient Analysis: Observing Changes Over Time</span>
-                        <p class="text-gray-600 text-sm mt-1">Simulate circuit behavior over time and plot waveforms for dynamic analysis.</p>
+                    <a href="basic_transient_analysis.html" class="tutorial-item-lightbox hover:text-teal-700 dark:hover:text-teal-700">
+                        <span class="font-bold text-xl">3. Basic Transient Analysis: Observing Changes Over Time</span>
+                        <p class="text-sm mt-1">Simulate circuit behavior over time and plot waveforms for dynamic analysis.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="basic_frequency_response.html" class="tutorial-item-lightbox">
-                        <span class="text-gray-700  font-bold  text-xl">4. Basic AC Analysis (Frequency Response)</span>
-                        <p class="text-gray-600 text-sm mt-1">Explore how circuits respond to different input frequencies, crucial for filter design.</p>
+                    <a href="basic_frequency_response.html" class="tutorial-item-lightbox hover:text-teal-700 dark:hover:text-teal-700">
+                        <span class="font-bold text-xl">4. Basic AC Analysis (Frequency Response)</span>
+                        <p class="text-sm mt-1">Explore how circuits respond to different input frequencies, crucial for filter design.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_working_with_plots.html" class="tutorial-item-lightbox">
-                        <span class="text-gray-700  font-bold  text-xl">5. Working with Plot Windows</span>
-                        <p class="text-gray-600 text-sm mt-1">Learn to effectively analyze simulation results by manipulating plot scales, panes, and cursors.</p>
+                    <a href="ltspice_working_with_plots.html" class="tutorial-item-lightbox hover:text-teal-700 dark:hover:text-teal-700">
+                        <span class="font-bold text-xl">5. Working with Plot Windows</span>
+                        <p class="text-sm mt-1">Learn to effectively analyze simulation results by manipulating plot scales, panes, and cursors.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_parameter_sweep.html" class="tutorial-item-lightbox">
-                        <span class="text-gray-700  font-bold  text-xl">6. Advanced: Parameter Sweeps (.STEP Command)</span>
-                        <p class="text-gray-600 text-sm mt-1">Optimize your designs by running multiple simulations with varying component values.</p>
+                    <a href="ltspice_parameter_sweep.html" class="tutorial-item-lightbox hover:text-teal-700 dark:hover:text-teal-700">
+                        <span class="font-bold text-xl">6. Advanced: Parameter Sweeps (.STEP Command)</span>
+                        <p class="text-sm mt-1">Optimize your designs by running multiple simulations with varying component values.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_third_party_models.html" class="tutorial-item-lightbox">
-                        <span class="text-gray-700  font-bold  text-xl">7. Advanced: Using Third-Party Models</span>
-                        <p class="text-gray-600 text-sm mt-1">Integrate manufacturer-specific SPICE models for accurate real-world component simulations.</p>
+                    <a href="ltspice_third_party_models.html" class="tutorial-item-lightbox hover:text-teal-700 dark:hover:text-teal-700">
+                        <span class="font-bold text-xl">7. Advanced: Using Third-Party Models</span>
+                        <p class="text-sm mt-1">Integrate manufacturer-specific SPICE models for accurate real-world component simulations.</p>
                     </a>
                 </li>
                 <li>
-                    <a href="ltspice_opamp_inverting_amplifier.html" class="tutorial-item-lightbox">
-                        <span class="text-gray-700  font-bold  text-xl">8. Op-Amp Basics: Inverting Amplifier</span>
-                        <p class="text-gray-600 text-sm mt-1">Understand and simulate a fundamental operational amplifier configuration.</p>
+                    <a href="ltspice_opamp_inverting_amplifier.html" class="tutorial-item-lightbox hover:text-teal-700 dark:hover:text-teal-700">
+                        <span class="font-bold text-xl">8. Op-Amp Basics: Inverting Amplifier</span>
+                        <p class="text-sm mt-1">Understand and simulate a fundamental operational amplifier configuration.</p>
                     </a>
                 </li>
             </ul>
         </nav>
     </main>
 
-    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-lg">
+    <!-- Footer - bg-gray-800, text-white will be styled by CSS variables -->
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
         <div class="container mx-auto px-4">
             <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
         </div>
     </footer>
 
+    <!-- Scroll To Top Button - bg-teal-600, hover:bg-teal-700, text-white will be styled by CSS variables -->
     <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
     </button>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Smooth Scrolling for any internal #links (if you add sub-sections later, e.g. for long pages)
-            const navLinks = document.querySelectorAll('a[href^="#"]');
-            navLinks.forEach(link => {
+            // --- Mobile Menu Toggle ---
+            // These elements are not on this page, but keeping the logic if you decide to add a full mobile menu later.
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when a link inside it is clicked
+                const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="../index.html#"]');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    });
+                });
+            }
+
+            // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
+            // This now handles both internal hash links and external index.html hash links
+            const allNavLinks = document.querySelectorAll('a[href^="#"], a[href^="../index.html#"]');
+            allNavLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                    const href = this.getAttribute('href');
+                    const currentPath = window.location.pathname.split('/').pop();
+
+                    // Check if it's an internal hash link on the current page
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.split('#')[1];
+                        const targetElement = document.getElementById(targetId);
+
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    } else if (href.startsWith('../index.html#')) {
+                        // This is a link back to index.html with a specific section
+                        // If current page is already index.html, smooth scroll. Otherwise, navigate.
+                        if (currentPath === 'index.html' || currentPath === '') { // currentPath could be '' for root
+                            e.preventDefault();
+                            const targetId = href.split('#')[1];
+                            const targetElement = document.getElementById(targetId);
+                            if (targetElement) {
+                                targetElement.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                            }
+                        } else {
+                            // Let the browser handle navigation to index.html#section
+                            // No 'e.preventDefault()' here so the link behaves normally.
+                        }
                     }
                 });
             });
 
-            // Scroll-to-Top button functionality
+            // --- Scroll-to-Top button functionality ---
             const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            const scrollThreshold = 300; // Pixels from top to show the button
 
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) { // Show button after scrolling down 300px
-                    scrollToTopBtn.style.display = 'block';
+            function toggleScrollToTopButton() {
+                if (window.pageYOffset > scrollThreshold) {
+                    scrollToTopBtn.style.display = 'flex'; // Use flex to center SVG
                 } else {
                     scrollToTopBtn.style.display = 'none';
                 }
-            });
+            }
 
+            window.addEventListener('scroll', toggleScrollToTopButton);
             scrollToTopBtn.addEventListener('click', () => {
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
             });
+            // Initial check in case the page is loaded with scroll already
+            toggleScrollToTopButton();
+
+            // --- Dark Theme Toggle Logic ---
+            const htmlElement = document.documentElement;
+
+            const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+            const sunIconDesktop = document.getElementById('sun-icon-desktop');
+            const moonIconDesktop = document.getElementById('moon-icon-desktop');
+
+            const themeToggleMobileHeader = document.getElementById('theme-toggle-mobile-header');
+            const sunIconMobileHeader = document.getElementById('sun-icon-mobile-header');
+            const moonIconMobileHeader = document.getElementById('moon-icon-mobile-header');
+
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    // Update desktop icons
+                    if (sunIconDesktop) sunIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                    if (moonIconDesktop) moonIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                    // Update mobile header icons
+                    if (sunIconMobileHeader) sunIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                    if (moonIconMobileHeader) moonIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    htmlElement.classList.remove('dark');
+                    // Update desktop icons
+                    if (sunIconDesktop) sunIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                    if (moonIconDesktop) moonIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                    // Update mobile header icons
+                    if (sunIconMobileHeader) sunIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                    if (moonIconMobileHeader) moonIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            // Set initial theme based on localStorage or system preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+
+            // Event listeners for theme toggles
+            if (themeToggleDesktop) {
+                themeToggleDesktop.addEventListener('click', () => {
+                    if (htmlElement.classList.contains('dark')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
+            if (themeToggleMobileHeader) {
+                themeToggleMobileHeader.addEventListener('click', () => {
+                    if (htmlElement.classList.contains('dark')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
         });
     </script>
 </body>

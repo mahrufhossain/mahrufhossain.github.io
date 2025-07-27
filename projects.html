@@ -1,147 +1,277 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mahruf Hossain</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class', // This tells Tailwind to enable dark mode when the 'dark' class is present on the <html> tag
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Link to external CSS file -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="antialiased">
+<body class="antialiased transition-colors duration-300">
 
-    <!-- Header and Navigation -->
-<header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-b-lg">
+<header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
     <nav class="container mx-auto flex justify-between items-center px-4">
-        <a href="index.html" class="text-2xl font-bold text-gray-900 rounded-md p-2 hover:bg-gray-100 transition duration-300">Mahruf Hossain</a>
-    </nav>
-</header>
-    <main>
+        <a href="index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800  transition duration-300">
+            Mahruf Hossain
+        </a>
 
-        <!-- Projects Section -->
-                    <!-- Project cards will be loaded here dynamically -->
-<section id="projects" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12">
-    <div class="container mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">My Projects</h2>
-        <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            <a href="https://github.com/yourusername/smarthome-web" target="_blank" class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card block">
-                <img src="https://placehold.co/400x250/e0e0e0/333333?text=Smart+Home" alt="Smart Home Automation Project Thumbnail" class="w-full h-40 object-cover rounded-lg mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">Smart Home Automation (Web Interface)</h3>
-                <p class="text-gray-600 text-sm mb-4">Developed a web-based dashboard to monitor and control embedded systems, utilizing my EEE knowledge in IoT and UI/UX design.</p>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full">HTML</span>
-                    <span class="bg-green-100 text-green-800 text-xs px-2.5 py-0.5 rounded-full">CSS</span>
-                    <span class="bg-yellow-100 text-yellow-800 text-xs px-2.5 py-0.5 rounded-full">JavaScript</span>
-                    <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-0.5 rounded-full">Node.js</span>
-                </div>
-                </a>
-
-            <a href="https://github.com/yourusername/smarthome-web" target="_blank" class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card block">
-                <img src="https://placehold.co/400x250/e0e0e0/333333?text=Smart+Home" alt="Smart Home Automation Project Thumbnail" class="w-full h-40 object-cover rounded-lg mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">Smart Home Automation (Web Interface)</h3>
-                <p class="text-gray-600 text-sm mb-4">Developed a web-based dashboard to monitor and control embedded systems, utilizing my EEE knowledge in IoT and UI/UX design.</p>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full">HTML</span>
-                    <span class="bg-green-100 text-green-800 text-xs px-2.5 py-0.5 rounded-full">CSS</span>
-                    <span class="bg-yellow-100 text-yellow-800 text-xs px-2.5 py-0.5 rounded-full">JavaScript</span>
-                    <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-0.5 rounded-full">Node.js</span>
-                </div>
-                </a>
-
-            <a href="https://github.com/yourusername/smarthome-web" target="_blank" class="bg-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 project-card block">
-                <img src="https://placehold.co/400x250/e0e0e0/333333?text=Smart+Home" alt="Smart Home Automation Project Thumbnail" class="w-full h-40 object-cover rounded-lg mb-4">
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">Smart Home Automation (Web Interface)</h3>
-                <p class="text-gray-600 text-sm mb-4">Developed a web-based dashboard to monitor and control embedded systems, utilizing my EEE knowledge in IoT and UI/UX design.</p>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full">HTML</span>
-                    <span class="bg-green-100 text-green-800 text-xs px-2.5 py-0.5 rounded-full">CSS</span>
-                    <span class="bg-yellow-100 text-yellow-800 text-xs px-2.5 py-0.5 rounded-full">JavaScript</span>
-                    <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-0.5 rounded-full">Node.js</span>
-                </div>
-                </a>
-
+        <div class="hidden md:flex space-x-6 items-center">
+            <a href="index.html#home" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                Home
+            </a>
+            <a href="index.html#about" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                About
+            </a>
+            <a href="index.html#projects" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                Projects
+            </a>
+            <a href="index.html#my-work" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                My Work
+            </a>
+            <a href="index.html#contact" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+                Contact
+            </a>
+            
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.325-4.825l.707-.707M4.968 19.032l.707-.707M19.032 4.968l-.707.707M4.968 4.968l-.707.707M12 17a5 5 0 100-10 5 5 0 000 10z"></path>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 opacity-0 pointer-events-none text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
         </div>
-    </div>
-</section>
-        <!-- Projects Section -->
 
-</main>
-    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40">
+        <div class="md:hidden flex items-center space-x-2">
+            <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12h1m15.325-4.825l.707-.707M4.968 19.032l.707-.707M19.032 4.968l-.707.707M4.968 4.968l-.707.707M12 17a5 5 0 100-10 5 5 0 000 10z"></path>
+                </svg>
+                <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300 opacity-0 pointer-events-none text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            <button id="mobile-menu-button" class="focus:outline-none rounded-md p-2 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 hover:text-teal-800 dark:hover:text-teal-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <a href="index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            Home
+        </a>
+        <a href="index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            About
+        </a>
+        <a href="index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            Projects
+        </a>
+        <a href="index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            My Work
+        </a>
+        <a href="index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300">
+            Contact
+        </a>
+    </div>
+</header>
+
+
+    <main>
+        <section id="projects" class="rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl transition-colors duration-300">
+            <div class="container mx-auto p-8 md:p-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">My Projects</h2>
+                <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <a href="https://github.com/yourusername/smarthome-web" target="_blank" class="p-6 rounded-xl shadow-lg transform hover:scale-105 active:scale-98 active:brightness-90 transition duration-300 project-card block">
+                        <img src="https://placehold.co/400x250/e0e0e0/333333?text=Smart+Home" alt="Smart Home Automation Project Thumbnail" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2">Smart Home Automation (Web Interface)</h3>
+                        <p class="text-sm mb-4">Developed a web-based dashboard to monitor and control embedded systems, utilizing my EEE knowledge in IoT and UI/UX design.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">HTML</span>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">CSS</span>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">JavaScript</span>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">Node.js</span>
+                        </div>
+                    </a>
+
+                    <a href="https://github.com/yourusername/smarthome-web" target="_blank" class="p-6 rounded-xl shadow-lg transform hover:scale-105 active:scale-98 active:brightness-90 transition duration-300 project-card block">
+                        <img src="https://placehold.co/400x250/e0e0e0/333333?text=Smart+Home" alt="Smart Home Automation Project Thumbnail" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2">Smart Home Automation (Web Interface)</h3>
+                        <p class="text-sm mb-4">Developed a web-based dashboard to monitor and control embedded systems, utilizing my EEE knowledge in IoT and UI/UX design.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">HTML</span>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">CSS</span>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">JavaScript</span>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">Node.js</span>
+                        </div>
+                    </a>
+
+                    <a href="https://github.com/yourusername/smarthome-web" target="_blank" class="p-6 rounded-xl shadow-lg transform hover:scale-105 active:scale-98 active:brightness-90 transition duration-300 project-card block">
+                        <img src="https://placehold.co/400x250/e0e0e0/333333?text=Smart+Home" alt="Smart Home Automation Project Thumbnail" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2">Smart Home Automation (Web Interface)</h3>
+                        <p class="text-sm mb-4">Developed a web-based dashboard to monitor and control embedded systems, utilizing my EEE knowledge in IoT and UI/UX design.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">HTML</span>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">CSS</span>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">JavaScript</span>
+                            <span class="px-4 py-2 rounded-full text-sm font-medium bg-gray-800 dark:bg-teal-800 text-white dark:text-white">Node.js</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        </main>
+
+    <!-- Footer - bg-gray-800, text-white will be styled by CSS variables -->
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8 ">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll To Top Button - bg-teal-600, hover:bg-teal-700, text-white will be styled by CSS variables -->
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
     </button>
-    <footer class="bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-6 text-center text-gray-500 text-sm mb-4">
-        <p>
-            &copy; 2025 Mahruf Hossain. All rights reserved.
-        </p>
-    </footer>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Select all anchor links that point to a section on the same page
-        const navLinks = document.querySelectorAll('a[href^="#"]');
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                // Prevent the default jump behavior
-                e.preventDefault();
-
-                // Get the target section's ID from the href attribute
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-
-                if (targetElement) {
-                    // Use the scrollIntoView method with smooth behavior
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    });
-     document.addEventListener('DOMContentLoaded', function() {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Menu Toggle ---
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
-            // Optional: Console logs to confirm elements are found
-            // console.log('Mobile Menu Button:', mobileMenuButton);
-            // console.log('Mobile Menu:', mobileMenu);
-
-            if (mobileMenuButton && mobileMenu) { // Ensure elements exist before adding listeners
+            if (mobileMenuButton && mobileMenu) {
                 mobileMenuButton.addEventListener('click', function() {
-                    mobileMenu.classList.toggle('hidden'); // Toggles the 'hidden' class
+                    mobileMenu.classList.toggle('hidden');
                 });
 
-                // Close mobile menu when a link inside it is clicked
-                const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"]');
+                const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"]'); 
                 mobileNavLinks.forEach(link => {
                     link.addEventListener('click', function() {
                         if (!mobileMenu.classList.contains('hidden')) {
-                            mobileMenu.classList.add('hidden'); // Hide the menu after clicking a link
+                            mobileMenu.classList.add('hidden');
                         }
                     });
                 });
             }
 
-            // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
-            const allNavLinks = document.querySelectorAll('a[href^="#"]'); // Selects all such links
+            // --- Smooth Scrolling for ALL navigation links ---
+            const allNavLinks = document.querySelectorAll('a[href^="#"], a[href^="index.html#"]'); 
             allNavLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault(); // Prevent default jump
+                    const href = this.getAttribute('href');
+                    const currentPath = window.location.pathname.split('/').pop();
 
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
+                    // If the link is an internal hash link on the current page OR it's an index.html hash link AND we are on index.html
+                    if (href.startsWith('#') || (href.startsWith('index.html#') && (currentPath === 'index.html' || currentPath === ''))) {
+                        e.preventDefault();
+                        const targetId = href.split('#')[1];
+                        const targetElement = document.getElementById(targetId);
 
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth'
-                        });
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
+                    } else if (href.startsWith('index.html#') && currentPath !== 'index.html' && currentPath !== '') {
+                        // If it's an index.html hash link but we are on a different page, navigate to index.html first
+                        window.location.href = href;
                     }
                 });
             });
+
+            // --- Scroll-to-Top button functionality ---
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            const scrollThreshold = 300;
+            function toggleScrollToTopButton() {
+                if (window.pageYOffset > scrollThreshold) {
+                    scrollToTopBtn.style.display = 'flex';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+            }
+            window.addEventListener('scroll', toggleScrollToTopButton);
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            toggleScrollToTopButton();
+
+
+            // --- Dark Theme Toggle Logic ---
+            const htmlElement = document.documentElement;
+
+            const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+            const sunIconDesktop = document.getElementById('sun-icon-desktop');
+            const moonIconDesktop = document.getElementById('moon-icon-desktop');
+
+            const themeToggleMobileHeader = document.getElementById('theme-toggle-mobile-header');
+            const sunIconMobileHeader = document.getElementById('sun-icon-mobile-header');
+            const moonIconMobileHeader = document.getElementById('moon-icon-mobile-header');
+
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    if (sunIconDesktop) sunIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                    if (moonIconDesktop) moonIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                    if (sunIconMobileHeader) sunIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                    if (moonIconMobileHeader) moonIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    htmlElement.classList.remove('dark');
+                    if (sunIconDesktop) sunIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                    if (moonIconDesktop) moonIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                    if (sunIconMobileHeader) sunIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                    if (moonIconMobileHeader) moonIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+            if (themeToggleDesktop) {
+                themeToggleDesktop.addEventListener('click', () => {
+                    if (htmlElement.classList.contains('dark')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
+            if (themeToggleMobileHeader) {
+                themeToggleMobileHeader.addEventListener('click', () => {
+                    if (htmlElement.classList.contains('dark')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
         });
-</script>
+    </script>
 </body>
 </html>
