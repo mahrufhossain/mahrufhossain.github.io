@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }}</title> <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ '/style.css' | relative_url }}"> </head>
+<body class="antialiased transition-colors duration-300">
+
+    {% include header.html %} <main>
+        {{ content }} </main>
+
+    {% include footer.html %} <button id="scrollToTopBtn" class="fixed bottom-4 right-4 p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: flex;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Mobile Menu Toggle ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"], a[href^="index.html#"]');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+        }
+
+        // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
+        const allNavLinks = document.querySelectorAll('a[href^="#"], a[href^="index.html#"]');
+        allNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                const currentPath = window.location.pathname.split('/').pop();
+
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = href.split('#')[1];
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                } else if (href.startsWith('index.html#')) {
+                    if (currentPath === 'index.html' || currentPath === '' || currentPath.endsWith('/')) {
+                        e.preventDefault();
+                        const targetId = href.split('#')[1];
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                }
+            });
+        });
+
+        // --- Scroll-to-Top button functionality ---
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        const scrollThreshold = 300;
+
+        function toggleScrollToTopButton() {
+            if (window.pageYOffset > scrollThreshold) {
+                scrollToTopBtn.style.display = 'flex';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('scroll', toggleScrollToTopButton);
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        toggleScrollToTopButton();
+
+        // --- Dark Theme Toggle Logic ---
+        const htmlElement = document.documentElement;
+
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const sunIconDesktop = document.getElementById('sun-icon-desktop');
+        const moonIconDesktop = document.getElementById('moon-icon-desktop');
+
+        const themeToggleMobileHeader = document.getElementById('theme-toggle-mobile-header');
+        const sunIconMobileHeader = document.getElementById('sun-icon-mobile-header');
+        const moonIconMobileHeader = document.getElementById('moon-icon-mobile-header');
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark');
+                sunIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                moonIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                sunIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                moonIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                sunIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                moonIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                sunIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                moonIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+
+        themeToggleDesktop.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+        });
+
+        themeToggleMobileHeader.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

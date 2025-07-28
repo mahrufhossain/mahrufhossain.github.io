@@ -1,0 +1,155 @@
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // --- Mobile Menu Toggle ---
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"], a[href^="index.html#"]'); // Also include index.html# for mobile
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+    }
+
+    // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
+    // This selector now correctly targets links starting with '#' AND 'index.html#'
+    const allNavLinks = document.querySelectorAll('a[href^="#"], a[href^="index.html#"]');
+    allNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            const currentPath = window.location.pathname.split('/').pop();
+
+            // Check if the link points to a hash on the current page or explicitly to index.html#hash
+            if (href.startsWith('#')) {
+                e.preventDefault(); // Prevent default jump behavior
+                const targetId = href.split('#')[1];
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth', // This is the magic property!
+                        block: 'start' // Aligns the top of the element to the top of the viewport
+                    });
+                }
+            } else if (href.startsWith('index.html#')) {
+                // If we are already on index.html, perform smooth scroll
+                if (currentPath === 'index.html' || currentPath === '' || currentPath.endsWith('/')) { // currentPath could be '' for root or end with / for directory index
+                    e.preventDefault(); // Prevent default jump behavior
+                    const targetId = href.split('#')[1];
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth', // This is the magic property!
+                            block: 'start'
+                        });
+                    }
+                }
+                // If not on index.html, let the browser handle navigation (it will jump to section on load)
+            }
+        });
+    });
+
+    // --- Scroll-to-Top button functionality ---
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    const scrollThreshold = 300; // Pixels to scroll before showing button
+
+    function toggleScrollToTopButton() {
+        if (window.pageYOffset > scrollThreshold) {
+            scrollToTopBtn.style.display = 'flex';
+        } else {
+            scrollToTopBtn.style.display = 'none';
+        }
+    }
+
+    // Show/hide the button based on scroll position
+    window.addEventListener('scroll', toggleScrollToTopButton);
+    // Scroll to top when button is clicked
+    scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    // Initial check for scroll to top button visibility on page load
+    toggleScrollToTopButton();
+
+
+    // --- Dark Theme Toggle Logic ---
+    const htmlElement = document.documentElement; // Correctly targets the <html> tag
+
+    // Desktop theme toggle elements
+    const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+    const sunIconDesktop = document.getElementById('sun-icon-desktop');
+    const moonIconDesktop = document.getElementById('moon-icon-desktop');
+
+    // Mobile header theme toggle elements
+    const themeToggleMobileHeader = document.getElementById('theme-toggle-mobile-header');
+    const sunIconMobileHeader = document.getElementById('sun-icon-mobile-header');
+    const moonIconMobileHeader = document.getElementById('moon-icon-mobile-header');
+
+    // Function to set theme across all relevant elements
+    function setTheme(theme) {
+        if (theme === 'dark') {
+            htmlElement.classList.add('dark'); // Add 'dark' class to <html>
+
+            // Desktop icons
+            sunIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+            moonIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+            
+            // Mobile header icons
+            sunIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+            moonIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+            
+            localStorage.setItem('theme', 'dark');
+        } else {
+            htmlElement.classList.remove('dark'); // Remove 'dark' class from <html>
+
+            // Desktop icons
+            sunIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+            moonIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+            
+            // Mobile header icons
+            sunIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+            moonIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+            
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    // Check for saved theme preference on load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        setTheme(savedTheme);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // Check system preference if no saved theme
+        setTheme('dark');
+    } else {
+        setTheme('light'); // Default to light theme
+    }
+
+    // Event listeners for all remaining theme toggle buttons
+    themeToggleDesktop.addEventListener('click', () => {
+        if (htmlElement.classList.contains('dark')) {
+            setTheme('light');
+        } else {
+            setTheme('dark');
+        }
+    });
+
+    themeToggleMobileHeader.addEventListener('click', () => {
+        if (htmlElement.classList.contains('dark')) {
+            setTheme('light');
+        } else {
+            setTheme('dark');
+        }
+    });
+});
+    </script>

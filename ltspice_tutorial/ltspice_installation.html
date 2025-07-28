@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css"> <!-- Corrected path assuming it's in a subfolder -->
 </head>
-<body class="antialiased transition-colors duration-300">
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
 
     <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
         <nav class="container mx-auto flex justify-between items-center px-4">
@@ -91,7 +91,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="flex-grow">
         <!-- Main content section. bg-white, shadow-lg, text-gray-800, text-gray-600, etc. will be styled by CSS variables -->
         <section id="ltspice-installation" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
             <div class="container mx-auto px-4">
