@@ -552,3 +552,25 @@ html.dark img {
     filter: brightness(0.8) contrast(1.1);
 }
 */
+
+/* --- NEW/MODIFIED CSS FOR ICON INITIAL VISIBILITY --- */
+#sun-icon-desktop, #sun-icon-mobile-header {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.3s ease;
+}
+#moon-icon-desktop, #moon-icon-mobile-header {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+html.dark #sun-icon-desktop,
+html.dark #sun-icon-mobile-header {
+    opacity: 0;
+    pointer-events: none;
+}
+html.dark #moon-icon-desktop,
+html.dark #moon-icon-mobile-header {
+    opacity: 1;
+    pointer-events: auto;
+}
