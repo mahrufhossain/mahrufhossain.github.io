@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8. Makefile Advanced Features: Includes, Paths, and Directives - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let themeToApply = 'light';
+            if (storedTheme) {
+                themeToApply = storedTheme;
+            } else if (prefersDark) {
+                themeToApply = 'dark';
+            }
+
+            if (themeToApply === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
+
+    <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">Mahruf Hossain</a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="makefile_tutorial_index.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800">Back to Tutorials Index</a>
+                
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            </div>
+
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+
+                    <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+            <a href="makefile_tutorial_index.html" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Back to Tutorials Index</a>
+            <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Home</a>
+            <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">About</a>
+            <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Projects</a>
+            <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">My Work</a>
+            <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="makefiles-advanced-features-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">8. Makefile Advanced Features: Includes, Paths, and Directives</h1>
+                <p class="text-gray-600 mb-6">As you build more complex projects, you'll encounter situations where you need to modularize your Makefiles, manage files across different directories, or ensure robust error handling. This section covers several key features that address these advanced needs, making your Makefiles more organized and reliable.</p>
+
+                ---
+
+                <h2 id="including-other-makefiles" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.1 Including Other Makefiles (`include` Directive)</h2>
+                <p class="text-gray-600 mb-4">The `include` directive allows you to split your Makefile into multiple, smaller files, improving organization and reusability. When `make` encounters an `include` directive, it pauses processing the current Makefile and reads the specified files as if their contents were directly inserted at that point.</p>
+                <p class="text-gray-600 mb-4">This is particularly useful for:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>**Modularizing large projects**: Breaking down a complex build into manageable components.</li>
+                    <li>**Generating dependencies automatically**: Compilers like GCC can generate dependency files (e.g., `.d` files) that list header dependencies. You can then `include` these generated files to ensure that targets are rebuilt when headers change.</li>
+                    <li>**Sharing common definitions**: Placing global variables or common rules in a separate file that can be included by multiple Makefiles.</li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># main_makefile (e.g., named Makefile)
+# --- Main Makefile ---
+include common_vars.mk # Include variables from another file
+include subdir/rules.mk  # Include rules from a subdirectory
+
+PROGRAM_NAME = my_app
+
+all: $(PROGRAM_NAME)
+
+$(PROGRAM_NAME): $(OBJS)
+	@echo "Linking $(PROGRAM_NAME) with: $(OBJS) and $(LD_FLAGS)"
+	@touch $(PROGRAM_NAME)
+
+.PHONY: all clean
+
+# --- common_vars.mk ---
+# This file would be placed in the same directory as main_makefile
+OBJS = main.o util.o
+LD_FLAGS = -L/usr/local/lib
+
+# --- subdir/rules.mk ---
+# This file would be placed in a 'subdir' directory
+main.o: main.c
+	@echo "Compiling main.c with $(CC_FLAGS)"
+	@touch main.o
+
+util.o: util.c
+	@echo "Compiling util.c with $(CC_FLAGS)"
+	@touch util.o
+
+CC_FLAGS = -Wall -g
+</code></pre>
+                <p class="text-gray-600 mb-6">To try this, create the `main_makefile` (as `Makefile`), `common_vars.mk`, and a `subdir` directory containing `rules.mk` and dummy `main.c`, `util.c` files. Then run `make` from the main directory.</p>
+                <img src="assets/makefiles/include_directive.png" alt="Screenshot of terminal output showing included Makefiles in action." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating the `include` directive)*</p>
+
+                ---
+
+                <h2 id="virtual-paths" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.2 Virtual Paths (`vpath` Directive and `VPATH` Variable)</h2>
+                <p class="text-gray-600 mb-4">When your source files or headers are scattered across different directories, `vpath` helps `make` find them without needing to specify full paths in your prerequisites.</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>
+                        **`vpath PATTERN DIRECTORIES`**: Specifies a search path for prerequisites that match `PATTERN`. `DIRECTORIES` can be space or colon-separated. The `%` wildcard in `PATTERN` matches any sequence of characters.
+                    </li>
+                    <li>
+                        **`VPATH = DIRECTORIES`**: A global search path for *all* prerequisites that `make` cannot find in the current directory. This variable overrides any `vpath` directives for specific patterns if a more specific `vpath` doesn't exist.
+                    </li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+# Look for .h files in ../include and ../lib_headers
+vpath %.h ../include ../lib_headers
+
+# Look for all other prerequisites globally in ../src and ../build_assets
+VPATH = ../src:../build_assets
+
+main_app: main.o common.h
+	@echo "Linking main_app using main.o and common.h (found via vpath/VPATH)"
+	@touch main_app
+
+main.o: main.c
+	@echo "Compiling main.c (found via VPATH) for main.o"
+	@touch main.o
+
+# Dummy targets and setup for demonstration
+../src/main.c:
+	@mkdir -p ../src
+	@echo "int main() { return 0; }" > ../src/main.c
+	@echo "Created ../src/main.c"
+
+../include/common.h:
+	@mkdir -p ../include
+	@echo "#define COMMON_MACRO 1" > ../include/common.h
+	@echo "Created ../include/common.h"
+
+.PHONY: clean
+clean:
+	@rm -rf ../src ../include
+	@rm -f main_app main.o
+</code></pre>
+                <p class="text-gray-600 mb-6">Run `make` to see `make` find `main.c` and `common.h` in their respective paths. Clean up with `make clean`.</p>
+                <img src="assets/makefiles/vpath_directive.png" alt="Screenshot of terminal output showing how vpath and VPATH find prerequisites in different directories." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating `vpath` and `VPATH`)*</p>
+
+                ---
+
+                <h2 id="multiline-commands" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.3 Multiline Commands (`\`)</h2>
+                <p class="text-gray-600 mb-4">When a command within a recipe becomes too long for a single line, you can break it into multiple lines using a backslash (`\`) at the end of each line, except the last one. `make` treats these as a single logical line for execution.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+long_command_target:
+	@echo "This command spans multiple lines because it's quite verbose and needs " \
+		"to include many options, such as --verbose --debug --output-format=json " \
+		"to ensure clarity and readability for maintainers."
+	@ls -la \
+		--time-style=full-iso \
+		./
+
+.PHONY: long_command_target
+</code></pre>
+                <img src="assets/makefiles/multiline_commands.png" alt="Screenshot of terminal output showing commands split across multiple lines with backslashes." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make long_command_target`)*</p>
+
+                ---
+
+                <h2 id="phony-targets" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.4 Phony Targets (`.PHONY`)</h2>
+                <p class="text-gray-600 mb-4">A `PHONY` target is a target that is not a real file. It's simply a name for a recipe that you want to execute. Declaring a target as `.PHONY` ensures that `make` will execute its recipe even if a file with the same name exists.</p>
+                <p class="text-gray-600 mb-4">It also helps `make` run faster because it doesn't need to check if a file named `clean` or `all` is up to date.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+my_program:
+	@echo "Building my_program..."
+	@touch my_program
+
+# Declare 'clean' as a phony target
+.PHONY: clean
+
+clean:
+	@echo "Cleaning up..."
+	@rm -f my_program
+
+# Let's create a file named 'clean' to show the effect
+create_clean_file:
+	@echo "Creating a file named 'clean'..."
+	@touch clean
+.PHONY: create_clean_file
+</code></pre>
+                <p class="text-600 mb-6">**Try it:**</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make my_program
+make create_clean_file # Now there's a file named 'clean'
+make clean # This will still run the clean recipe, even with the 'clean' file present
+</code></pre>
+                <img src="assets/makefiles/phony_targets.png" alt="Screenshot of terminal output demonstrating the behavior of .PHONY targets." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make clean` with and without a 'clean' file)*</p>
+
+                ---
+
+                <h2 id="delete-on-error" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.5 Delete on Error (`.DELETE_ON_ERROR`)</h2>
+                <p class="text-gray-600 mb-4">By default, if a command in a recipe fails (returns a non-zero exit status), `make` stops. However, it typically leaves any partially built target file. The `.DELETE_ON_ERROR` special target tells `make` to automatically **delete the target file** if any command in its recipe fails. This helps maintain a clean and consistent state, preventing corrupted or incomplete files from being treated as valid.</p>
+                <p class="text-gray-600 mb-4">It's generally a good practice to include `.DELETE_ON_ERROR:` in your Makefiles.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+# If any recipe command fails, delete its target
+.DELETE_ON_ERROR:
+
+all: target_a target_b
+
+target_a:
+	@echo "Attempting to build target_a..."
+	@touch target_a_partial # This file will be created
+	@false # This command will fail
+	@echo "This line will NOT be reached for target_a"
+
+target_b:
+	@echo "Attempting to build target_b..."
+	@touch target_b_partial
+	@true
+	@echo "target_b built successfully."
+
+.PHONY: all clean
+clean:
+	@rm -f target_a target_a_partial target_b target_b_partial
+</code></pre>
+                <p class="text-gray-600 mb-6">**Try it:**</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make all # target_a will fail and its file will be deleted
+ls -l # Observe that target_a is gone, but target_b_partial might exist
+</code></pre>
+                <img src="assets/makefiles/delete_on_error.png" alt="Screenshot of terminal output showing the effect of .DELETE_ON_ERROR when a command fails." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make all` and `ls -l` showing target deletion)*</p>
+
+                ---
+
+                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion: Completing Your Makefile Toolkit</h2>
+                <p class="text-gray-600 mb-4">You've now covered a comprehensive range of Makefile features, from basic syntax to advanced variable handling, implicit rules, and powerful directives. Understanding `include` for modularity, `vpath` for flexible file location, `.PHONY` for reliable targets, and `.DELETE_ON_ERROR` for build consistency are all hallmarks of a well-crafted Makefile.</p>
+                <p class="text-gray-600">You are now well-equipped to write robust, maintainable, and efficient Makefiles for a wide variety of projects. Keep practicing, and don't hesitate to consult the official GNU Make manual for deeper dives into specific topics!</p>
+                <p class="text-gray-600 font-semibold">What's the first complex build task you'll tackle using your new Makefile expertise?</p>
+            </div>
+        </section>
+    </main>
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <a href="makefile_07.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: Makefile Functions
+            </a>
+
+            <a href="makefile_09.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                Next: Makefile Cookbook
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

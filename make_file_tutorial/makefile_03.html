@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3. Makefiles: Wildcards & Automatic Variables - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let themeToApply = 'light';
+            if (storedTheme) {
+                themeToApply = storedTheme;
+            } else if (prefersDark) {
+                themeToApply = 'dark';
+            }
+
+            if (themeToApply === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
+
+    <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">Mahruf Hossain</a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="makefile_tutorial_index.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800">Back to Tutorials Index</a>
+                
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            </div>
+
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+
+                    <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+            <a href="makefile_tutorial_index.html" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Back to Tutorials Index</a>
+            <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Home</a>
+            <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">About</a>
+            <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Projects</a>
+            <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">My Work</a>
+            <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="makefiles-wildcards-auto-vars-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">3. Makefiles: Wildcards & Automatic Variables</h1>
+                <p class="text-gray-600 mb-6">As your projects grow, manually listing every source file or output file in your Makefile becomes tedious and error-prone. This is where **wildcards** and **automatic variables** shine. They provide dynamic ways to refer to files and gain context within rules, making your Makefiles much more scalable and maintainable.</p>
+
+                ---
+
+                <h2 id="wildcards" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">3.1 Wildcards: `*` (Asterisk) and `%` (Percent)</h2>
+                <p class="text-gray-600 mb-4">`make` supports two primary types of wildcards, `*` and `%`, each serving a distinct purpose.</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">The Asterisk Wildcard (`*`) - Filesystem Matching</h3>
+                <p class="text-gray-600 mb-4">The asterisk (`*`) wildcard is familiar from shell commands. In Makefiles, it expands to match existing filenames in the filesystem. However, its behavior can be tricky, especially in variable assignments.</p>
+                <p class="text-gray-600 mb-4">It's generally recommended to use the **`wildcard` function** when you need `*` to expand a list of files. This avoids common pitfalls.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example using `*` and the `wildcard` function:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Create some dummy C files for this example
+# (You'd typically already have these in your project)
+initial_setup:
+	@echo "int main() { return 0; }" > main.c
+	@echo "void func() {}" > helper.c
+	@echo "int lib_func() { return 1; }" > library.c
+
+# This target will list info for all .c files found
+show_c_files: $(wildcard *.c)
+	@echo "--- Listing C files ---"
+	@ls -l $^
+
+# --- DANGER ZONE ---
+# Don't directly assign '*' to variables; it won't expand!
+# 'bad_objects' will literally be the string "*.o"
+bad_objects := *.o
+
+# 'good_objects' will be expanded to actual .o files found in the directory
+# (e.g., "file1.o file2.o" if those files exist)
+good_objects := $(wildcard *.o)
+
+.PHONY: all initial_setup show_c_files clean try_wildcards
+
+all: show_c_files
+
+try_wildcards:
+	@echo "Bad objects variable content: $(bad_objects)"
+	@echo "Good objects variable content: $(good_objects)"
+	@echo "Direct *.c in rule (works): " $(wildcard *.c) # This is fine too!
+
+clean:
+	@echo "Cleaning up..."
+	@rm -f *.c *.o
+</code></pre>
+                <p class="text-gray-600 mb-4">**Important Pitfalls to Avoid:**</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>
+                        **Variable Assignments:** If you assign `*` directly to a variable (e.g., `SOURCES = *.c`), the asterisk will **not** expand at the time of assignment. The variable will simply contain the literal string "*.c". Use `$(wildcard *.c)` for dynamic expansion.
+                    </li>
+                    <li>
+                        **No Matches:** When `*` is used outside the `wildcard` function and finds no matching files, it remains as the literal `*`. For instance, if you have `my_program: *.o` and no `.o` files exist, `my_program` will look for a prerequisite named "*.o", which is usually not what you intend. The `wildcard` function, however, expands to an empty string if no matches are found, which is often safer.
+                    </li>
+                </ul>
+                <img src="assets/makefiles/wildcard_asterisk.png" alt="Screenshot of Makefile using asterisk wildcard and wildcard function with terminal output." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make initial_setup`, `make show_c_files`, and `make try_wildcards`)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">The Percent Wildcard (`%`) - Pattern Matching</h3>
+                <p class="text-gray-600 mb-4">The percent wildcard (`%`) is distinctly different from `*`. It's used for **pattern matching and replacement** within rules and specific Makefile functions, not for searching the filesystem.</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>
+                        **Matching Mode:** When used in a rule's target or prerequisites, `%` matches one or more characters in a string. The part of the string matched by `%` is called the **stem**.
+                    </li>
+                    <li>
+                        **Replacing Mode:** Once a stem is matched, that stem can be used to construct new strings in other parts of the rule (e.g., in the commands).
+                    </li>
+                </ul>
+                <p class="text-gray-600 mb-4">The `%` wildcard is most powerful when used with **Pattern Rules** and **Static Pattern Rules**, which we'll explore in detail in future tutorials. It also appears in functions like `patsubst` (pattern substitute) and `vpath`.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Simple illustration of `%` in a rule (more in next tutorials!):</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># This is a 'pattern rule'
+%.o: %.c
+	@echo "Compiling $< into $@"
+	cc -c $< -o $@
+
+# To try this, create a 'test.c' file
+# Then run 'make test.o'
+</code></pre>
+                <p class="text-gray-600 mb-6">Here, `%.o` matches any `.o` file, and `%.c` matches its corresponding `.c` file. The stem is the part before `.o` or `.c`.</p>
+                <img src="assets/makefiles/wildcard_percent.png" alt="Screenshot of Makefile using percent wildcard in a pattern rule with terminal output." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make test.o` after creating a `test.c` file)*</p>
+
+                ---
+
+                <h2 id="automatic-variables" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">3.2 Automatic Variables: Dynamic Context for Commands</h2>
+                <p class="text-gray-600 mb-4">Automatic variables are special variables whose values are automatically set by `make` for each rule based on the rule's target and prerequisites. They allow you to write generic commands that work for many different files without needing to hardcode names. These are incredibly useful for pattern rules!</p>
+                <p class="text-gray-600 mb-4 font-semibold">Here are some of the most frequently used automatic variables:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Let's create dummy files to see the effect
+setup_auto_vars_example:
+	@echo "int main() { return 0; }" > alpha.c
+	@echo "int func() { return 0; }" > beta.c
+	@touch gamma.c # Make gamma.c older
+
+# The main rule to demonstrate automatic variables
+build_my_app: alpha.o beta.o gamma.o
+	@echo "--- Automatic Variables Demo ---"
+	@echo "Target name ($@): $@"
+	@echo "All prerequisites that are newer than the target ($?): $?"
+	@echo "All prerequisites ($^): $^"
+	@echo "First prerequisite ($<): $<"
+	@echo "--------------------------------"
+	@touch build_my_app # Mark target as built
+
+# Rules to create .o files (using a generic approach for demo)
+alpha.o: alpha.c
+	@touch alpha.o # Simulate compilation
+beta.o: beta.c
+	@touch beta.o # Simulate compilation
+gamma.o: gamma.c
+	@touch gamma.o # Simulate compilation
+
+.PHONY: all clean setup_auto_vars_example build_my_app
+
+all: build_my_app
+
+clean:
+	@echo "Cleaning up..."
+	@rm -f build_my_app *.o *.c
+</code></pre>
+                <p class="text-gray-600 mb-4">To see these in action:</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>Run `make setup_auto_vars_example` to create the dummy `.c` files.</li>
+                    <li>Run `make clean` (if you've run it before) to ensure clean state.</li>
+                    <li>Run `make build_my_app` and observe the output.</li>
+                    <li>Now, `touch alpha.c` (to make it newer) and run `make build_my_app` again. Notice how `$`?` changes!</li>
+                </ol>
+                <p class="text-gray-600 mb-4 font-semibold">Breakdown of the common automatic variables:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>
+                        `$@`: The **full name of the target** that `make` is currently building. Extremely useful for naming output files.
+                    </li>
+                    <li>
+                        `$^`: The **names of all prerequisites**, with duplicates removed.
+                    </li>
+                    <li>
+                        `$<`: The **name of the first prerequisite** listed for the rule. Often used when a command only operates on one input file.
+                    </li>
+                    <li>
+                        `$?`: The names of **all prerequisites that are newer than the target**, with duplicates removed. Perfect for incremental builds where you only need to process changed files.
+                    </li>
+                </ul>
+                <img src="assets/makefiles/automatic_variables_output.png" alt="Screenshot of terminal output from a Makefile demonstrating automatic variables like $@, $?, $^, and $<." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output clearly showing the values of `$`@`, `$`?`, `$`^`, and `$`<` for the `build_my_app` target)*</p>
+
+                ---
+
+                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion & What's Next?</h2>
+                <p class="text-gray-600 mb-4">Mastering wildcards and automatic variables significantly enhances your Makefile writing skills. They allow you to create rules that are concise, adaptable, and robust enough to handle varying numbers of source files and complex dependency updates without constant manual intervention.</p>
+                <p class="text-gray-600">In the next tutorial, we'll combine these concepts with **Pattern Rules** and **Static Pattern Rules** to create highly generalized and powerful Makefiles for multi-file projects. Stay tuned!</p>
+            </div>
+        </section>
+    </main>
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <a href="makefile_02.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: Advanced Makefile Concepts
+            </a>
+
+            <a href="makefile_04.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                Next: Implicit, Static, and Pattern Rules
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

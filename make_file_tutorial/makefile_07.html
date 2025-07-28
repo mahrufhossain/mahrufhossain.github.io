@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Makefile Functions: Powerful Text Processing and Control - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let themeToApply = 'light';
+            if (storedTheme) {
+                themeToApply = storedTheme;
+            } else if (prefersDark) {
+                themeToApply = 'dark';
+            }
+
+            if (themeToApply === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
+
+    <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">Mahruf Hossain</a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="makefile_tutorial_index.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800">Back to Tutorials Index</a>
+                
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            </div>
+
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+
+                    <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+            <a href="makefile_tutorial_index.html" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Back to Tutorials Index</a>
+            <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Home</a>
+            <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">About</a>
+            <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Projects</a>
+            <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">My Work</a>
+            <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="makefiles-functions-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">7. Makefile Functions: Powerful Text Processing and Control</h1>
+                <p class="text-gray-600 mb-6">Makefile functions allow you to perform dynamic text manipulation, list processing, and conditional logic directly within your Makefile. They are key to writing more concise, flexible, and powerful build scripts. You'll typically call functions using the syntax `$(function_name arguments)` or `${function_name arguments}`.</p>
+
+                ---
+
+                <h2 id="string-manipulation-functions" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">7.1 String Manipulation Functions</h2>
+                <p class="text-gray-600 mb-4">These functions are used for transforming text and strings within your variables.</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">`$(subst FROM,TO,TEXT)`: Substitute Text</h3>
+                <p class="text-gray-600 mb-4">The `subst` function replaces all occurrences of `FROM` with `TO` within the `TEXT` string.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+original_text = "I am not a robot, I am a human."
+# Replace "not" with "totally"
+modified_text = $(subst not,totally,$(original_text))
+
+show_subst:
+	@echo "Original: $(original_text)"
+	@echo "Modified: $(modified_text)"
+
+.PHONY: show_subst
+</code></pre>
+                <img src="assets/makefiles/subst_function.png" alt="Screenshot of terminal output showing the use of the subst function." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_subst`)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Handling Spaces and Commas in `subst`</h3>
+                <p class="text-gray-600 mb-4">When using `subst` or other functions, be careful with spaces. `make` parses arguments by whitespace. If you need to substitute a space or a comma, it's best to define them as variables first.</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+comma := ,
+empty :=
+space := $(empty) $(empty) # This creates a variable containing a single space
+
+list_items = item_A item_B item_C
+# Replace spaces with commas
+comma_separated_list = $(subst $(space),$(comma),$(list_items))
+
+# Watch out: adding spaces directly in arguments can change their interpretation!
+# This will replace " " with " , "
+bad_comma_separated = $(subst $(space), $(comma) , $(list_items)) 
+
+show_space_handling:
+	@echo "Original list: '$(list_items)'"
+	@echo "Correct comma-separated: '$(comma_separated_list)'"
+	@echo "Incorrect comma-separated (extra spaces): '$(bad_comma_separated)'"
+
+.PHONY: show_space_handling
+</code></pre>
+                <img src="assets/makefiles/subst_spaces.png" alt="Screenshot of terminal output showing correct and incorrect handling of spaces in subst." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_space_handling`)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">`$(patsubst PATTERN,REPLACEMENT,TEXT)`: Pattern Substitution</h3>
+                <p class="text-gray-600 mb-4">This powerful function replaces words in `TEXT` that match `PATTERN` with `REPLACEMENT`. The `%` acts as a wildcard. This is commonly used for converting source file lists to object file lists.</p>
+                <p class="text-gray-600 mb-4">There are also two useful shorthand forms:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>`$(TEXT:PATTERN=REPLACEMENT)`: Full shorthand for `patsubst`.</li>
+                    <li>`$(TEXT:SUFFIX=REPLACEMENT)`: Suffix-only shorthand. No `%` needed, it just replaces the end of the word.</li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+source_files = main.c module.c utils.s library.c
+
+# 1. Using patsubst function: Replace .c with .o
+object_files_patsubst = $(patsubst %.c,%.o,$(source_files))
+
+# 2. Using patsubst shorthand: Replace .c with .o
+object_files_shorthand_full = $(source_files:%.c=%.o)
+
+# 3. Using suffix-only shorthand: Replace .c with .o
+object_files_shorthand_suffix = $(source_files:.c=.o)
+
+show_patsubst:
+	@echo "Original sources: $(source_files)"
+	@echo "Patsubst func: $(object_files_patsubst)"
+	@echo "Patsubst shorthand: $(object_files_shorthand_full)"
+	@echo "Suffix shorthand: $(object_files_shorthand_suffix)"
+
+.PHONY: show_patsubst
+</code></pre>
+                <img src="assets/makefiles/patsubst_function.png" alt="Screenshot of terminal output showing the use of patsubst and its shorthands." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_patsubst`)*</p>
+
+                ---
+
+                <h2 id="list-processing-functions" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">7.2 List Processing Functions</h2>
+                <p class="text-gray-600 mb-4">These functions help you work with lists of words (space-separated strings).</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">`$(foreach VAR,LIST,TEXT)`: Iterate Over a List</h3>
+                <p class="text-gray-600 mb-4">The `foreach` function iterates over each word in `LIST`, assigning it to `VAR`, and then expanding `TEXT` for each word. The results are concatenated with spaces.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+fruits = apple banana orange
+
+# Add "s" to the end of each fruit name
+plural_fruits = $(foreach fruit,$(fruits),$(fruit)s)
+
+# Create a list of include paths
+include_dirs = /usr/local/include /opt/lib/include
+include_flags = $(foreach dir,$(include_dirs),-I$(dir))
+
+show_foreach:
+	@echo "Fruits: $(plural_fruits)"
+	@echo "Include Flags: $(include_flags)"
+
+.PHONY: show_foreach
+</code></pre>
+                <img src="assets/makefiles/foreach_function.png" alt="Screenshot of terminal output showing the use of the foreach function." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_foreach`)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">`$(filter PATTERN...,TEXT)` / `$(filter-out PATTERN...,TEXT)`: Select/Exclude Elements</h3>
+                <p class="text-gray-600 mb-4">These functions are indispensable for selecting specific items from a list or excluding them based on patterns.</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>`$(filter PATTERN...,TEXT)`: Keeps only the words in `TEXT` that match any of the `PATTERN`s.</li>
+                    <li>`$(filter-out PATTERN...,TEXT)`: Keeps only the words in `TEXT` that *do not* match any of the `PATTERN`s.</li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+all_files = main.c header.h utils.cpp tests.c doc.md image.png
+
+# Select only C/C++ source files
+source_files = $(filter %.c %.cpp,$(all_files))
+
+# Exclude documentation and image files
+buildable_files = $(filter-out %.md %.png,$(all_files))
+
+# Select object files that don't start with "test"
+objects = foo.o bar.o test_util.o test_main.o
+filtered_objects = $(filter %.o, $(filter-out test%, $(objects)))
+
+show_filter:
+	@echo "All files: $(all_files)"
+	@echo "Source files: $(source_files)"
+	@echo "Buildable files: $(buildable_files)"
+	@echo "Filtered objects: $(filtered_objects)"
+
+.PHONY: show_filter
+</code></pre>
+                <img src="assets/makefiles/filter_function.png" alt="Screenshot of terminal output showing the use of filter and filter-out functions." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_filter`)*</p>
+
+                ---
+
+                <h2 id="conditional-and-custom-functions" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">7.3 Conditional and Custom Functions</h2>
+                <p class="text-gray-600 mb-4">Beyond text and list processing, `make` provides functions for conditional logic and even creating your own reusable function-like structures.</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">`$(if CONDITION,THEN_TEXT,ELSE_TEXT)`: Conditional Function</h3>
+                <p class="text-gray-600 mb-4">The `if` function evaluates `CONDITION`. If `CONDITION` expands to a non-empty string, `THEN_TEXT` is returned; otherwise, `ELSE_TEXT` is returned. If `ELSE_TEXT` is omitted, an empty string is returned when the condition is false.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+# Test a variable that might be set (or empty)
+BUILD_MODE ?= debug # Set default if not provided on command line
+
+result_message = $(if $(BUILD_MODE), "Build mode is $(BUILD_MODE)", "Build mode is NOT set")
+
+# Test a condition directly
+is_release = $(if $(filter release, $(BUILD_MODE)), Yes, No)
+
+show_if:
+	@echo "Result message: $(result_message)"
+	@echo "Is Release Build? $(is_release)"
+
+.PHONY: show_if
+</code></pre>
+                <p class="text-gray-600 mb-6">**Try it:**</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make show_if
+make BUILD_MODE=release show_if
+make BUILD_MODE= show_if # Set to empty
+</code></pre>
+                <img src="assets/makefiles/if_function.png" alt="Screenshot of terminal output showing the use of the if function with different conditions." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_if` with various `BUILD_MODE` settings)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">`$(call VARIABLE,ARGS...)`: Custom Functions</h3>
+                <p class="text-gray-600 mb-4">This is a unique and powerful feature that lets you define reusable "functions" within your Makefile. You define the function as a multi-line recursive variable using `define`/`endef`. Inside this definition, you use `$(0)` for the variable name itself, and `$(1)`, `$(2)`, etc., for the arguments passed to `call`.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+# Define a "function" to greet someone
+define GREETING_FUNCTION
+	@echo "Function Name: $(0)"
+	@echo "Hello, $(1)! It's nice to see you."
+	@echo "Today is $(2)."
+endef
+
+# Define a function to create a file with content
+define CREATE_FILE
+	@echo "Creating file: $(1)"
+	@echo "$(2)" > $(1)
+endef
+
+show_call_functions:
+	@echo "--- Calling GREETING_FUNCTION ---"
+	$(call GREETING_FUNCTION, Mahruf, Tuesday)
+
+	@echo "--- Calling CREATE_FILE ---"
+	$(call CREATE_FILE, my_message.txt, "This is a dynamically generated file content.")
+	@cat my_message.txt
+
+.PHONY: show_call_functions clean
+clean:
+	@rm -f my_message.txt
+</code></pre>
+                <img src="assets/makefiles/call_function.png" alt="Screenshot of terminal output showing custom functions defined with 'define' and called with 'call'." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_call_functions`)*</p>
+
+                ---
+
+                <h2 id="shell-function" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">7.4 `$(shell COMMAND)`: Execute Shell Commands</h2>
+                <p class="text-gray-600 mb-4">The `shell` function executes a shell command and captures its standard output. The output, including newlines, is converted into a single string with newlines replaced by spaces. This is useful for dynamic content generation based on system information.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+# Get current date and time
+CURRENT_DATETIME = $(shell date +"%Y-%m-%d %H:%M:%S")
+
+# List files in current directory (newlines converted to spaces)
+FILES_LIST = $(shell ls -1)
+
+# Get the number of CPUs (demonstrates more complex shell usage)
+NUM_CPUS = $(shell grep -c ^processor /proc/cpuinfo 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 1)
+
+show_shell_function:
+	@echo "Current time: $(CURRENT_DATETIME)"
+	@echo "Files in current directory (flattened): $(FILES_LIST)"
+	@echo "Number of CPUs: $(NUM_CPUS)"
+
+.PHONY: show_shell_function
+</code></pre>
+                <img src="assets/makefiles/shell_function.png" alt="Screenshot of terminal output showing the use of the shell function." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_shell_function`)*</p>
+
+                ---
+
+                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion: Mastering Makefile Functions</h2>
+                <p class="text-gray-600 mb-4">You've now explored a significant array of Makefile functions, from basic string manipulation and list filtering to powerful conditional logic and custom function definitions. These functions are your tools for creating highly adaptable, dynamic, and maintainable build systems. By combining them with variables, rules, and conditionals, you can tackle almost any build challenge.</p>
+                <p class="text-gray-600">This concludes our Makefile tutorial series! You've gone from the basics of targets and prerequisites to advanced topics like implicit rules, recursive `make` calls, and powerful functions. With this knowledge, you're well-equipped to write effective Makefiles for your projects.</p>
+                <p class="text-gray-600 font-semibold">What project are you excited to build or optimize with your newfound Makefile mastery?</p>
+            </div>
+        </section>
+    </main>
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <a href="makefile_06.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: Flavors, Conditionals, and Scope
+            </a>
+
+            <a href="makefile_08.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                Next: Includes, Paths, and Directives
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

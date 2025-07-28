@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1. Understanding Makefiles - Automating Your Builds - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class', // This tells Tailwind to enable dark mode when the 'dark' class is present on the <html> tag
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let themeToApply = 'light';
+            if (storedTheme) {
+                themeToApply = storedTheme;
+            } else if (prefersDark) {
+                themeToApply = 'dark';
+            }
+
+            if (themeToApply === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
+
+    <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">Mahruf Hossain</a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="makefile_tutorial_index.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800">Back to Tutorials Index</a>
+                
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            </div>
+
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+
+                    <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+            <a href="makefile_tutorial_index.html" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Back to Tutorials Index</a>
+            <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Home</a>
+            <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">About</a>
+            <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Projects</a>
+            <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">My Work</a>
+            <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="makefile-tutorial-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">1. Understanding Makefiles: Automating Your Builds</h1>
+                <p class="text-gray-600 mb-6">In the world of programming, especially for embedded systems, you often find yourself compiling multiple source files, linking libraries, and performing various build steps. Doing this manually can be tedious and error-prone. This is where <b>Makefiles</b> and the `make` utility come to the rescue!</p>
+                <p class="text-gray-600 mb-6">A Makefile is essentially a set of instructions that the `make` program uses to build your project. It helps you automate the compilation process, manage dependencies, and ensure that only necessary parts of your code are recompiled when changes occur, saving you significant time and effort.</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="basic-rule" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.1 The Basic Rule Structure</h2>
+                <p class="text-gray-600 mb-4">Every instruction in a Makefile is called a "rule" and follows a specific pattern:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>target: prerequisites
+	command1
+	command2
+	...</code></pre>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li><b>Target:</b> This is typically the name of the file you want to create (like an executable or an object file), or it can be a logical action you want to perform (like `clean`).</li>
+                    <li><b>Prerequisites (Dependencies):</b> These are the files or other targets that the `target` depends on. If any prerequisite is newer than the target, `make` will know the target is "out of date" and needs to be rebuilt.</li>
+                    <li><b>Commands:</b> These are the shell commands that `make` executes to build the `target`. Each command **MUST start with a tab character**, not spaces. This is a common source of errors for beginners!</li>
+                </ul>
+
+                <p class="text-gray-600 italic mb-6">Let's look at a simple example where the target is just an action to print some messages:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>hello_action:
+	@echo "Hello from Makefile!"
+	@echo "This is my first make command."</code></pre>
+                <p class="text-gray-600 mb-4">If you save this in a file named `Makefile` and run `make hello_action` in your terminal, `make` will execute the `echo` commands. Notice the `@` before `echo` – this prevents `make` from printing the command itself before its output.</p>
+                <img src="assets/makefiles/hello_action_output.png" alt="Screenshot of terminal showing output from make hello_action command" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Screenshot of running `make hello_action` in a terminal)*</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="file-dependencies" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.2 The Power of Prerequisites: File Dependencies</h2>
+                <p class="text-gray-600 mb-4">The real power of Makefiles comes from managing file dependencies. `make` is smart enough to check timestamps:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>If the `target` file does not exist, its commands are always executed.</li>
+                    <li>If the `target` file exists, `make` compares its last modification time with the modification times of its `prerequisites`. If any prerequisite is newer, the `target` is considered "out of date" and its commands are executed to rebuild it.</li>
+                    <li>If all prerequisites are older than the `target` (or the same age), the `target` is "up to date," and `make` does nothing.</li>
+                </ul>
+
+                <p class="text-gray-600 mb-4">Let's use a common C program example. Suppose you have a source file `main.c` and you want to compile it into an executable named `my_program`.</p>
+                <p class="text-gray-600 font-semibold mb-2">Consider this problematic Makefile (Version 1):</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>my_program:
+	gcc main.c -o my_program</code></pre>
+                <p class="text-gray-600 mb-4">If `my_program` doesn't exist, `make` will create it. However, if you then modify `main.c` and run `make my_program` again, `make` won't recompile! It has no way to know that `my_program` depends on `main.c`.</p>
+
+                <p class="text-gray-600 font-semibold mb-2">The Correct Way (Version 2 - with prerequisites):</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>my_program: main.c
+	gcc main.c -o my_program</code></pre>
+                <p class="text-gray-600 mb-4">Now, if `main.c` is newer than `my_program` (or `my_program` doesn't exist), `make` will execute the `gcc` command. Otherwise, it will simply report that `my_program` is "up to date." This is how `make` ensures efficient and accurate builds!</p>
+                <img src="assets/makefiles/dependency_flow.png" alt="Diagram illustrating Makefile dependency flow: make checks target timestamp against prerequisites, then decides to build or not" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Simple flowchart showing make comparing timestamps and rebuilding if prerequisite is newer)*</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="phony-targets" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.3 Phony Targets: For Actions, Not Files</h2>
+                <p class="text-gray-600 mb-4">Remember our `hello_action` example? It didn't create a file. What if you later create a file named `hello_action` in the same directory? `make` would get confused, thinking it needs to check the timestamp of that file.</p>
+                <p class="text-gray-600 mb-4">To prevent this, we use the `.PHONY` directive. It explicitly tells `make` that a target is a symbolic name for an action, and not an actual file to be built.</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.PHONY: hello_action clean all
+
+hello_action:
+	@echo "Hello from a phony target!"
+
+clean:
+	@echo "Cleaning up..."
+	@rm -f my_program *.o
+
+all: my_program # 'all' is a common phony target to build the entire project</code></pre>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>`make clean` will now always run the `rm` command to remove `my_program` and any object files (`.o`).</li>
+                    <li>`make all` will build `my_program` (assuming you have a rule for `my_program`). By convention, `all` is often the first target in a Makefile, so running `make` without any arguments will build `all`.</li>
+                </ul>
+                <img src="assets/makefiles/phony_target_example.png" alt="Screenshot of Makefile with .PHONY declaration for clean and all targets" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Screenshot of a Makefile showing `.PHONY` for `clean` and `all`)*</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="simple-c-makefile" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.4 A Complete Simple C Program Makefile</h2>
+                <p class="text-gray-600 mb-4">Let's combine what we've learned into a practical Makefile for a single C source file.</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Define variables for flexibility
+CC = gcc
+TARGET = my_program
+SOURCE = main.c
+
+.PHONY: all clean
+
+all: $(TARGET)
+
+$(TARGET): $(SOURCE)
+	$(CC) $(SOURCE) -o $(TARGET)
+
+clean:
+	@echo "Cleaning up build artifacts..."
+	@rm -f $(TARGET) *.o</code></pre>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>`CC = gcc`: Defines a variable `CC` to hold the C compiler command. This makes it easy to switch compilers later.</li>
+                    <li>`TARGET = my_program`: Defines the name of our executable.</li>
+                    <li>`SOURCE = main.c`: Defines the source file.</li>
+                    <li>`all: $(TARGET)`: The `all` target depends on `my_program`. Running `make` will build `my_program`.</li>
+                    <li>`$(TARGET): $(SOURCE)`: This rule says `my_program` depends on `main.c`.</li>
+                    <li>`$(CC) $(SOURCE) -o $(TARGET)`: The command uses our variables.</li>
+                </ul>
+                <p class="text-gray-600 mb-4">Now, you can simply run `make` to build your program, and `make clean` to remove the compiled files. If you change `main.c` and run `make` again, it will intelligently recompile `my_program`!</p>
+
+                <hr class="my-8 border-gray-300">
+
+                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion & Next Steps</h2>
+                <p class="text-gray-600 mb-4">You've now grasped the fundamental concepts of Makefiles: rules, targets, prerequisites (dependencies), and phony targets. This foundational knowledge is crucial for managing builds in embedded systems projects, where you often have many source files, libraries, and specific toolchain commands.</p>
+                <p class="text-gray-600">To dive deeper, explore these topics:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li><b>Multiple Source Files:</b> How to compile `.c` files into `.o` (object) files and then link them together.</li>
+                    <li><b>Automatic Variables:</b> Learn about `$@`, `$<`, `$^` which make rules more generic.</li>
+                    <li><b>Pattern Rules:</b> Powerful features for handling many similar files (e.g., how to compile *any* `.c` file into a `.o` file automatically).</li>
+                    <li><b>Functions:</b> Makefiles have built-in functions for string manipulation, wildcard expansion, etc.</li>
+                </ul>
+                <p class="text-gray-600 mb-4">Keep practicing with small projects, and Makefiles will become an indispensable tool in your embedded systems journey!</p>
+            </div>
+        </section>
+    </main>
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <a href="makefile_tutorial_index.html" class="text-gray-500 cursor-not-allowed flex items-center font-semibold">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: (Start of Series)
+            </a>
+
+            <a href="makefile_02.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                Next: Advanced Makefile Concepts
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

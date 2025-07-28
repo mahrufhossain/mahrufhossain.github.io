@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4. Advanced Makefile Rules: Implicit, Static, and Pattern Rules - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let themeToApply = 'light';
+            if (storedTheme) {
+                themeToApply = storedTheme;
+            } else if (prefersDark) {
+                themeToApply = 'dark';
+            }
+
+            if (themeToApply === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
+
+    <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">Mahruf Hossain</a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="makefile_tutorial_index.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800">Back to Tutorials Index</a>
+                
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            </div>
+
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+
+                    <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+            <a href="makefile_tutorial_index.html" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Back to Tutorials Index</a>
+            <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Home</a>
+            <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">About</a>
+            <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Projects</a>
+            <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">My Work</a>
+            <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="makefiles-fancy-rules-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">4. Advanced Makefile Rules: Implicit, Static, and Pattern Rules</h1>
+                <p class="text-gray-600 mb-6">Makefiles offer powerful, concise ways to define build instructions, especially for common programming tasks like compiling C/C++ code. This tutorial explores "fancy rules" – mechanisms that allow you to write less, generalize more, and leverage `make`'s built-in intelligence. While some of these can seem magical, understanding them is key to deciphering many existing Makefiles.</p>
+
+                ---
+
+                <h2 id="implicit-rules" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.1 Implicit Rules: Make's Built-in Magic</h2>
+                <p class="text-gray-600 mb-4">`make` comes with a set of pre-defined rules, often called "implicit rules," that handle common build steps. These rules automatically infer how to build certain targets from common source files without you explicitly writing out the compilation or linking commands. While they can simplify Makefiles, they sometimes hide the underlying process, making debugging harder.</p>
+                <p class="text-gray-600 mb-4">Here are some of the most common implicit rules related to C/C++ compilation:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>**Compiling C Source:** An object file (`.o`) is automatically built from a C source file (`.c`). The command typically used is `$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@`.</li>
+                    <li>**Compiling C++ Source:** An object file (`.o`) is automatically built from a C++ source file (`.cc` or `.cpp`). The command used is `$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@`.</li>
+                    <li>**Linking Single Object File:** An executable program (e.g., `program_name`) is automatically built from an object file (e.g., `program_name.o`). The command is `$(CC) $(LDFLAGS) $< $(LOADLIBES) $(LDLIBS) -o $@`.</li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Key Variables Used by Implicit Rules:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>`CC`: The C compiler program (`cc` by default, often overridden to `gcc`).</li>
+                    <li>`CXX`: The C++ compiler program (`g++` by default).</li>
+                    <li>`CFLAGS`: Flags passed to the C compiler (e.g., `-Wall`, `-g`).</li>
+                    <li>`CXXFLAGS`: Flags passed to the C++ compiler.</li>
+                    <li>`CPPFLAGS`: Flags for the C/C++ preprocessor (e.g., include paths like `-I/usr/local/include`).</li>
+                    <li>`LDFLAGS`: Flags passed to the linker (e.g., library paths like `-L/usr/local/lib`).</li>
+                    <li>`LDLIBS` / `LOADLIBES`: Libraries to link against (e.g., `-lm` for math library).</li>
+                </ul>
+
+                <p class="text-gray-600 mb-4 font-semibold">Example: Leveraging Implicit Rules for a C Program</p>
+                <p class="text-gray-600 mb-4">Notice how we can compile and link a program named `my_program` by simply providing its `.c` source and defining relevant variables. `make` infers the rest!</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Set compiler and flags; these variables are recognized by implicit rules
+CC = gcc
+CFLAGS = -Wall -g # Enable all warnings, include debug info
+
+# Target 'my_program' depends on 'my_program.o'
+# Make implicitly knows how to build my_program from my_program.o
+# using the linking implicit rule.
+my_program: my_program.o
+
+# 'my_program.o' implicitly depends on 'my_program.c'.
+# Make implicitly knows how to build my_program.o from my_program.c
+# using the C compilation implicit rule, because my_program.c exists.
+my_program.c:
+	@echo "int main() { return 0; }" > my_program.c
+
+.PHONY: clean
+clean:
+	@echo "Cleaning up..."
+	@rm -f my_program my_program.o my_program.c
+</code></pre>
+                <p class="text-gray-600 mb-6">If you run `make my_program` with this Makefile, you'll see `make` executing `gcc -c -Wall -g my_program.c -o my_program.o` followed by `gcc my_program.o -o my_program`, even though you didn't write those commands!</p>
+                <img src="assets/makefiles/implicit_rules_example.png" alt="Screenshot of terminal running a Makefile that uses implicit rules to compile a C program." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make my_program` and the commands implicitly executed)*</p>
+
+                ---
+
+                <h2 id="static-pattern-rules" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.2 Static Pattern Rules: Defining Specific Patterns</h2>
+                <p class="text-gray-600 mb-4">Static pattern rules provide a way to apply a generic rule to a *specific list of targets*. They combine the power of pattern matching (`%`) with the ability to explicitly state which targets the pattern applies to.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Syntax:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>TARGETS_LIST: TARGET_PATTERN: PREREQUISITE_PATTERNS
+	COMMANDS
+</code></pre>
+                <p class="text-gray-600 mb-4">In this syntax:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>`TARGETS_LIST`: A space-separated list of actual targets you want to build.</li>
+                    <li>`TARGET_PATTERN`: A pattern containing a single `%` that matches each target in `TARGETS_LIST`. The part matched by `%` is called the **stem**.</li>
+                    <li>`PREREQUISITE_PATTERNS`: One or more patterns, also containing a `%`. The stem identified from `TARGET_PATTERN` is substituted into this pattern to determine the prerequisites for each target.</li>
+                </ul>
+
+                <p class="text-gray-600 mb-4 font-semibold">Example: Compiling Multiple `.c` Files to `.o` Files</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Define our object files
+OBJECTS = main.o utils.o display.o
+
+# The final executable
+my_app: $(OBJECTS)
+	@echo "Linking executable $@"
+	$(CC) $^ -o $@
+
+# Static pattern rule to compile .c files into .o files
+# For each object in $(OBJECTS), e.g., 'main.o':
+#   - TARGET_PATTERN '%.o' matches 'main.o', stem = 'main'
+#   - PREREQUISITE_PATTERNS '%.c' becomes 'main.c'
+$(OBJECTS): %.o: %.c
+	@echo "Compiling $< to $@"
+	$(CC) -c $< -o $@
+
+# Rule to create dummy .c files if they don't exist
+%.c:
+	@echo "Creating dummy source file: $@"
+	@echo "int main() { return 0; }" > $@
+
+.PHONY: all clean
+all: my_app
+
+clean:
+	@echo "Cleaning up..."
+	@rm -f my_app $(OBJECTS) *.c
+</code></pre>
+                <p class="text-gray-600 mb-6">This single static pattern rule effectively replaces three separate rules like `main.o: main.c`, `utils.o: utils.c`, etc., making your Makefile much more compact. When `make my_app` is run, it first determines the `.o` files needed, then uses the static pattern rule to find their corresponding `.c` files and compile them.</p>
+                <img src="assets/makefiles/static_pattern_rule_example.png" alt="Screenshot of terminal running a Makefile that uses a static pattern rule to compile multiple C files." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make my_app` building multiple object files using the static pattern rule)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Static Pattern Rules with `filter`</h3>
+                <p class="text-gray-600 mb-4">The `filter` function is often used with static pattern rules to select only specific types of files from a list. This is useful when your `TARGETS_LIST` contains a mix of file types, and you only want a specific pattern rule to apply to a subset.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example with `filter`:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Mixed list of output files
+OUTPUT_FILES = report.txt data.bin config.xml
+
+# Here, 'report.txt' will be matched by '%.txt'
+# 'data.bin' will be matched by '%.bin'
+# 'config.xml' will be matched by '%.xml'
+
+$(filter %.txt, $(OUTPUT_FILES)): %.txt: %.md
+	@echo "Generating text report from markdown: $&lt; -> $@"
+	@cp $&lt; $@ # Simulate conversion
+
+$(filter %.bin, $(OUTPUT_FILES)): %.bin: %.dat
+	@echo "Processing data to binary: $&lt; -> $@"
+	@cp $&lt; $@ # Simulate processing
+
+$(filter %.xml, $(OUTPUT_FILES)): %.xml: %.json
+	@echo "Converting JSON config to XML: $&lt; -> $@"
+	@cp $&lt; $@ # Simulate conversion
+
+# Dummy rules to create source files
+%.md %.dat %.json:
+	@echo "Creating dummy source: $@"
+	@touch $@
+
+.PHONY: all clean
+all: $(OUTPUT_FILES)
+
+clean:
+	@echo "Cleaning up..."
+	@rm -f $(OUTPUT_FILES) *.md *.dat *.json
+</code></pre>
+                <p class="text-gray-600 mb-6">When you run `make all`, `make` intelligently applies the correct rule based on the file extension filtered from `OUTPUT_FILES`.</p>
+                <img src="assets/makefiles/static_pattern_filter_example.png" alt="Screenshot of terminal running a Makefile that uses static pattern rules with the filter function." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make all` building files with different extensions using filtered static pattern rules)*</p>
+
+                ---
+
+                <h2 id="pattern-rules" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.3 Pattern Rules: Generalized Build Instructions</h2>
+                <p class="text-gray-600 mb-4">Pattern rules are even more generalized than static pattern rules. They don't specify a list of targets; instead, they define how to build *any* target that matches a certain pattern from a prerequisite that matches another pattern. You can think of them as defining your own "implicit rules."</p>
+                <p class="text-gray-600 mb-4 font-semibold">Syntax:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>TARGET_PATTERN: PREREQUISITE_PATTERNS
+	COMMANDS
+</code></pre>
+                <p class="text-gray-600 mb-4">A pattern rule is identified by the presence of a `%` in the target. This `%` matches any non-empty substring, and this matched substring (the stem) is then used in the prerequisites.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example: A Generic Rule for Compiling C Sources</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Define a generic pattern rule to compile any .c into a .o
+# This acts like Make's built-in C compilation rule.
+%.o: %.c
+	@echo "Pattern rule: Compiling C source: $< -> $@"
+	$(CC) -c $(CFLAGS) $< -o $@
+
+# Define a pattern rule to create dummy .c files if needed
+%.c:
+	@echo "Pattern rule: Creating dummy C source: $@"
+	@echo "int main() { return 0; }" > $@
+
+# Our final program (requires these .o files)
+app_exe: main.o utils.o
+	@echo "Pattern rule: Linking app: $^ -> $@"
+	$(CC) $^ -o $@
+
+.PHONY: all clean
+all: app_exe
+
+clean:
+	@echo "Cleaning up..."
+	@rm -f app_exe *.o *.c
+</code></pre>
+                <p class="text-gray-600 mb-6">When you run `make app_exe`, the pattern rule `%.o: %.c` is applied twice (once for `main.o`, once for `utils.o`), leading to `main.c` and `utils.c` being compiled.</p>
+                <img src="assets/makefiles/pattern_rules_example.png" alt="Screenshot of terminal running a Makefile that uses pattern rules to compile C files." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make app_exe` using the pattern rules)*</p>
+
+                ---
+
+                <h2 id="double-colon-rules" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.4 Double-Colon Rules (`::`): Multiple Ways to Build a Target</h2>
+                <p class="text-gray-600 mb-4">Double-colon rules (`::`) are a less common but sometimes useful feature that allows you to define **multiple independent rules for the same target**. If you were to use a single colon (`:`) for the same target multiple times, `make` would typically issue a warning and only use the commands from the *last* defined rule.</p>
+                <p class="text-gray-600 mb-4">With double-colon rules, each instance of the rule for the same target is treated as independent. If any of its prerequisites are newer, or if its commands are forced to run, *only that specific instance's commands will be executed*.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># This target will always execute both sets of commands
+my_target::
+	@echo "Executing first set of commands for my_target"
+
+my_target::
+	@echo "Executing second set of commands for my_target"
+
+# If my_target has a prerequisite, this rule's commands run only if prerequisite is newer
+another_target:: some_prereq
+	@echo "Executing commands for another_target (due to some_prereq)"
+
+# Dummy prerequisite
+some_prereq:
+	@echo "Creating or touching some_prereq"
+	@touch some_prereq
+
+.PHONY: my_target another_target clean
+clean:
+	@rm -f some_prereq
+</code></pre>
+                <p class="text-gray-600 mb-6">When you run `make my_target`, both "hello" and "hello again" will print. If you run `make another_target`, only its commands will run (after checking `some_prereq`). This can be useful for separate installation steps or complex build phases where distinct sets of commands are needed for the same logical output.</p>
+                <img src="assets/makefiles/double_colon_example.png" alt="Screenshot of terminal running a Makefile that uses double-colon rules." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make my_target` and `make another_target`)*</p>
+
+                ---
+
+                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion & Next Steps</h2>
+                <p class="text-600 mb-4">Implicit rules, static pattern rules, and pattern rules are powerful tools for writing concise, maintainable, and highly generalized Makefiles, especially for projects with many similar source files. While they have a learning curve, they are fundamental to professional Makefile usage.</p>
+                <p class="text-gray-600">You're now equipped with the knowledge to handle much more complex build scenarios. In our next tutorial, we'll explore Makefile functions and directives to further streamline and customize your build processes!</p>
+            </div>
+        </section>
+    </main>
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <a href="makefile_03.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: Wildcards & Automatic Variables
+            </a>
+
+            <a href="makefile_05.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                Next: Control and Flow
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

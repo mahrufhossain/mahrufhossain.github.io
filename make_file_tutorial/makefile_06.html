@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6. Makefile Variables Deep Dive: Flavors, Conditionals, and Scope - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let themeToApply = 'light';
+            if (storedTheme) {
+                themeToApply = storedTheme;
+            } else if (prefersDark) {
+                themeToApply = 'dark';
+            }
+
+            if (themeToApply === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
+
+    <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">Mahruf Hossain</a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="makefile_tutorial_index.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800">Back to Tutorials Index</a>
+                
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            </div>
+
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+
+                    <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+            <a href="makefile_tutorial_index.html" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Back to Tutorials Index</a>
+            <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Home</a>
+            <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">About</a>
+            <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Projects</a>
+            <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">My Work</a>
+            <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="makefiles-variables-deep-dive-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">6. Makefile Variables Deep Dive: Flavors, Conditionals, and Scope</h1>
+                <p class="text-gray-600 mb-6">Variables are the backbone of flexible and maintainable Makefiles. Beyond basic assignment, `make` offers different "flavors" of variables, powerful modification options, and sophisticated ways to control their scope and behavior. Understanding these nuances is crucial for writing robust build systems.</p>
+
+                ---
+
+                <h2 id="variable-flavors" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.1 Variable Flavors: Recursive vs. Simply Expanded</h2>
+                <p class="text-gray-600 mb-4">`make` defines two primary types of variables, each with distinct expansion behaviors:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>
+                        **Recursive Variables (using `=`)**: Variables defined with `=` are expanded *recursively*. This means their value is evaluated only when the variable is actually used in a command or another expression, not when it's defined. This allows for circular definitions (though these will cause infinite loops if not handled carefully) and forward references.
+                    </li>
+                    <li>
+                        **Simply Expanded Variables (using `:=`)**: Variables defined with `:=` are expanded *simply*. Their value is evaluated *at the time of definition*. Any other variables referenced in their definition must already be defined. This behaves more like variables in traditional imperative programming languages.
+                    </li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Example: Illustrating Variable Flavors</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+# Recursive variable: 'message_recursive' will include 'late_part' when used
+message_recursive = Hello from recursive variable: $(late_part)
+
+# Simply expanded variable: 'message_simple' will be empty here, as 'late_part' is not yet defined
+message_simple := Hello from simple variable: $(late_part)
+
+# Now define 'late_part'
+late_part = (defined later!)
+
+show_flavors:
+	@echo "$(message_recursive)"
+	@echo "$(message_simple)"
+
+.PHONY: show_flavors
+</code></pre>
+                <p class="text-gray-600 mb-6">When you run `make show_flavors`, `message_recursive` will correctly include `(defined later!)`, but `message_simple` will not. This is a fundamental difference impacting how you define dependencies between variables.</p>
+                <img src="assets/makefiles/variable_flavors.png" alt="Screenshot of terminal output showing recursive vs. simply expanded variable behavior." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_flavors`)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Appending to Variables (`+=`)</h3>
+                <p class="text-gray-600 mb-4">The `+=` operator allows you to append text to an existing variable. This is particularly useful for building lists of files or flags. If the variable was previously a simple variable, `+=` acts like `:=` appending. If it was recursive, it stays recursive.</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+COMMON_FLAGS := -Wall # Starts as simply expanded
+COMMON_FLAGS += -g   # Appends, remains simply expanded
+
+SOURCE_FILES = main.c # Starts as recursive
+SOURCE_FILES += helper.c # Appends, remains recursive
+
+show_append:
+	@echo "Common Flags: $(COMMON_FLAGS)"
+	@echo "Source Files: $(SOURCE_FILES)"
+
+.PHONY: show_append
+</code></pre>
+                <img src="assets/makefiles/variable_append.png" alt="Screenshot of terminal output showing variable appending with +=." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_append`)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Conditional Assignment (`?=`)</h3>
+                <p class="text-gray-600 mb-4">The `?=` operator, or "conditional variable assignment," sets a variable's value *only if it has not already been set* from the Makefile or the environment. This is excellent for providing default values that can be overridden.</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+# This will be set because it's the first definition
+BUILD_TYPE = Debug
+
+# This will NOT be set because BUILD_TYPE is already defined
+BUILD_TYPE ?= Release
+
+# This will be set because COMPILER is not yet defined
+COMPILER ?= gcc
+
+show_conditional:
+	@echo "Build Type: $(BUILD_TYPE)"
+	@echo "Compiler: $(COMPILER)"
+
+.PHONY: show_conditional
+</code></pre>
+                <img src="assets/makefiles/variable_conditional_assignment.png" alt="Screenshot of terminal output showing conditional variable assignment with ?=." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_conditional`)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Handling Spaces and Undefined Variables</h3>
+                <p class="text-gray-600 mb-4">`make` handles spaces at the end of variable lines in a specific way, and it's important to know that an undefined variable isn't an error – it's just an empty string.</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>
+                        **Trailing Spaces**: Spaces at the end of a variable definition line are **not** stripped. This can sometimes lead to unexpected behavior if not handled. Spaces at the beginning *are* stripped.
+                    </li>
+                    <li>
+                        **`nullstring` for Single Space**: To define a variable with precisely one space, you can use the `$(nullstring)` trick.
+                    </li>
+                    <li>
+                        **Undefined Variables**: If you reference a variable that hasn't been defined, `make` treats it as an empty string `""` rather than throwing an error.
+                    </li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+TEXT_WITH_SPACES = Leading spaces stripped, but trailing spaces remain.   
+
+EMPTY_VAR =
+
+# Define a variable with a single space
+nullstring =
+SINGLE_SPACE_VAR = $(nullstring) 
+
+show_spaces_and_empty:
+	@echo "--- Spaces and Empty Vars ---"
+	@echo "Text with spaces: '$(TEXT_WITH_SPACES)'"
+	@echo "Concatenation: '$(TEXT_WITH_SPACES)JOINED'"
+	@echo "Undefined var (no_such_var): '$(no_such_var)'"
+	@echo "Empty var (EMPTY_VAR): '$(EMPTY_VAR)'"
+	@echo "Single space var: 'START$(SINGLE_SPACE_VAR)END'"
+
+.PHONY: show_spaces_and_empty
+</code></pre>
+                <img src="assets/makefiles/spaces_and_empty_vars.png" alt="Screenshot of terminal output demonstrating trailing spaces and undefined variables." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_spaces_and_empty`)*</p>
+
+                ---
+
+                <h2 id="command-line-override" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.2 Command Line Arguments and `override`</h2>
+                <p class="text-gray-600 mb-4">When you run `make`, you can pass variable assignments directly on the command line (e.g., `make CFLAGS="-O2"`). These command-line assignments normally take precedence over assignments within the Makefile.</p>
+                <p class="text-gray-600 mb-4">The `override` directive in a Makefile allows you to force a variable assignment to take precedence *even over command-line assignments*.</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+# This variable CAN be overridden by command line
+MY_OPT_SETTING = default_value
+
+# This variable CANNOT be overridden by command line
+override FORCE_SETTING = forced_value_from_makefile
+
+show_override:
+	@echo "MY_OPT_SETTING: $(MY_OPT_SETTING)"
+	@echo "FORCE_SETTING: $(FORCE_SETTING)"
+
+.PHONY: show_override
+</code></pre>
+                <p class="text-gray-600 mb-6">**Try it:**</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make show_override
+make MY_OPT_SETTING=cli_value show_override
+make FORCE_SETTING=cli_value show_override
+make MY_OPT_SETTING=cli_value FORCE_SETTING=cli_value show_override
+</code></pre>
+                <img src="assets/makefiles/override_variable.png" alt="Screenshot of terminal output showing the effect of the override directive on variables." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating `override`)*</p>
+
+                ---
+
+                <h2 id="define-directive" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.3 The `define` Directive: Multi-Line Variables</h2>
+                <p class="text-gray-600 mb-4">The `define` directive (paired with `endef`) allows you to create variables whose values span multiple lines. This is particularly useful for defining complex, multi-line commands or "canned recipes" that can be reused across your Makefile.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+define MULTILINE_COMMANDS
+	@echo "Step 1: Doing something..."
+	@ls -la
+	@echo "Step 2: Done."
+endef
+
+define SCRIPT_BLOCK
+	#!/bin/bash
+	echo "This is a script generated by Make."
+	echo "Current directory: `pwd`"
+endef
+
+run_multiline:
+	@echo "--- Executing MULTILINE_COMMANDS ---"
+	$(MULTILINE_COMMANDS) # Each line here runs in a separate shell
+
+generate_script:
+	@echo "--- Generating and Executing Script ---"
+	@echo "$(SCRIPT_BLOCK)" > generated_script.sh
+	@chmod +x generated_script.sh
+	@./generated_script.sh
+
+.PHONY: run_multiline generate_script clean
+clean:
+	@rm -f generated_script.sh
+</code></pre>
+                <p class="text-gray-600 mb-6">Note that when `$(MULTILINE_COMMANDS)` is invoked, each line within the `define` block is still executed in a separate shell, unless explicitly chained with semicolons or backslashes within the `define` block itself.</p>
+                <img src="assets/makefiles/define_directive.png" alt="Screenshot of terminal output showing the use of the define directive for multi-line commands." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make run_multiline` and `make generate_script`)*</p>
+
+                ---
+
+                <h2 id="target-specific-variables" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.4 Target-Specific and Pattern-Specific Variables</h2>
+                <p class="text-gray-600 mb-4">Variables can have their values set specifically for a particular target or a pattern of targets. This provides a powerful way to customize build behavior based on what is being built.</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>
+                        **Target-Specific Variables**: Defined immediately after a target, these variables only take on their specified value when `make` is building that specific target and its prerequisites.
+                    </li>
+                    <li>
+                        **Pattern-Specific Variables**: Similar to target-specific, but applied to any target that matches the specified pattern.
+                    </li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+GLOBAL_OPTIMIZATION = -O0 # Default global optimization
+
+# Target-specific variable: 'build_release' uses -O3
+build_release: GLOBAL_OPTIMIZATION = -O3
+build_release:
+	@echo "Building release with optimizations: $(GLOBAL_OPTIMIZATION)"
+
+# Target-specific variable: 'build_debug' uses -g
+build_debug: GLOBAL_OPTIMIZATION = -g
+build_debug:
+	@echo "Building debug with flags: $(GLOBAL_OPTIMIZATION)"
+
+# Pattern-specific variable: any .o file uses -Wall
+%.o: CFLAGS = -Wall
+main.o: main.c
+	@echo "Compiling main.o with: $(CFLAGS) $(GLOBAL_OPTIMIZATION)"
+	@touch main.o # Simulate compilation
+
+helper.o: helper.c
+	@echo "Compiling helper.o with: $(CFLAGS) $(GLOBAL_OPTIMIZATION)"
+	@touch helper.o # Simulate compilation
+
+.PHONY: build_release build_debug main.o helper.o clean
+clean:
+	@rm -f main.o helper.o
+</code></pre>
+                <p class="text-gray-600 mb-6">Run `make build_release` and `make build_debug` to observe how `GLOBAL_OPTIMIZATION` changes. Then run `make main.o` and `make helper.o` to see the `CFLAGS` in action for each `.o` file.</p>
+                <img src="assets/makefiles/target_pattern_specific_vars.png" alt="Screenshot of terminal output showing target-specific and pattern-specific variables in action." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make build_release`, `make build_debug`, `make main.o`, `make helper.o`)*</p>
+
+                ---
+
+                <h2 id="conditional-directives" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.5 Conditional Directives: `ifeq`, `ifdef`, etc.</h2>
+                <p class="text-gray-600 mb-4">`make` provides conditional directives (similar to `if/else` statements in programming languages) to include or exclude parts of your Makefile based on variable values or definitions. This is powerful for adapting your build to different environments or configurations.</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>
+                        `ifeq (ARG1, ARG2)` / `ifneq (ARG1, ARG2)`: Compares two arguments.
+                    </li>
+                    <li>
+                        `ifdef VAR` / `ifndef VAR`: Checks if a variable is defined (even if empty).
+                    </li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+# Set 'DEBUG' on the command line, e.g., 'make DEBUG=1 test_conditional'
+# Or define it here: DEBUG = 1
+
+ifeq ($(DEBUG), 1)
+    BUILD_MESSAGE = "Building in DEBUG mode!"
+    COMPILER_FLAGS = -g -DDEBUG_MODE
+else
+    BUILD_MESSAGE = "Building in RELEASE mode!"
+    COMPILER_FLAGS = -O2
+endif
+
+# Check if a variable is empty or defined
+EMPTY_STRING =
+MAYBE_DEFINED = $(UNDEFINED_VAR) # Undefined_var is not defined, so MAYBE_DEFINED will be empty
+
+test_conditional:
+	@echo "$(BUILD_MESSAGE)"
+	@echo "Compiler flags: $(COMPILER_FLAGS)"
+
+	# Check if 'EMPTY_STRING' is truly empty after stripping spaces
+	ifeq ($(strip $(EMPTY_STRING)),)
+		@echo "EMPTY_STRING is indeed empty."
+	endif
+
+	# Check if 'MAYBE_DEFINED' is defined (it is, as an empty string)
+	ifdef MAYBE_DEFINED
+		@echo "MAYBE_DEFINED is defined (even if empty)."
+	else
+		@echo "MAYBE_DEFINED is NOT defined."
+	endif
+
+	# Check if 'UNDEFINED_VAR' is defined (it is NOT)
+	ifdef UNDEFINED_VAR
+		@echo "UNDEFINED_VAR is defined."
+	else
+		@echo "UNDEFINED_VAR is NOT defined."
+	endif
+
+.PHONY: test_conditional
+</code></pre>
+                <p class="text-gray-600 mb-6">**Try it:**</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make test_conditional
+make DEBUG=1 test_conditional
+</code></pre>
+                <img src="assets/makefiles/conditional_directives.png" alt="Screenshot of terminal output showing conditional directives in Make." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make test_conditional` with and without `DEBUG=1`)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Using `$(MAKEFLAGS)` in Conditionals</h3>
+                <p class="text-gray-600 mb-4">The special variable `$(MAKEFLAGS)` contains all the single-letter flags (like `s`, `k`, `i`) passed to `make` on the command line. You can use the `findstring` function with `$(MAKEFLAGS)` to check for specific flags.</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+check_flags:
+	@echo "--- Checking MAKEFLAGS ---"
+	@echo "MAKEFLAGS: $(MAKEFLAGS)"
+
+	# Check if '-s' (silent) flag was passed
+	ifneq (,$(findstring s, $(MAKEFLAGS)))
+		@echo "Silent mode (-s) detected!"
+	else
+		@echo "Silent mode (-s) NOT detected."
+	endif
+
+	# Check if '-k' (keep-going) flag was passed
+	ifneq (,$(findstring k, $(MAKEFLAGS)))
+		@echo "Keep-going mode (-k) detected!"
+	else
+		@echo "Keep-going mode (-k) NOT detected."
+	endif
+
+.PHONY: check_flags
+</code></pre>
+                <p class="text-gray-600 mb-6">**Try it:**</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make check_flags
+make -s check_flags
+make -k check_flags
+</code></pre>
+                <img src="assets/makefiles/makeflags_conditional.png" alt="Screenshot of terminal output showing conditionals based on MAKEFLAGS." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make check_flags`, `make -s check_flags`, `make -k check_flags`)*</p>
+
+                ---
+
+                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion & Next Steps</h2>
+                <p class="text-gray-600 mb-4">You've now explored the depth of Makefile variables, from their different expansion flavors to powerful conditional assignments and dynamic scoping. These features empower you to write Makefiles that are highly adaptive to different build scenarios and configurations.</p>
+                <p class="text-gray-600">In our final tutorial, we'll round off our journey by looking at some advanced Makefile functions and directives that offer even more control and flexibility for complex projects. Get ready to master `make`!</p>
+            </div>
+        </section>
+    </main>
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <a href="makefile_05.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: Control and Flow
+            </a>
+
+            <a href="makefile_07.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                Next: Makefile Functions
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

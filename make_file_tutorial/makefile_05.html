@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. Makefile Commands & Execution: Control and Flow - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let themeToApply = 'light';
+            if (storedTheme) {
+                themeToApply = storedTheme;
+            } else if (prefersDark) {
+                themeToApply = 'dark';
+            }
+
+            if (themeToApply === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
+
+    <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">Mahruf Hossain</a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="makefile_tutorial_index.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800">Back to Tutorials Index</a>
+                
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            </div>
+
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+
+                    <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+            <a href="makefile_tutorial_index.html" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Back to Tutorials Index</a>
+            <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Home</a>
+            <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">About</a>
+            <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Projects</a>
+            <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">My Work</a>
+            <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="makefiles-commands-execution-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">5. Makefile Commands & Execution: Control and Flow</h1>
+                <p class="text-gray-600 mb-6">Understanding how `make` executes commands within a rule is fundamental to writing effective Makefiles. This tutorial delves into controlling command output, managing shell environments, handling errors, and navigating recursive `make` calls. These concepts provide fine-grained control over your build process.</p>
+
+                ---
+
+                <h2 id="command-echoing" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.1 Command Echoing & Silencing</h2>
+                <p class="text-gray-600 mb-4">By default, `make` prints each command line before executing it. This can be useful for debugging, but for clean output, you often want to suppress this echoing.</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>
+                        **Silencing a Single Line:** Prefix a command with an `@` symbol to prevent `make` from echoing that specific line.
+                    </li>
+                    <li>
+                        **Silencing All Lines:** Run `make` with the `-s` or `--silent` flag, and it will suppress echoing for all commands in the entire Makefile.
+                    </li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+my_task:
+    @echo "This line will not be echoed by make itself."
+    echo "This line WILL be echoed by make."
+    @echo "This one won't either."
+
+.PHONY: my_task
+</code></pre>
+                <p class="text-gray-600 mb-6">**Try it:**</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make my_task
+make -s my_task
+</code></pre>
+                <img src="assets/makefiles/command_echoing.png" alt="Screenshot of terminal output showing the difference between echoed and silenced commands in Make." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating `make my_task` vs `make -s my_task`)*</p>
+
+                ---
+
+                <h2 id="command-execution" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.2 Command Execution & Shell Environment</h2>
+                <p class="text-gray-600 mb-4">A crucial concept in Makefiles is that **each logical command line within a recipe is typically executed in its own separate shell instance**. This means changes to the shell environment (like `cd` commands or setting shell variables) on one line will *not* persist to the next line.</p>
+                <p class="text-gray-600 mb-4">To ensure commands run within the same shell instance, you must combine them onto a single logical line using shell separators (`;`) or line continuations (`\`).</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+test_dirs:
+    @echo "--- Separate shells for each line ---"
+    cd ../; pwd # This 'cd' affects only this line's pwd
+    @pwd # This will be the original directory, not the parent
+
+    @echo "--- Commands on one line (semicolon) ---"
+    cd ../; pwd; mkdir temp_dir; ls temp_dir # All in one shell instance
+
+    @echo "--- Commands on one line (backslash continuation) ---"
+    cd ../; \
+    pwd; \
+    rmdir temp_dir; \
+    ls # All in one shell instance
+
+.PHONY: test_dirs clean
+clean:
+    @rmdir temp_dir 2>/dev/null || true # Clean up, ignore errors if dir doesn't exist
+</code></pre>
+                <p class="text-gray-600 mb-6">Observe how the `cd` command's effect doesn't carry over unless commands are chained. This is a common source of confusion for new `make` users.</p>
+                <img src="assets/makefiles/command_execution_shells.png" alt="Screenshot of terminal output illustrating separate vs. chained shell commands in Make." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `pwd` results for separate vs. chained commands)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Default Shell</h3>
+                <p class="text-gray-600 mb-4">By default, `make` uses `/bin/sh` to execute commands. You can change this by setting the `SHELL` variable in your Makefile:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>SHELL = /bin/bash # Use Bash as the shell
+
+bash_hello:
+    @echo "Hello from $(SHELL)!"
+    @test_var="Bash specific!"; echo $$test_var # This will only work if SHELL is bash/zsh etc.
+
+.PHONY: bash_hello
+</code></pre>
+                <p class="text-gray-600 mb-6">This allows you to leverage shell-specific features (like array handling or advanced string manipulation) if required.</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Double Dollar Sign (`$$`)</h3>
+                <p class="text-gray-600 mb-4">Inside Makefile recipes, a single `$` introduces a Makefile variable (e.g., `$(VARIABLE)`). If you want to use a literal `$` character in your shell command (e.g., to reference a shell variable), you must escape it with another `$` sign, forming `$$`.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example: Makefile Variables vs. Shell Variables</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>MAKE_VAR = I am a Makefile variable
+
+show_variables:
+    @echo "--- Variable Demo ---"
+    # Define and use a SHELL variable in the same command line (single shell)
+    @SHELL_VAR="I am a shell variable"; echo "Shell variable: $$SHELL_VAR"
+
+    # Access a Makefile variable directly; Make expands it before sending to shell
+    @echo "Makefile variable: $(MAKE_VAR)"
+
+.PHONY: show_variables
+</code></pre>
+                <p class="text-gray-600 mb-6">Notice how `$(MAKE_VAR)` is expanded by `make` *before* the command is sent to the shell, while `$$SHELL_VAR` is passed literally to the shell, which then expands it.</p>
+                <img src="assets/makefiles/double_dollar_sign.png" alt="Screenshot of terminal output showing the difference between Make variables and shell variables." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating the expansion of `$(MAKE_VAR)` vs `$$SHELL_VAR`)*</p>
+
+                ---
+
+                <h2 id="error-handling" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.3 Error Handling: Controlling Build Flow on Failures</h2>
+                <p class="text-gray-600 mb-4">By default, if any command in a recipe returns a non-zero exit code (indicating an error), `make` immediately stops the current rule and often terminates. You can modify this behavior:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>
+                        **Ignore Individual Errors (`-`):** Prefix a command with a `-` to tell `make` to ignore its exit status. Even if the command fails, `make` will continue executing subsequent commands in the recipe and other rules.
+                    </li>
+                    <li>
+                        **Continue on All Errors (`-k`):** Run `make` with the `-k` or `--keep-going` flag. If a command fails, `make` will abandon that target and its dependent targets, but it will try to build other independent targets in the Makefile. This is helpful for seeing all errors at once during a large build.
+                    </li>
+                    <li>
+                        **Ignore All Errors (`-i`):** Run `make` with the `-i` or `--ignore-errors` flag. This is equivalent to putting a `-` before *every* command in the Makefile. `make` will continue running even if commands fail. Use with caution!
+                    </li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Example of Error Suppression:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+setup:
+    @echo "Creating dummy files..."
+    @touch file_A file_B file_C
+
+task_one:
+    @echo "Running task_one..."
+    @false # This command will fail
+    @echo "This line won't run if the above fails without '-'"
+    @touch task_one_complete
+
+task_two:
+    @echo "Running task_two (with error ignored)..."
+    -@false # Error will be ignored
+    @echo "This line WILL run because error is suppressed"
+    @touch task_two_complete
+
+task_three: task_one task_two
+    @echo "All tasks attempted."
+
+.PHONY: setup task_one task_two task_three clean
+clean:
+    @echo "Cleaning up..."
+    @rm -f file_A file_B file_C task_one_complete task_two_complete
+</code></pre>
+                <p class="text-gray-600 mb-6">**Try it:**</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make setup
+make task_one # See it stop
+make task_two # See it continue
+make -k task_three # See task_two still run even if task_one fails
+</code></pre>
+                <img src="assets/makefiles/error_handling.png" alt="Screenshot of terminal output showing Make's error handling with '-' and '-k'." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating error handling with `-` and `-k`)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Interrupting Make (`Ctrl+C`)</h3>
+                <p class="text-gray-600 mb-4">If you interrupt `make` (e.g., with `Ctrl+C`) during execution, `make` will attempt to delete any targets it has partially or completely built that are *newer* than their prerequisites. This behavior is designed to leave your filesystem in a consistent state, preventing half-built files from confusing future `make` runs.</p>
+
+                ---
+
+                <h2 id="recursive-make" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.4 Recursive Use of `make`</h2>
+                <p class="text-gray-600 mb-4">For large projects, it's common to organize code into subdirectories, each with its own Makefile. You can then have a top-level Makefile that recursively calls `make` in these subdirectories.</p>
+                <p class="text-gray-600 mb-4">**Always use `$(MAKE)` (an automatic variable) instead of `make`** when calling `make` recursively. `$(MAKE)` ensures that any flags passed to the top-level `make` (like `-s` or `-k`) are correctly propagated to the sub-`make` calls.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile in the root directory
+SUBDIR = build_dir
+
+all:
+    @echo "--- Top-level Makefile: Entering $(SUBDIR) ---"
+    @mkdir -p $(SUBDIR)
+    @echo "my_sub_target:\n\t@echo \"Hello from subdirectory!\"\n\t@touch built_in_subdir" > $(SUBDIR)/Makefile
+    @echo "  (Contents of $(SUBDIR)/Makefile created)"
+    @cd $(SUBDIR) && $(MAKE) my_sub_target # Recursive call using $(MAKE)
+    @echo "--- Top-level Makefile: Exited $(SUBDIR) ---"
+
+.PHONY: all clean
+clean:
+    @echo "Cleaning up..."
+    @rm -rf $(SUBDIR)
+</code></pre>
+                <p class="text-gray-600 mb-6">Run `make` to see the top-level Makefile creating a subdirectory, writing a Makefile inside it, and then invoking `make` recursively within that subdirectory.</p>
+                <img src="assets/makefiles/recursive_make_example.png" alt="Screenshot of terminal running a Makefile that recursively calls make in a subdirectory." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing recursive `make` execution)*</p>
+
+                ---
+
+                <h2 id="export-variables" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.5 Exporting Variables to Sub-Makes and Shells</h2>
+                <p class="text-gray-600 mb-4">Variables defined in a Makefile are, by default, internal to that Makefile. If you call `make` recursively or run shell commands that need access to these variables, you need to `export` them.</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Environment Variables and Make</h3>
+                <p class="text-gray-600 mb-4">When `make` starts, it reads all existing **environment variables** and turns them into Makefile variables. This means you can influence a Makefile's behavior by setting environment variables before running `make`.</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+all:
+    @echo "--- Environment Variable Demo ---"
+    # Access as a shell variable (exported from environment)
+    @echo "Shell ENV variable (via $$): $$MY_ENV_VAR"
+    # Access as a Makefile variable (automatically imported)
+    @echo "Makefile VAR (via $()): $(MY_ENV_VAR)"
+
+.PHONY: all
+</code></pre>
+                <p class="text-gray-600 mb-6">**Try it:** Run `export MY_ENV_VAR="Hello from environment"; make` and see the output.</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">The `export` Directive</h3>
+                <p class="text-gray-600 mb-4">The `export` directive makes a Makefile variable available as an **environment variable** to all commands in recipes, and to sub-`make` processes.</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+MESSAGE = "This message is exported!"
+export MESSAGE # Export MESSAGE to shell commands and sub-makes
+
+all:
+    @echo "--- Export Demo ---"
+    @echo "Via Makefile var: $(MESSAGE)"
+    @echo "Via Shell env var: $$MESSAGE" # Accessible as shell env var now
+
+    @mkdir -p temp_subdir
+    @echo "sub_target:\n\t@echo \"Sub-make sees: \$$(MESSAGE)\"" > temp_subdir/Makefile
+    @echo "  (Contents of temp_subdir/Makefile created)"
+    @cd temp_subdir && $(MAKE) sub_target
+    @echo "--- Export Demo Complete ---"
+
+.PHONY: all clean
+clean:
+    @rm -rf temp_subdir
+</code></pre>
+                <p class="text-gray-600 mb-6">Run `make` and observe how `MESSAGE` is accessible both as a shell environment variable and within the sub-Makefile.</p>
+                <img src="assets/makefiles/export_variable_example.png" alt="Screenshot of terminal output showing a variable being exported and used in a sub-make." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `MESSAGE` used by both main and sub-make)*</p>
+
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">The `.EXPORT_ALL_VARIABLES` Directive</h3>
+                <p class="text-gray-600 mb-4">Instead of individually exporting variables, you can use the special directive `.EXPORT_ALL_VARIABLES:` to automatically export *all* variables defined in your Makefile to subprocesses and sub-`make` calls.</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.EXPORT_ALL_VARIABLES: # Export all variables by default
+
+GLOBAL_SETTING = "This is a global setting!"
+
+all:
+    @echo "--- .EXPORT_ALL_VARIABLES Demo ---"
+    @echo "Top-level: $(GLOBAL_SETTING)"
+    @echo "Top-level shell: $$GLOBAL_SETTING" # Also exported to shell commands
+
+    @mkdir -p another_subdir
+    @echo "sub_target_all:\n\t@echo \"Sub-make sees: \$$(GLOBAL_SETTING)\"" > another_subdir/Makefile
+    @echo "  (Contents of another_subdir/Makefile created)"
+    @cd another_subdir && $(MAKE) sub_target_all
+    @echo "--- .EXPORT_ALL_VARIABLES Demo Complete ---"
+
+.PHONY: all clean
+clean:
+    @rm -rf another_subdir
+</code></pre>
+                <p class="text-gray-600 mb-6">This can be convenient for simple cases but might lead to a cluttered environment for very large, complex projects.</p>
+
+                ---
+
+                <h2 id="make-arguments" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.6 Arguments to `make`</h2>
+                <p class="text-gray-600 mb-4">The `make` command itself accepts many powerful arguments that influence its behavior:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
+                    <li>
+                        `make [TARGET] [TARGET2 ...]`: You can specify multiple targets on the command line, and `make` will build them in the order provided.
+                    </li>
+                    <li>
+                        `make -n` or `--dry-run`: Prints the commands that *would* be executed without actually running them. Excellent for debugging!
+                    </li>
+                    <li>
+                        `make -t` or `--touch`: "Touches" (updates the modification timestamp of) the specified targets without running their commands. Useful for marking targets as up-to-date without rebuilding.
+                    </li>
+                    <li>
+                        `make -o FILE` or `--old-file=FILE`: Considers `FILE` to be very old, even if it's new. Useful for forcing rebuilds related to a specific file.
+                    </li>
+                    <li>
+                        `make -B` or `--always-make`: Unconditionally remakes all targets, ignoring timestamps.
+                    </li>
+                    <li>
+                        `make -C DIR`: Changes to `DIR` before reading Makefiles or doing anything else.
+                    </li>
+                </ul>
+                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>file_A:
+    @echo "Building file_A"
+    @touch file_A
+
+file_B:
+    @echo "Building file_B"
+    @touch file_B
+
+clean:
+    @echo "Cleaning up..."
+    @rm -f file_A file_B
+
+.PHONY: clean
+</code></pre>
+                <p class="text-gray-600 mb-6">**Try it:**</p>
+                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make file_A file_B
+make clean file_A # Runs clean, then builds file_A
+make -n file_A file_B # See what would happen
+</code></pre>
+                <img src="assets/makefiles/make_arguments.png" alt="Screenshot of terminal running make with various command-line arguments like -n and multiple targets." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output for `make -n` and multiple targets)*</p>
+
+                ---
+
+                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion & What's Next?</h2>
+                <p class="text-gray-600 mb-4">You've now gained a deep understanding of how `make` executes commands, manages its shell environment, handles errors, and works across multiple directories. These are essential skills for controlling complex build flows and debugging issues when they arise.</p>
+                <p class="text-gray-600">In the next tutorial, we'll explore Makefile functions and directives to further streamline and customize your build processes. You're becoming a Makefile pro!</p>
+            </div>
+        </section>
+    </main>
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+            <a href="makefile_04.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: Implicit, Static, and Pattern Rules
+            </a>
+
+            <a href="makefile_06.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                Next: Flavors, Conditionals, and Scope
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>
