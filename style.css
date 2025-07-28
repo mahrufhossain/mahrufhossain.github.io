@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
 /* Base Styles & Font Import */
 body {
     font-family: 'Inter', sans-serif;

@@ -18,6 +18,27 @@
                 }
             }
         }
+
+    </script>
+    <script>
+        // Synchronous script to prevent FOUC (Flash of Unstyled Content)
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let themeToApply = 'light';
+            if (storedTheme) {
+                themeToApply = storedTheme;
+            } else if (prefersDark) {
+                themeToApply = 'dark';
+            }
+
+            if (themeToApply === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -25,38 +46,38 @@
 <body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
 <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
     <nav class="container mx-auto flex justify-between items-center px-4">
-        <a href="index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800  transition duration-300">
+        <a href="index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">
             Mahruf Hossain
         </a>
 
         <div class="hidden md:flex space-x-6 items-center">
-            <a href="index.html#home" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+            <a href="index.html#home" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
                 Home
             </a>
-            <a href="index.html#about" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+            <a href="index.html#about" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
                 About
             </a>
-            <a href="index.html#projects" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+            <a href="index.html#projects" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
                 Projects
             </a>
-            <a href="index.html#my-work" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+            <a href="index.html#my-work" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
                 My Work
             </a>
-            <a href="index.html#contact" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300  hover:bg-gray-200 dark:hover:bg-gray-800">
+            <a href="index.html#contact" class="font-bold transition duration-300 rounded-md p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800">
                 Contact
             </a>
             
             <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
                 <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="5"></circle>
-                  <line x1="12" y1="1" x2="12" y2="3"></line>
-                  <line x1="12" y1="21" x2="12" y2="23"></line>
-                  <line x1="1" y1="12" x2="3" y2="12"></line>
-                  <line x1="21" y1="12" x2="23" y2="12"></line>
-                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
-                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
-                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
-                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                    <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                    <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                    <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
                 </svg>
                 <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 opacity-0 pointer-events-none text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
@@ -67,15 +88,15 @@
         <div class="md:hidden flex items-center space-x-2">
             <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
                 <svg id="sun-icon-mobile-header" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="5"></circle>
-                  <line x1="12" y1="1" x2="12" y2="3"></line>
-                  <line x1="12" y1="21" x2="12" y2="23"></line>
-                  <line x1="1" y1="12" x2="3" y2="12"></line>
-                  <line x1="21" y1="12" x2="23" y2="12"></line>
-                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
-                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
-                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
-                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                    <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                    <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                    <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
                 </svg>
                 <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300 opacity-0 pointer-events-none text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
@@ -241,7 +262,6 @@
         </section>
     </main>
 
-    <!-- Footer - bg-gray-800, text-white will be styled by CSS variables -->
     <footer class="bg-gray-800 text-white text-center py-4 mt-20">
         <div class="container mx-auto px-4">
             <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
@@ -252,160 +272,158 @@
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
     </button>
 
-     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // --- Mobile Menu Toggle ---
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Mobile Menu Toggle ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-    if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"], a[href^="index.html#"]'); // Also include index.html# for mobile
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                }
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
             });
-        });
-    }
 
-    // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
-    // This selector now correctly targets links starting with '#' AND 'index.html#'
-    const allNavLinks = document.querySelectorAll('a[href^="#"], a[href^="index.html#"]');
-    allNavLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            const currentPath = window.location.pathname.split('/').pop();
+            const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"]'); // Only target hash links for mobile menu
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+        }
 
-            // Check if the link points to a hash on the current page or explicitly to index.html#hash
-            if (href.startsWith('#')) {
-                e.preventDefault(); // Prevent default jump behavior
-                const targetId = href.split('#')[1];
+        // --- Smooth Scrolling for ONLY ON-PAGE hash links ---
+        // This selects all 'a' tags whose href attribute starts with '#'
+        const onPageHashLinks = document.querySelectorAll('a[href^="#"]'); 
+        onPageHashLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                const targetId = href.substring(1); // Remove the '#'
                 const targetElement = document.getElementById(targetId);
 
-                if (targetElement) {
+                // Check if the link is a hash link AND if the target element exists on the current page
+                if (targetId && targetElement) {
+                    e.preventDefault(); // Prevent default jump for smooth scroll
                     targetElement.scrollIntoView({
-                        behavior: 'smooth', // This is the magic property!
-                        block: 'start' // Aligns the top of the element to the top of the viewport
+                        behavior: 'smooth',
+                        block: 'start'
                     });
                 }
-            } else if (href.startsWith('index.html#')) {
-                // If we are already on index.html, perform smooth scroll
-                if (currentPath === 'index.html' || currentPath === '' || currentPath.endsWith('/')) { // currentPath could be '' for root or end with / for directory index
-                    e.preventDefault(); // Prevent default jump behavior
-                    const targetId = href.split('#')[1];
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth', // This is the magic property!
-                            block: 'start'
-                        });
-                    }
-                }
-                // If not on index.html, let the browser handle navigation (it will jump to section on load)
+                // If it's not an on-page hash link (e.g., index.html#about),
+                // let the browser handle the navigation naturally.
+            });
+        });
+
+        // --- Scroll-to-Top button functionality ---
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        const scrollThreshold = 300; // Pixels to scroll before showing button
+
+        function toggleScrollToTopButton() {
+            if (window.pageYOffset > scrollThreshold) {
+                scrollToTopBtn.style.display = 'flex';
+            } else {
+                scrollToTopBtn.style.display = 'none';
             }
+        }
+
+        // Show/hide the button based on scroll position
+        window.addEventListener('scroll', toggleScrollToTopButton);
+        // Scroll to top when button is clicked
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
-    });
+        // Initial check for scroll to top button visibility on page load
+        toggleScrollToTopButton();
 
-    // --- Scroll-to-Top button functionality ---
-    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-    const scrollThreshold = 300; // Pixels to scroll before showing button
 
-    function toggleScrollToTopButton() {
-        if (window.pageYOffset > scrollThreshold) {
-            scrollToTopBtn.style.display = 'flex';
-        } else {
-            scrollToTopBtn.style.display = 'none';
+        // --- Dark Theme Toggle Logic ---
+        const htmlElement = document.documentElement; // Correctly targets the <html> tag
+
+        // Desktop theme toggle elements
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const sunIconDesktop = document.getElementById('sun-icon-desktop');
+        const moonIconDesktop = document.getElementById('moon-icon-desktop');
+
+        // Mobile header theme toggle elements
+        const themeToggleMobileHeader = document.getElementById('theme-toggle-mobile-header');
+        const sunIconMobileHeader = document.getElementById('sun-icon-mobile-header');
+        const moonIconMobileHeader = document.getElementById('moon-icon-mobile-header');
+
+        // Function to set theme across all relevant elements
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark'); // Add 'dark' class to <html>
+
+                // Desktop icons
+                if (sunIconDesktop) sunIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                if (moonIconDesktop) moonIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                
+                // Mobile header icons
+                if (sunIconMobileHeader) sunIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                if (moonIconMobileHeader) moonIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.classList.remove('dark'); // Remove 'dark' class from <html>
+
+                // Desktop icons
+                if (sunIconDesktop) sunIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                if (moonIconDesktop) moonIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                
+                // Mobile header icons
+                if (sunIconMobileHeader) sunIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                if (moonIconMobileHeader) moonIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                
+                localStorage.setItem('theme', 'light');
+            }
+            // Update the scroll-to-top button's color immediately on theme change
+            updateScrollToTopButtonColor(theme);
         }
-    }
 
-    // Show/hide the button based on scroll position
-    window.addEventListener('scroll', toggleScrollToTopButton);
-    // Scroll to top when button is clicked
-    scrollToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-    // Initial check for scroll to top button visibility on page load
-    toggleScrollToTopButton();
-
-
-    // --- Dark Theme Toggle Logic ---
-    const htmlElement = document.documentElement; // Correctly targets the <html> tag
-
-    // Desktop theme toggle elements
-    const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
-    const sunIconDesktop = document.getElementById('sun-icon-desktop');
-    const moonIconDesktop = document.getElementById('moon-icon-desktop');
-
-    // Mobile header theme toggle elements
-    const themeToggleMobileHeader = document.getElementById('theme-toggle-mobile-header');
-    const sunIconMobileHeader = document.getElementById('sun-icon-mobile-header');
-    const moonIconMobileHeader = document.getElementById('moon-icon-mobile-header');
-
-    // Function to set theme across all relevant elements
-    function setTheme(theme) {
-        if (theme === 'dark') {
-            htmlElement.classList.add('dark'); // Add 'dark' class to <html>
-
-            // Desktop icons
-            sunIconDesktop.classList.add('opacity-0', 'pointer-events-none');
-            moonIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
-            
-            // Mobile header icons
-            sunIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
-            moonIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
-            
-            localStorage.setItem('theme', 'dark');
-        } else {
-            htmlElement.classList.remove('dark'); // Remove 'dark' class from <html>
-
-            // Desktop icons
-            sunIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
-            moonIconDesktop.classList.add('opacity-0', 'pointer-events-none');
-            
-            // Mobile header icons
-            sunIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
-            moonIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
-            
-            localStorage.setItem('theme', 'light');
+        // Function to update the scroll-to-top button's color based on theme
+        function updateScrollToTopButtonColor(theme) {
+            if (scrollToTopBtn) {
+                if (theme === 'dark') {
+                    scrollToTopBtn.classList.add('bg-teal-600', 'hover:bg-teal-700', 'text-white');
+                    // Remove light mode specific classes if they were set
+                    scrollToTopBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600', 'text-white'); 
+                } else {
+                    scrollToTopBtn.classList.remove('bg-teal-600', 'hover:bg-teal-700', 'text-white');
+                    // Add light mode specific classes (adjust these to your desired light mode colors)
+                    scrollToTopBtn.classList.add('bg-blue-500', 'hover:bg-blue-600', 'text-white'); 
+                }
+            }
         }
-    }
+        
+        // Initial call for the scroll-to-top button color based on current theme after DOM load.
+        // The actual theme class is set by the synchronous script in <head>.
+        updateScrollToTopButtonColor(htmlElement.classList.contains('dark') ? 'dark' : 'light');
 
-    // Check for saved theme preference on load
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        setTheme(savedTheme);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        // Check system preference if no saved theme
-        setTheme('dark');
-    } else {
-        setTheme('light'); // Default to light theme
-    }
-
-    // Event listeners for all remaining theme toggle buttons
-    themeToggleDesktop.addEventListener('click', () => {
-        if (htmlElement.classList.contains('dark')) {
-            setTheme('light');
-        } else {
-            setTheme('dark');
+        // Event listeners for theme toggle buttons
+        if (themeToggleDesktop) {
+            themeToggleDesktop.addEventListener('click', () => {
+                if (htmlElement.classList.contains('dark')) {
+                    setTheme('light');
+                } else {
+                    setTheme('dark');
+                }
+            });
         }
-    });
 
-    themeToggleMobileHeader.addEventListener('click', () => {
-        if (htmlElement.classList.contains('dark')) {
-            setTheme('light');
-        } else {
-            setTheme('dark');
+        if (themeToggleMobileHeader) {
+            themeToggleMobileHeader.addEventListener('click', () => {
+                if (htmlElement.classList.contains('dark')) {
+                    setTheme('light');
+                } else {
+                    setTheme('dark');
+                }
+            });
         }
     });
-});
-    </script>
+</script>
 </body>
 </html>

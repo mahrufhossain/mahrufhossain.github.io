@@ -16,6 +16,25 @@
             }
         }
     </script>
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let themeToApply = 'light';
+            if (storedTheme) {
+                themeToApply = storedTheme;
+            } else if (prefersDark) {
+                themeToApply = 'dark';
+            }
+
+            if (themeToApply === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
 </head>
@@ -173,159 +192,170 @@
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
     </button>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // --- Mobile Menu Toggle ---
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Mobile Menu Toggle ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', function() {
-                    mobileMenu.classList.toggle('hidden');
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"], a[href^="../index.html#"]');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
                 });
+            });
+        }
 
-                // Close mobile menu when a link inside it is clicked
-                const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"], a[href^="../index.html#"]');
-                mobileNavLinks.forEach(link => {
-                    link.addEventListener('click', function() {
-                        if (!mobileMenu.classList.contains('hidden')) {
-                            mobileMenu.classList.add('hidden');
-                        }
-                    });
-                });
-            }
+        // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
+        const allNavLinks = document.querySelectorAll('a[href^="#"], a[href^="../index.html#"]');
+        allNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                const currentPath = window.location.pathname.split('/').pop();
 
-            // --- Smooth Scrolling for ALL navigation links (desktop and mobile) ---
-            const allNavLinks = document.querySelectorAll('a[href^="#"], a[href^="../index.html#"]');
-            allNavLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    const currentPath = window.location.pathname.split('/').pop();
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = href.split('#')[1];
+                    const targetElement = document.getElementById(targetId);
 
-                    // Check if it's an internal hash link on the current page
-                    if (href.startsWith('#')) {
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                } else if (href.startsWith('../index.html#')) {
+                    if (currentPath === 'index.html' || currentPath === '' || currentPath.endsWith('/')) {
                         e.preventDefault();
                         const targetId = href.split('#')[1];
                         const targetElement = document.getElementById(targetId);
-
                         if (targetElement) {
                             targetElement.scrollIntoView({
                                 behavior: 'smooth',
                                 block: 'start'
                             });
                         }
-                    } else if (href.startsWith('../index.html#')) {
-                        // This is a link back to index.html with a specific section
-                        // If current page is already index.html, smooth scroll. Otherwise, navigate.
-                        if (currentPath === 'index.html' || currentPath === '') { // currentPath could be '' for root
-                            e.preventDefault();
-                            const targetId = href.split('#')[1];
-                            const targetElement = document.getElementById(targetId);
-                            if (targetElement) {
-                                targetElement.scrollIntoView({
-                                    behavior: 'smooth',
-                                    block: 'start'
-                                });
-                            }
-                        } else {
-                            // Let the browser handle navigation to index.html#section
-                        }
                     }
-                });
-            });
-
-            // --- Scroll-to-Top button functionality ---
-            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-            const scrollThreshold = 300; // Pixels from top to show the button
-
-            function toggleScrollToTopButton() {
-                if (window.pageYOffset > scrollThreshold) {
-                    scrollToTopBtn.style.display = 'flex'; // Use flex to center SVG
-                } else {
-                    scrollToTopBtn.style.display = 'none';
                 }
-            }
-
-            window.addEventListener('scroll', toggleScrollToTopButton);
-            scrollToTopBtn.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
             });
-            toggleScrollToTopButton(); // Call once on load to set initial state
-
-            // --- Dark Theme Toggle Logic ---
-            const htmlElement = document.documentElement;
-
-            const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
-            const sunIconDesktop = document.getElementById('sun-icon-desktop');
-            const moonIconDesktop = document.getElementById('moon-icon-desktop');
-
-            const themeToggleMobileHeader = document.getElementById('theme-toggle-mobile-header');
-            const sunIconMobileHeader = document.getElementById('sun-icon-mobile-header');
-            const moonIconMobileHeader = document.getElementById('moon-icon-mobile-header');
-
-            // Function to apply theme classes and update header background
-            function setTheme(theme) {
-                const header = document.querySelector('header');
-                const mobileMenu = document.getElementById('mobile-menu');
-                const mainContent = document.getElementById('ac-analysis-content');
-                const footer = document.querySelector('footer');
-                const navButtons = document.querySelectorAll('.container.mx-auto.px-4.mt-12.mb-16 div');
-
-
-                if (theme === 'dark') {
-                    htmlElement.classList.add('dark');
-                    // Update desktop icons
-                    if (sunIconDesktop) sunIconDesktop.classList.add('opacity-0', 'pointer-events-none');
-                    if (moonIconDesktop) moonIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
-                    // Update mobile header icons
-                    if (sunIconMobileHeader) sunIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
-                    if (moonIconMobileHeader) moonIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    htmlElement.classList.remove('dark');
-                    // Update desktop icons
-                    if (sunIconDesktop) sunIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
-                    if (moonIconDesktop) moonIconDesktop.classList.add('opacity-0', 'pointer-events-none');
-                    // Update mobile header icons
-                    if (sunIconMobileHeader) sunIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
-                    if (moonIconMobileHeader) moonIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
-                    localStorage.setItem('theme', 'light');
-                }
-            }
-
-            // Set initial theme based on localStorage or system preference
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                setTheme(savedTheme);
-            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                setTheme('dark');
-            } else {
-                setTheme('light');
-            }
-
-            // Event listeners for theme toggles
-            if (themeToggleDesktop) {
-                themeToggleDesktop.addEventListener('click', () => {
-                    if (htmlElement.classList.contains('dark')) {
-                        setTheme('light');
-                    } else {
-                        setTheme('dark');
-                    }
-                });
-            }
-            if (themeToggleMobileHeader) {
-                themeToggleMobileHeader.addEventListener('click', () => {
-                    if (htmlElement.classList.contains('dark')) {
-                        setTheme('light');
-                    } else {
-                        setTheme('dark');
-                    }
-                });
-            }
         });
-    </script>
+
+        // --- Scroll-to-Top button functionality ---
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        const scrollThreshold = 300; // Pixels to scroll before showing button
+
+        function toggleScrollToTopButton() {
+            if (window.pageYOffset > scrollThreshold) {
+                scrollToTopBtn.style.display = 'flex';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        }
+
+        // Show/hide the button based on scroll position
+        window.addEventListener('scroll', toggleScrollToTopButton);
+        // Scroll to top when button is clicked
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        // Initial check for scroll to top button visibility on page load
+        toggleScrollToTopButton();
+
+
+        // --- Dark Theme Toggle Logic ---
+        const htmlElement = document.documentElement; // Correctly targets the <html> tag
+
+        // Desktop theme toggle elements
+        const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+        const sunIconDesktop = document.getElementById('sun-icon-desktop');
+        const moonIconDesktop = document.getElementById('moon-icon-desktop');
+
+        // Mobile header theme toggle elements
+        const themeToggleMobileHeader = document.getElementById('theme-toggle-mobile-header');
+        const sunIconMobileHeader = document.getElementById('sun-icon-mobile-header');
+        const moonIconMobileHeader = document.getElementById('moon-icon-mobile-header');
+
+        // Function to set theme across all relevant elements
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark'); // Add 'dark' class to <html>
+
+                // Desktop icons
+                if (sunIconDesktop) sunIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                if (moonIconDesktop) moonIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                
+                // Mobile header icons
+                if (sunIconMobileHeader) sunIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                if (moonIconMobileHeader) moonIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.classList.remove('dark'); // Remove 'dark' class from <html>
+
+                // Desktop icons
+                if (sunIconDesktop) sunIconDesktop.classList.remove('opacity-0', 'pointer-events-none');
+                if (moonIconDesktop) moonIconDesktop.classList.add('opacity-0', 'pointer-events-none');
+                
+                // Mobile header icons
+                if (sunIconMobileHeader) sunIconMobileHeader.classList.remove('opacity-0', 'pointer-events-none');
+                if (moonIconMobileHeader) moonIconMobileHeader.classList.add('opacity-0', 'pointer-events-none');
+                
+                localStorage.setItem('theme', 'light');
+            }
+            // Update the scroll-to-top button's color immediately on theme change
+            updateScrollToTopButtonColor(theme);
+        }
+
+        // Function to update the scroll-to-top button's color based on theme
+        function updateScrollToTopButtonColor(theme) {
+            if (scrollToTopBtn) {
+                if (theme === 'dark') {
+                    scrollToTopBtn.classList.add('bg-teal-600', 'hover:bg-teal-700', 'text-white');
+                    // Remove light mode specific classes if they were set
+                    scrollToTopBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600', 'text-white'); 
+                } else {
+                    scrollToTopBtn.classList.remove('bg-teal-600', 'hover:bg-teal-700', 'text-white');
+                    // Add light mode specific classes (adjust these to your desired light mode colors)
+                    scrollToTopBtn.classList.add('bg-blue-500', 'hover:bg-blue-600', 'text-white'); 
+                }
+            }
+        }
+        
+        // Initial call for the scroll-to-top button color based on current theme after DOM load.
+        // The actual theme class is set by the synchronous script in <head>.
+        updateScrollToTopButtonColor(htmlElement.classList.contains('dark') ? 'dark' : 'light');
+
+        // Event listeners for theme toggle buttons
+        if (themeToggleDesktop) {
+            themeToggleDesktop.addEventListener('click', () => {
+                if (htmlElement.classList.contains('dark')) {
+                    setTheme('light');
+                } else {
+                    setTheme('dark');
+                }
+            });
+        }
+
+        if (themeToggleMobileHeader) {
+            themeToggleMobileHeader.addEventListener('click', () => {
+                if (htmlElement.classList.contains('dark')) {
+                    setTheme('light');
+                } else {
+                    setTheme('dark');
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>
