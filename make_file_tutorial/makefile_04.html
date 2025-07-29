@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4. Advanced Makefile Rules: Implicit, Static, and Pattern Rules - Mahruf Hossain</title>
+    <title>Advanced Makefile Rules: Implicit, Static, and Pattern Rules - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // Tailwind CSS configuration for dark mode
@@ -102,35 +102,35 @@
     </header>
 
     <main class="flex-grow">
-        <section id="makefiles-fancy-rules-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
-            <div class="container mx-auto px-4">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">4. Advanced Makefile Rules: Implicit, Static, and Pattern Rules</h1>
-                <p class="text-gray-600 mb-6">Makefiles offer powerful, concise ways to define build instructions, especially for common programming tasks like compiling C/C++ code. This tutorial explores "fancy rules" – mechanisms that allow you to write less, generalize more, and leverage `make`'s built-in intelligence. While some of these can seem magical, understanding them is key to deciphering many existing Makefiles.</p>
+    <section id="makefiles-fancy-rules-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6">4. Advanced Makefile Rules: Implicit, Static, and Pattern Rules</h1>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Makefiles offer powerful, concise ways to define build instructions, especially for common programming tasks like compiling C/C++ code. This tutorial explores "fancy rules" – mechanisms that allow you to write less, generalize more, and leverage <code>make</code>'s built-in intelligence. While some of these can seem magical, understanding them is key to deciphering many existing Makefiles.</p>
 
-                ---
 
-                <h2 id="implicit-rules" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.1 Implicit Rules: Make's Built-in Magic</h2>
-                <p class="text-gray-600 mb-4">`make` comes with a set of pre-defined rules, often called "implicit rules," that handle common build steps. These rules automatically infer how to build certain targets from common source files without you explicitly writing out the compilation or linking commands. While they can simplify Makefiles, they sometimes hide the underlying process, making debugging harder.</p>
-                <p class="text-gray-600 mb-4">Here are some of the most common implicit rules related to C/C++ compilation:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>**Compiling C Source:** An object file (`.o`) is automatically built from a C source file (`.c`). The command typically used is `$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@`.</li>
-                    <li>**Compiling C++ Source:** An object file (`.o`) is automatically built from a C++ source file (`.cc` or `.cpp`). The command used is `$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@`.</li>
-                    <li>**Linking Single Object File:** An executable program (e.g., `program_name`) is automatically built from an object file (e.g., `program_name.o`). The command is `$(CC) $(LDFLAGS) $< $(LOADLIBES) $(LDLIBS) -o $@`.</li>
-                </ul>
-                <p class="text-gray-600 mb-4 font-semibold">Key Variables Used by Implicit Rules:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>`CC`: The C compiler program (`cc` by default, often overridden to `gcc`).</li>
-                    <li>`CXX`: The C++ compiler program (`g++` by default).</li>
-                    <li>`CFLAGS`: Flags passed to the C compiler (e.g., `-Wall`, `-g`).</li>
-                    <li>`CXXFLAGS`: Flags passed to the C++ compiler.</li>
-                    <li>`CPPFLAGS`: Flags for the C/C++ preprocessor (e.g., include paths like `-I/usr/local/include`).</li>
-                    <li>`LDFLAGS`: Flags passed to the linker (e.g., library paths like `-L/usr/local/lib`).</li>
-                    <li>`LDLIBS` / `LOADLIBES`: Libraries to link against (e.g., `-lm` for math library).</li>
-                </ul>
 
-                <p class="text-gray-600 mb-4 font-semibold">Example: Leveraging Implicit Rules for a C Program</p>
-                <p class="text-gray-600 mb-4">Notice how we can compile and link a program named `my_program` by simply providing its `.c` source and defining relevant variables. `make` infers the rest!</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Set compiler and flags; these variables are recognized by implicit rules
+            <h2 id="implicit-rules" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">4.1 Implicit Rules: Make's Built-in Magic</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4"><code>make</code> comes with a set of pre-defined rules, often called "implicit rules," that handle common build steps. These rules automatically infer how to build certain targets from common source files without you explicitly writing out the compilation or linking commands. While they can simplify Makefiles, they sometimes hide the underlying process, making debugging harder.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Here are some of the most common implicit rules related to C/C++ compilation:</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li><strong>Compiling C Source:</strong> An object file (<code>.o</code>) is automatically built from a C source file (<code>.c</code>). The command typically used is <code>$(CC) -c $(CPPFLAGS) $(CFLAGS) $&lt; -o $@</code>.</li>
+                <li><strong>Compiling C++ Source:</strong> An object file (<code>.o</code>) is automatically built from a C++ source file (<code>.cc</code> or <code>.cpp</code>). The command used is <code>$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $&lt; -o $@</code>.</li>
+                <li><strong>Linking Single Object File:</strong> An executable program (e.g., <code>program_name</code>) is automatically built from an object file (e.g., <code>program_name.o</code>). The command is <code>$(CC) $(LDFLAGS) $&lt; $(LOADLIBES) $(LDLIBS) -o $@</code>.</li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Key Variables Used by Implicit Rules:</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li><code>CC</code>: The C compiler program (<code>cc</code> by default, often overridden to <code>gcc</code>).</li>
+                <li><code>CXX</code>: The C++ compiler program (<code>g++</code> by default).</li>
+                <li><code>CFLAGS</code>: Flags passed to the C compiler (e.g., <code>-Wall</code>, <code>-g</code>).</li>
+                <li><code>CXXFLAGS</code>: Flags passed to the C++ compiler.</li>
+                <li><code>CPPFLAGS</code>: Flags for the C/C++ preprocessor (e.g., include paths like <code>-I/usr/local/include</code>).</li>
+                <li><code>LDFLAGS</code>: Flags passed to the linker (e.g., library paths like <code>-L/usr/local/lib</code>).</li>
+                <li><code>LDLIBS</code> / <code>LOADLIBES</code>: Libraries to link against (e.g., <code>-lm</code> for math library).</li>
+            </ul>
+
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example: Leveraging Implicit Rules for a C Program</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Notice how we can compile and link a program named <code>my_program</code> by simply providing its <code>.c</code> source and defining relevant variables. <code>make</code> infers the rest!</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Set compiler and flags; these variables are recognized by implicit rules
 CC = gcc
 CFLAGS = -Wall -g # Enable all warnings, include debug info
 
@@ -143,69 +143,66 @@ my_program: my_program.o
 # Make implicitly knows how to build my_program.o from my_program.c
 # using the C compilation implicit rule, because my_program.c exists.
 my_program.c:
-	@echo "int main() { return 0; }" > my_program.c
+    @echo "int main() { return 0; }" > my_program.c
 
 .PHONY: clean
 clean:
-	@echo "Cleaning up..."
-	@rm -f my_program my_program.o my_program.c
+    @echo "Cleaning up..."
+    @rm -f my_program my_program.o my_program.c
 </code></pre>
-                <p class="text-gray-600 mb-6">If you run `make my_program` with this Makefile, you'll see `make` executing `gcc -c -Wall -g my_program.c -o my_program.o` followed by `gcc my_program.o -o my_program`, even though you didn't write those commands!</p>
-                <img src="assets/makefiles/implicit_rules_example.png" alt="Screenshot of terminal running a Makefile that uses implicit rules to compile a C program." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make my_program` and the commands implicitly executed)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">If you run <code>make my_program</code> with this Makefile, you'll see <code>make</code> executing <code>gcc -c -Wall -g my_program.c -o my_program.o</code> followed by <code>gcc my_program.o -o my_program</code>, even though you didn't write those commands!</p>
+            
 
-                ---
 
-                <h2 id="static-pattern-rules" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.2 Static Pattern Rules: Defining Specific Patterns</h2>
-                <p class="text-gray-600 mb-4">Static pattern rules provide a way to apply a generic rule to a *specific list of targets*. They combine the power of pattern matching (`%`) with the ability to explicitly state which targets the pattern applies to.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Syntax:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>TARGETS_LIST: TARGET_PATTERN: PREREQUISITE_PATTERNS
-	COMMANDS
+            <h2 id="static-pattern-rules" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">4.2 Static Pattern Rules: Defining Specific Patterns</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Static pattern rules provide a way to apply a generic rule to a <strong>specific list of targets</strong>. They combine the power of pattern matching (<code>%</code>) with the ability to explicitly state which targets the pattern applies to.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Syntax:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>TARGETS_LIST: TARGET_PATTERN: PREREQUISITE_PATTERNS
+    COMMANDS
 </code></pre>
-                <p class="text-gray-600 mb-4">In this syntax:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>`TARGETS_LIST`: A space-separated list of actual targets you want to build.</li>
-                    <li>`TARGET_PATTERN`: A pattern containing a single `%` that matches each target in `TARGETS_LIST`. The part matched by `%` is called the **stem**.</li>
-                    <li>`PREREQUISITE_PATTERNS`: One or more patterns, also containing a `%`. The stem identified from `TARGET_PATTERN` is substituted into this pattern to determine the prerequisites for each target.</li>
-                </ul>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">In this syntax:</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li><code>TARGETS_LIST</code>: A space-separated list of actual targets you want to build.</li>
+                <li><code>TARGET_PATTERN</code>: A pattern containing a single <code>%</code> that matches each target in <code>TARGETS_LIST</code>. The part matched by <code>%</code> is called the <strong>stem</strong>.</li>
+                <li><code>PREREQUISITE_PATTERNS</code>: One or more patterns, also containing a <code>%</code>. The stem identified from <code>TARGET_PATTERN</code> is substituted into this pattern to determine the prerequisites for each target.</li>
+            </ul>
 
-                <p class="text-gray-600 mb-4 font-semibold">Example: Compiling Multiple `.c` Files to `.o` Files</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Define our object files
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example: Compiling Multiple <code>.c</code> Files to <code>.o</code> Files</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Define our object files
 OBJECTS = main.o utils.o display.o
 
 # The final executable
 my_app: $(OBJECTS)
-	@echo "Linking executable $@"
-	$(CC) $^ -o $@
+    @echo "Linking executable $@"
+    $(CC) $^ -o $@
 
 # Static pattern rule to compile .c files into .o files
 # For each object in $(OBJECTS), e.g., 'main.o':
 #   - TARGET_PATTERN '%.o' matches 'main.o', stem = 'main'
 #   - PREREQUISITE_PATTERNS '%.c' becomes 'main.c'
 $(OBJECTS): %.o: %.c
-	@echo "Compiling $< to $@"
-	$(CC) -c $< -o $@
+    @echo "Compiling $&lt; to $@"
+    $(CC) -c $&lt; -o $@
 
 # Rule to create dummy .c files if they don't exist
 %.c:
-	@echo "Creating dummy source file: $@"
-	@echo "int main() { return 0; }" > $@
+    @echo "Creating dummy source file: $@"
+    @echo "int main() { return 0; }" > $@
 
 .PHONY: all clean
 all: my_app
 
 clean:
-	@echo "Cleaning up..."
-	@rm -f my_app $(OBJECTS) *.c
+    @echo "Cleaning up..."
+    @rm -f my_app $(OBJECTS) *.c
 </code></pre>
-                <p class="text-gray-600 mb-6">This single static pattern rule effectively replaces three separate rules like `main.o: main.c`, `utils.o: utils.c`, etc., making your Makefile much more compact. When `make my_app` is run, it first determines the `.o` files needed, then uses the static pattern rule to find their corresponding `.c` files and compile them.</p>
-                <img src="assets/makefiles/static_pattern_rule_example.png" alt="Screenshot of terminal running a Makefile that uses a static pattern rule to compile multiple C files." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make my_app` building multiple object files using the static pattern rule)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">This single static pattern rule effectively replaces three separate rules like <code>main.o: main.c</code>, <code>utils.o: utils.c</code>, etc., making your Makefile much more compact. When <code>make my_app</code> is run, it first determines the <code>.o</code> files needed, then uses the static pattern rule to find their corresponding <code>.c</code> files and compile them.</p>
+            
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Static Pattern Rules with `filter`</h3>
-                <p class="text-gray-600 mb-4">The `filter` function is often used with static pattern rules to select only specific types of files from a list. This is useful when your `TARGETS_LIST` contains a mix of file types, and you only want a specific pattern rule to apply to a subset.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Example with `filter`:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Mixed list of output files
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Static Pattern Rules with <code>filter</code></h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">The <code>filter</code> function is often used with static pattern rules to select only specific types of files from a list. This is useful when your <code>TARGETS_LIST</code> contains a mix of file types, and you only want a specific pattern rule to apply to a subset.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example with <code>filter</code>:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Mixed list of output files
 OUTPUT_FILES = report.txt data.bin config.xml
 
 # Here, 'report.txt' will be matched by '%.txt'
@@ -213,108 +210,98 @@ OUTPUT_FILES = report.txt data.bin config.xml
 # 'config.xml' will be matched by '%.xml'
 
 $(filter %.txt, $(OUTPUT_FILES)): %.txt: %.md
-	@echo "Generating text report from markdown: $&lt; -> $@"
-	@cp $&lt; $@ # Simulate conversion
+    @echo "Generating text report from markdown: $&lt; -> $@"
+    @cp $&lt; $@ # Simulate conversion
 
 $(filter %.bin, $(OUTPUT_FILES)): %.bin: %.dat
-	@echo "Processing data to binary: $&lt; -> $@"
-	@cp $&lt; $@ # Simulate processing
+    @echo "Processing data to binary: $&lt; -> $@"
+    @cp $&lt; $@ # Simulate processing
 
 $(filter %.xml, $(OUTPUT_FILES)): %.xml: %.json
-	@echo "Converting JSON config to XML: $&lt; -> $@"
-	@cp $&lt; $@ # Simulate conversion
+    @echo "Converting JSON config to XML: $&lt; -> $@"
+    @cp $&lt; $@ # Simulate conversion
 
 # Dummy rules to create source files
 %.md %.dat %.json:
-	@echo "Creating dummy source: $@"
-	@touch $@
+    @echo "Creating dummy source: $@"
+    @touch $@
 
 .PHONY: all clean
 all: $(OUTPUT_FILES)
 
 clean:
-	@echo "Cleaning up..."
-	@rm -f $(OUTPUT_FILES) *.md *.dat *.json
+    @echo "Cleaning up..."
+    @rm -f $(OUTPUT_FILES) *.md *.dat *.json
 </code></pre>
-                <p class="text-gray-600 mb-6">When you run `make all`, `make` intelligently applies the correct rule based on the file extension filtered from `OUTPUT_FILES`.</p>
-                <img src="assets/makefiles/static_pattern_filter_example.png" alt="Screenshot of terminal running a Makefile that uses static pattern rules with the filter function." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make all` building files with different extensions using filtered static pattern rules)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">When you run <code>make all</code>, <code>make</code> intelligently applies the correct rule based on the file extension filtered from <code>OUTPUT_FILES</code>.</p>
+            
 
-                ---
+      
 
-                <h2 id="pattern-rules" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.3 Pattern Rules: Generalized Build Instructions</h2>
-                <p class="text-gray-600 mb-4">Pattern rules are even more generalized than static pattern rules. They don't specify a list of targets; instead, they define how to build *any* target that matches a certain pattern from a prerequisite that matches another pattern. You can think of them as defining your own "implicit rules."</p>
-                <p class="text-gray-600 mb-4 font-semibold">Syntax:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>TARGET_PATTERN: PREREQUISITE_PATTERNS
-	COMMANDS
+            <h2 id="pattern-rules" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">4.3 Pattern Rules: Generalized Build Instructions</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Pattern rules are even more generalized than static pattern rules. They don't specify a list of targets; instead, they define how to build <em>any</em> target that matches a certain pattern from a prerequisite that matches another pattern. You can think of them as defining your own "implicit rules."</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Syntax:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>TARGET_PATTERN: PREREQUISITE_PATTERNS
+    COMMANDS
 </code></pre>
-                <p class="text-gray-600 mb-4">A pattern rule is identified by the presence of a `%` in the target. This `%` matches any non-empty substring, and this matched substring (the stem) is then used in the prerequisites.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Example: A Generic Rule for Compiling C Sources</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Define a generic pattern rule to compile any .c into a .o
+            <p class="text-gray-600 dark:text-gray-300 mb-4">A pattern rule is identified by the presence of a <code>%</code> in the target. This <code>%</code> matches any non-empty substring, and this matched substring (the <strong>stem</strong>) is then used in the prerequisites.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example: A Generic Rule for Compiling C Sources</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Define a generic pattern rule to compile any .c into a .o
 # This acts like Make's built-in C compilation rule.
 %.o: %.c
-	@echo "Pattern rule: Compiling C source: $< -> $@"
-	$(CC) -c $(CFLAGS) $< -o $@
+    @echo "Pattern rule: Compiling C source: $&lt; -> $@"
+    $(CC) -c $(CFLAGS) $&lt; -o $@
 
 # Define a pattern rule to create dummy .c files if needed
 %.c:
-	@echo "Pattern rule: Creating dummy C source: $@"
-	@echo "int main() { return 0; }" > $@
+    @echo "Pattern rule: Creating dummy C source: $@"
+    @echo "int main() { return 0; }" > $@
 
 # Our final program (requires these .o files)
 app_exe: main.o utils.o
-	@echo "Pattern rule: Linking app: $^ -> $@"
-	$(CC) $^ -o $@
+    @echo "Pattern rule: Linking app: $^ -> $@"
+    $(CC) $^ -o $@
 
 .PHONY: all clean
 all: app_exe
 
 clean:
-	@echo "Cleaning up..."
-	@rm -f app_exe *.o *.c
+    @echo "Cleaning up..."
+    @rm -f app_exe *.o *.c
 </code></pre>
-                <p class="text-gray-600 mb-6">When you run `make app_exe`, the pattern rule `%.o: %.c` is applied twice (once for `main.o`, once for `utils.o`), leading to `main.c` and `utils.c` being compiled.</p>
-                <img src="assets/makefiles/pattern_rules_example.png" alt="Screenshot of terminal running a Makefile that uses pattern rules to compile C files." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make app_exe` using the pattern rules)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">When you run <code>make app_exe</code>, the pattern rule <code>%.o: %.c</code> is applied twice (once for <code>main.o</code>, once for <code>utils.o</code>), leading to <code>main.c</code> and <code>utils.c</code> being compiled.</p>
+            
 
-                ---
 
-                <h2 id="double-colon-rules" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">4.4 Double-Colon Rules (`::`): Multiple Ways to Build a Target</h2>
-                <p class="text-gray-600 mb-4">Double-colon rules (`::`) are a less common but sometimes useful feature that allows you to define **multiple independent rules for the same target**. If you were to use a single colon (`:`) for the same target multiple times, `make` would typically issue a warning and only use the commands from the *last* defined rule.</p>
-                <p class="text-gray-600 mb-4">With double-colon rules, each instance of the rule for the same target is treated as independent. If any of its prerequisites are newer, or if its commands are forced to run, *only that specific instance's commands will be executed*.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># This target will always execute both sets of commands
+            <h2 id="double-colon-rules" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">4.4 Double-Colon Rules (<code>::</code>): Multiple Ways to Build a Target</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Double-colon rules (<code>::</code>) are a less common but sometimes useful feature that allows you to define <strong>multiple independent rules for the same target</strong>. If you were to use a single colon (<code>:</code>) for the same target multiple times, <code>make</code> would typically issue a warning and only use the commands from the <em>last</em> defined rule.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">With double-colon rules, each instance of the rule for the same target is treated as independent. If any of its prerequisites are newer, or if its commands are forced to run, <em>only that specific instance's commands will be executed</em>.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># This target will always execute both sets of commands
 my_target::
-	@echo "Executing first set of commands for my_target"
+    @echo "Executing first set of commands for my_target"
 
 my_target::
-	@echo "Executing second set of commands for my_target"
+    @echo "Executing second set of commands for my_target"
 
 # If my_target has a prerequisite, this rule's commands run only if prerequisite is newer
 another_target:: some_prereq
-	@echo "Executing commands for another_target (due to some_prereq)"
+    @echo "Executing commands for another_target (due to some_prereq)"
 
 # Dummy prerequisite
 some_prereq:
-	@echo "Creating or touching some_prereq"
-	@touch some_prereq
+    @echo "Creating or touching some_prereq"
+    @touch some_prereq
 
 .PHONY: my_target another_target clean
 clean:
-	@rm -f some_prereq
+    @rm -f some_prereq
 </code></pre>
-                <p class="text-gray-600 mb-6">When you run `make my_target`, both "hello" and "hello again" will print. If you run `make another_target`, only its commands will run (after checking `some_prereq`). This can be useful for separate installation steps or complex build phases where distinct sets of commands are needed for the same logical output.</p>
-                <img src="assets/makefiles/double_colon_example.png" alt="Screenshot of terminal running a Makefile that uses double-colon rules." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make my_target` and `make another_target`)*</p>
-
-                ---
-
-                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion & Next Steps</h2>
-                <p class="text-600 mb-4">Implicit rules, static pattern rules, and pattern rules are powerful tools for writing concise, maintainable, and highly generalized Makefiles, especially for projects with many similar source files. While they have a learning curve, they are fundamental to professional Makefile usage.</p>
-                <p class="text-gray-600">You're now equipped with the knowledge to handle much more complex build scenarios. In our next tutorial, we'll explore Makefile functions and directives to further streamline and customize your build processes!</p>
-            </div>
-        </section>
-    </main>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">When you run <code>make my_target</code>, both "hello" and "hello again" will print. If you run <code>make another_target</code>, only its commands will run (after checking <code>some_prereq</code>). This can be useful for separate installation steps or complex build phases where distinct sets of commands are needed for the same logical output.</p>
+        
+        </div>
+    </section>
+</main>
 
     <section class="container mx-auto px-4 mt-12 mb-16">
         <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3. Makefiles: Wildcards & Automatic Variables - Mahruf Hossain</title>
+    <title>Makefiles: Wildcards & Automatic Variables - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // Tailwind CSS configuration for dark mode
@@ -105,17 +105,17 @@
         <section id="makefiles-wildcards-auto-vars-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
             <div class="container mx-auto px-4">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">3. Makefiles: Wildcards & Automatic Variables</h1>
-                <p class="text-gray-600 mb-6">As your projects grow, manually listing every source file or output file in your Makefile becomes tedious and error-prone. This is where **wildcards** and **automatic variables** shine. They provide dynamic ways to refer to files and gain context within rules, making your Makefiles much more scalable and maintainable.</p>
+                <p class="text-gray-600 mb-6">As your projects grow, manually listing every source file or output file in your Makefile becomes tedious and error-prone. This is where wildcards and automatic variables shine. They provide dynamic ways to refer to files and gain context within rules, making your Makefiles much more scalable and maintainable.</p>
 
-                ---
+            
 
-                <h2 id="wildcards" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">3.1 Wildcards: `*` (Asterisk) and `%` (Percent)</h2>
-                <p class="text-gray-600 mb-4">`make` supports two primary types of wildcards, `*` and `%`, each serving a distinct purpose.</p>
+                <h2 id="wildcards" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">3.1 Wildcards: <code>*</code> (Asterisk) and <code>%</code> (Percent)</h2>
+                <p class="text-gray-600 mb-4"><b>make</b> supports two primary types of wildcards, <b><code>*</code></b> and <b><code>%</code></b>, each serving a distinct purpose.</p>
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">The Asterisk Wildcard (`*`) - Filesystem Matching</h3>
-                <p class="text-gray-600 mb-4">The asterisk (`*`) wildcard is familiar from shell commands. In Makefiles, it expands to match existing filenames in the filesystem. However, its behavior can be tricky, especially in variable assignments.</p>
-                <p class="text-gray-600 mb-4">It's generally recommended to use the **`wildcard` function** when you need `*` to expand a list of files. This avoids common pitfalls.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Example using `*` and the `wildcard` function:</p>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">The Asterisk Wildcard (<b><code>*</code></b>) - Filesystem Matching</h3>
+                <p class="text-gray-600 mb-4">The asterisk (<b><code>*</code></b>) wildcard is familiar from shell commands. In Makefiles, it expands to match existing filenames in the filesystem. However, its behavior can be tricky, especially in variable assignments.</p>
+                <p class="text-gray-600 mb-4">It's generally recommended to use the <b>wildcard function</b> when you need <b><code>*</code></b> to expand a list of files. This avoids common pitfalls.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Example using <b><code>*</code></b> and the `wildcard` function:</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Create some dummy C files for this example
 # (You'd typically already have these in your project)
 initial_setup:
@@ -150,30 +150,29 @@ clean:
 	@echo "Cleaning up..."
 	@rm -f *.c *.o
 </code></pre>
-                <p class="text-gray-600 mb-4">**Important Pitfalls to Avoid:**</p>
+                <p class="text-gray-600 mb-4"><strong>Important Pitfalls to Avoid:</strong></p>
                 <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li>
-                        **Variable Assignments:** If you assign `*` directly to a variable (e.g., `SOURCES = *.c`), the asterisk will **not** expand at the time of assignment. The variable will simply contain the literal string "*.c". Use `$(wildcard *.c)` for dynamic expansion.
+                        <b>Variable Assignments:</b> If you assign <b><code>*</code></b> directly to a variable (e.g., <code>SOURCES = *.c</code>), the asterisk will <b>not</b> expand at the time of assignment. The variable will simply contain the literal string <code>*.c</code>. Use <code>$(wildcard *.c)</code> for dynamic expansion.
                     </li>
                     <li>
-                        **No Matches:** When `*` is used outside the `wildcard` function and finds no matching files, it remains as the literal `*`. For instance, if you have `my_program: *.o` and no `.o` files exist, `my_program` will look for a prerequisite named "*.o", which is usually not what you intend. The `wildcard` function, however, expands to an empty string if no matches are found, which is often safer.
+                        <b>No Matches:</b> When <b><code>*</code></b> is used outside the <b>wildcard</b> function and finds no matching files, it remains as the literal <b><code>*</code></b>. For instance, if you have <code>my_program: *.o</code> and no <code>.o</code> files exist, <code>my_program</code> will look for a prerequisite named <code>*.o</code>, which is usually not what you intend. The <b>wildcard</b> function, however, expands to an empty string if no matches are found, which is often safer.
                     </li>
                 </ul>
-                <img src="assets/makefiles/wildcard_asterisk.png" alt="Screenshot of Makefile using asterisk wildcard and wildcard function with terminal output." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make initial_setup`, `make show_c_files`, and `make try_wildcards`)*</p>
+            
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">The Percent Wildcard (`%`) - Pattern Matching</h3>
-                <p class="text-gray-600 mb-4">The percent wildcard (`%`) is distinctly different from `*`. It's used for **pattern matching and replacement** within rules and specific Makefile functions, not for searching the filesystem.</p>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">The Percent Wildcard (<b><code>%</code></b>) - Pattern Matching</h3>
+                <p class="text-gray-600 mb-4">The percent wildcard (<b><code>%</code></b>) is distinctly different from <b><code>*</code></b>. It's used for <strong>pattern matching and replacement</strong> within rules and specific Makefile functions, not for searching the filesystem.</p>
                 <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li>
-                        **Matching Mode:** When used in a rule's target or prerequisites, `%` matches one or more characters in a string. The part of the string matched by `%` is called the **stem**.
+                        <b>Matching Mode:</b> When used in a rule's target or prerequisites, <b><code>%</code></b> matches one or more characters in a string. The part of the string matched by <b><code>%</code></b> is called the <strong>STEM</strong>.
                     </li>
                     <li>
-                        **Replacing Mode:** Once a stem is matched, that stem can be used to construct new strings in other parts of the rule (e.g., in the commands).
+                        <b>Replacing Mode:</b> Once a stem is matched, that stem can be used to construct new strings in other parts of the rule (e.g., in the commands).
                     </li>
                 </ul>
-                <p class="text-gray-600 mb-4">The `%` wildcard is most powerful when used with **Pattern Rules** and **Static Pattern Rules**, which we'll explore in detail in future tutorials. It also appears in functions like `patsubst` (pattern substitute) and `vpath`.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Simple illustration of `%` in a rule (more in next tutorials!):</p>
+                <p class="text-gray-600 mb-4">The <b><code>%</code></b> wildcard is most powerful when used with <strong>Pattern Rules and Static Pattern Rules</strong>, which we'll explore in detail in future tutorials. It also appears in functions like <code>patsubst</code> (pattern substitute) and <code>vpath</code>.</p>
+                <p class="text-gray-600 mb-4 font-semibold">Simple illustration of <b><code>%</code></b> in a rule (more in next tutorials!):</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># This is a 'pattern rule'
 %.o: %.c
 	@echo "Compiling $< into $@"
@@ -182,14 +181,11 @@ clean:
 # To try this, create a 'test.c' file
 # Then run 'make test.o'
 </code></pre>
-                <p class="text-gray-600 mb-6">Here, `%.o` matches any `.o` file, and `%.c` matches its corresponding `.c` file. The stem is the part before `.o` or `.c`.</p>
-                <img src="assets/makefiles/wildcard_percent.png" alt="Screenshot of Makefile using percent wildcard in a pattern rule with terminal output." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `make test.o` after creating a `test.c` file)*</p>
-
-                ---
+                <p class="text-gray-600 mb-6">Here, <code>%.o</code> matches any <code>.o</code> file, and <code>%.c</code> matches its corresponding <code>.c</code> file. The stem is the part before <code>.o</code> or <code>.c</code>.</p>
+            
 
                 <h2 id="automatic-variables" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">3.2 Automatic Variables: Dynamic Context for Commands</h2>
-                <p class="text-gray-600 mb-4">Automatic variables are special variables whose values are automatically set by `make` for each rule based on the rule's target and prerequisites. They allow you to write generic commands that work for many different files without needing to hardcode names. These are incredibly useful for pattern rules!</p>
+                <p class="text-gray-600 mb-4">Automatic variables are special variables whose values are automatically set by <b>make</b> for each rule based on the rule's target and prerequisites. They allow you to write generic commands that work for many different files without needing to hardcode names. These are incredibly useful for pattern rules!</p>
                 <p class="text-gray-600 mb-4 font-semibold">Here are some of the most frequently used automatic variables:</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Let's create dummy files to see the effect
 setup_auto_vars_example:
@@ -225,34 +221,27 @@ clean:
 </code></pre>
                 <p class="text-gray-600 mb-4">To see these in action:</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>Run `make setup_auto_vars_example` to create the dummy `.c` files.</li>
-                    <li>Run `make clean` (if you've run it before) to ensure clean state.</li>
-                    <li>Run `make build_my_app` and observe the output.</li>
-                    <li>Now, `touch alpha.c` (to make it newer) and run `make build_my_app` again. Notice how `$`?` changes!</li>
+                    <li>Run <b><code>make setup_auto_vars_example</code></b> to create the dummy <code>.c</code> files.</li>
+                    <li>Run <b><code>make clean</code></b> (if you've run it before) to ensure clean state.</li>
+                    <li>Run <b><code>make build_my_app</code></b> and observe the output.</li>
+                    <li>Now, <b><code>touch alpha.c</code></b> (to make it newer) and run <b><code>make build_my_app</code></b> again. Notice how <strong><code>$?</code></strong> changes!</li>
                 </ol>
                 <p class="text-gray-600 mb-4 font-semibold">Breakdown of the common automatic variables:</p>
                 <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li>
-                        `$@`: The **full name of the target** that `make` is currently building. Extremely useful for naming output files.
+                        <b>$@</b>: The full name of the target that <b>make</b> is currently building. Extremely useful for naming output files.
                     </li>
                     <li>
-                        `$^`: The **names of all prerequisites**, with duplicates removed.
+                        <b>$^</b>: The names of all prerequisites, with duplicates removed.
                     </li>
                     <li>
-                        `$<`: The **name of the first prerequisite** listed for the rule. Often used when a command only operates on one input file.
+                        <b>$<</b>: The name of the first prerequisite listed for the rule. Often used when a command only operates on one input file.
                     </li>
                     <li>
-                        `$?`: The names of **all prerequisites that are newer than the target**, with duplicates removed. Perfect for incremental builds where you only need to process changed files.
+                        <b>$?</b>: The names of all prerequisites that are newer than the target, with duplicates removed. Perfect for incremental builds where you only need to process changed files.
                     </li>
                 </ul>
-                <img src="assets/makefiles/automatic_variables_output.png" alt="Screenshot of terminal output from a Makefile demonstrating automatic variables like $@, $?, $^, and $<." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output clearly showing the values of `$`@`, `$`?`, `$`^`, and `$`<` for the `build_my_app` target)*</p>
 
-                ---
-
-                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion & What's Next?</h2>
-                <p class="text-gray-600 mb-4">Mastering wildcards and automatic variables significantly enhances your Makefile writing skills. They allow you to create rules that are concise, adaptable, and robust enough to handle varying numbers of source files and complex dependency updates without constant manual intervention.</p>
-                <p class="text-gray-600">In the next tutorial, we'll combine these concepts with **Pattern Rules** and **Static Pattern Rules** to create highly generalized and powerful Makefiles for multi-file projects. Stay tuned!</p>
             </div>
         </section>
     </main>

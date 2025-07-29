@@ -1,5 +1,5 @@
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 /* Base Styles & Font Import */
 body {
@@ -281,7 +281,9 @@ html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode di
 
 /* --- LTSpice Tutorial Page Specific Content Styling --- */
 /* (Applies to ltspice_installation.html, basic_simulation.html, basic_transient_analysis.html, basic_ac_analysis.html, working_with_plots.html, dc_sweep.html, opamp_inverting.html, third_party_models.html, parameter_sweep.html) */
-#ltspice-installation, #basic-simulation-content, #transient-analysis-content, #ac-analysis-content, #plot-window-content, #dc-sweep-content, #opamp-inverting-content, #third-party-models-content, #parameter-sweep-content {
+#ltspice-installation, #basic-simulation-content, #transient-analysis-content, #ac-analysis-content, #plot-window-content, #dc-sweep-content, #opamp-inverting-content, #third-party-models-content, #parameter-sweep-content,
+/* --- Makefile Tutorial Page Specific Content Styling --- */
+#makefile-tutorial-content, #advanced-makefiles-content, #makefile-cookbook-content, #makefiles-advanced-features-content, #makefiles-functions-content, #makefiles-variables-deep-dive-content, #makefiles-commands-execution-content, #makefiles-fancy-rules-content, #makefiles-wildcards-auto-vars-content {
     background-color: var(--color-bg-primary); /* bg-white */
     box-shadow: 0 4px 6px -1px var(--color-shadow); /* shadow-lg */
     border-radius: 0.75rem; /* rounded-xl */
@@ -298,7 +300,17 @@ html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode di
 #dc-sweep-content h1, #dc-sweep-content h2, #dc-sweep-content h3,
 #opamp-inverting-content h1, #opamp-inverting-content h2, #opamp-inverting-content h3, /* Added */
 #third-party-models-content h1, #third-party-models-content h2, #third-party-models-content h3, /* Added */
-#parameter-sweep-content h1, #parameter-sweep-content h2, #parameter-sweep-content h3 { /* Added */
+#parameter-sweep-content h1, #parameter-sweep-content h2, #parameter-sweep-content h3, /* Added */
+/* New Makefile headings */
+#makefile-tutorial-content h1, #makefile-tutorial-content h2, #makefile-tutorial-content h3,
+#advanced-makefiles-content h1, #advanced-makefiles-content h2, #advanced-makefiles-content h3,
+#makefile-cookbook-content h1, #makefile-cookbook-content h2, #makefile-cookbook-content h3,
+#makefiles-advanced-features-content h1, #makefiles-advanced-features-content h2, #makefiles-advanced-features-content h3,
+#makefiles-functions-content h1, #makefiles-functions-content h2, #makefiles-functions-content h3,
+#makefiles-variables-deep-dive-content h1, #makefiles-variables-deep-dive-content h2, #makefiles-variables-deep-dive-content h3,
+#makefiles-commands-execution-content h1, #makefiles-commands-execution-content h2, #makefiles-commands-execution-content h3,
+#makefiles-fancy-rules-content h1, #makefiles-fancy-rules-content h2, #makefiles-fancy-rules-content h3,
+#makefiles-wildcards-auto-vars-content h1, #makefiles-wildcards-auto-vars-content h2, #makefiles-wildcards-auto-vars-content h3 {
     color: var(--color-heading); /* text-gray-800, text-gray-700 */
     transition: color 0.3s ease;
 }
@@ -312,7 +324,17 @@ html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode di
 #dc-sweep-content p, #dc-sweep-content ol li, #dc-sweep-content ul li,
 #opamp-inverting-content p, #opamp-inverting-content ol li, #opamp-inverting-content ul li, /* Added */
 #third-party-models-content p, #third-party-models-content ol li, #third-party-models-content ul li, /* Added */
-#parameter-sweep-content p, #parameter-sweep-content ol li, #parameter-sweep-content ul li { /* Added */
+#parameter-sweep-content p, #parameter-sweep-content ol li, #parameter-sweep-content ul li, /* Added */
+/* New Makefile paragraphs and lists */
+#makefile-tutorial-content p, #makefile-tutorial-content ol li, #makefile-tutorial-content ul li,
+#advanced-makefiles-content p, #advanced-makefiles-content ol li, #advanced-makefiles-content ul li,
+#makefile-cookbook-content p, #makefile-cookbook-content ol li, #makefile-cookbook-content ul li,
+#makefiles-advanced-features-content p, #makefiles-advanced-features-content ol li, #makefiles-advanced-features-content ul li,
+#makefiles-functions-content p, #makefiles-functions-content ol li, #makefiles-functions-content ul li,
+#makefiles-variables-deep-dive-content p, #makefiles-variables-deep-dive-content ol li, #makefiles-variables-deep-dive-content ul li,
+#makefiles-commands-execution-content p, #makefiles-commands-execution-content ol li, #makefiles-commands-execution-content ul li,
+#makefiles-fancy-rules-content p, #makefiles-fancy-rules-content ol li, #makefiles-fancy-rules-content ul li,
+#makefiles-wildcards-auto-vars-content p, #makefiles-wildcards-auto-vars-content ol li, #makefiles-wildcards-auto-vars-content ul li {
     color: var(--color-text-secondary); /* text-gray-600 */
     transition: color 0.3s ease;
 }
@@ -326,7 +348,17 @@ html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode di
 #dc-sweep-content hr,
 #opamp-inverting-content hr, /* Added */
 #third-party-models-content hr, /* Added */
-#parameter-sweep-content hr { /* Added */
+#parameter-sweep-content hr, /* Added */
+/* New Makefile horizontal rules */
+#makefile-tutorial-content hr,
+#advanced-makefiles-content hr,
+#makefile-cookbook-content hr,
+#makefiles-advanced-features-content hr,
+#makefiles-functions-content hr,
+#makefiles-variables-deep-dive-content hr,
+#makefiles-commands-execution-content hr,
+#makefiles-fancy-rules-content hr,
+#makefiles-wildcards-auto-vars-content hr {
     border-color: var(--color-border); /* border-gray-300 */
     transition: border-color 0.3s ease;
 }
@@ -340,7 +372,17 @@ html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode di
 #dc-sweep-content a.text-blue-600,
 #opamp-inverting-content a.text-blue-600, /* Added */
 #third-party-models-content a.text-blue-600, /* Added */
-#parameter-sweep-content a.text-blue-600 { /* Added */
+#parameter-sweep-content a.text-blue-600, /* Added */
+/* New Makefile links */
+#makefile-tutorial-content a.text-blue-600,
+#advanced-makefiles-content a.text-blue-600,
+#makefile-cookbook-content a.text-blue-600,
+#makefiles-advanced-features-content a.text-blue-600,
+#makefiles-functions-content a.text-blue-600,
+#makefiles-variables-deep-dive-content a.text-blue-600,
+#makefiles-commands-execution-content a.text-blue-600,
+#makefiles-fancy-rules-content a.text-blue-600,
+#makefiles-wildcards-auto-vars-content a.text-blue-600 {
     color: #2563eb; /* blue-600 (direct Tailwind value as it's not a general accent) */
     transition: color 0.3s ease;
 }
@@ -352,7 +394,17 @@ html.dark #plot-window-content a.text-blue-600,
 html.dark #dc-sweep-content a.text-blue-600,
 html.dark #opamp-inverting-content a.text-blue-600, /* Added */
 html.dark #third-party-models-content a.text-blue-600, /* Added */
-html.dark #parameter-sweep-content a.text-blue-600 { /* Added */
+html.dark #parameter-sweep-content a.text-blue-600, /* Added */
+/* New Makefile links (dark mode) */
+html.dark #makefile-tutorial-content a.text-blue-600,
+html.dark #advanced-makefiles-content a.text-blue-600,
+html.dark #makefile-cookbook-content a.text-blue-600,
+html.dark #makefiles-advanced-features-content a.text-blue-600,
+html.dark #makefiles-functions-content a.text-blue-600,
+html.dark #makefiles-variables-deep-dive-content a.text-blue-600,
+html.dark #makefiles-commands-execution-content a.text-blue-600,
+html.dark #makefiles-fancy-rules-content a.text-blue-600,
+html.dark #makefiles-wildcards-auto-vars-content a.text-blue-600 {
     color: #60a5fa; /* blue-400 for dark mode */
 }
 
@@ -364,7 +416,17 @@ html.dark #parameter-sweep-content a.text-blue-600 { /* Added */
 #dc-sweep-content a.hover\:underline:hover,
 #opamp-inverting-content a.hover\:underline:hover, /* Added */
 #third-party-models-content a.hover\:underline:hover, /* Added */
-#parameter-sweep-content a.hover\:underline:hover { /* Added */
+#parameter-sweep-content a.hover\:underline:hover, /* Added */
+/* New Makefile link hovers */
+#makefile-tutorial-content a.hover\:underline:hover,
+#advanced-makefiles-content a.hover\:underline:hover,
+#makefile-cookbook-content a.hover\:underline:hover,
+#makefiles-advanced-features-content a.hover\:underline:hover,
+#makefiles-functions-content a.hover\:underline:hover,
+#makefiles-variables-deep-dive-content a.hover\:underline:hover,
+#makefiles-commands-execution-content a.hover\:underline:hover,
+#makefiles-fancy-rules-content a.hover\:underline:hover,
+#makefiles-wildcards-auto-vars-content a.hover\:underline:hover {
     text-decoration: underline;
 }
 #ltspice-installation a.text-blue-600:hover,
@@ -375,7 +437,17 @@ html.dark #parameter-sweep-content a.text-blue-600 { /* Added */
 #dc-sweep-content a.text-blue-600:hover,
 #opamp-inverting-content a.text-blue-600:hover, /* Added */
 #third-party-models-content a.text-blue-600:hover, /* Added */
-#parameter-sweep-content a.text-blue-600:hover { /* Added */
+#parameter-sweep-content a.text-blue-600:hover, /* Added */
+/* New Makefile link hovers (light mode) */
+#makefile-tutorial-content a.text-blue-600:hover,
+#advanced-makefiles-content a.text-blue-600:hover,
+#makefile-cookbook-content a.text-blue-600:hover,
+#makefiles-advanced-features-content a.text-blue-600:hover,
+#makefiles-functions-content a.text-blue-600:hover,
+#makefiles-variables-deep-dive-content a.text-blue-600:hover,
+#makefiles-commands-execution-content a.text-blue-600:hover,
+#makefiles-fancy-rules-content a.text-blue-600:hover,
+#makefiles-wildcards-auto-vars-content a.text-blue-600:hover {
     color: #1d4ed8; /* blue-700 hover */
 }
 html.dark #ltspice-installation a.text-blue-600:hover,
@@ -386,7 +458,17 @@ html.dark #plot-window-content a.text-blue-600:hover,
 html.dark #dc-sweep-content a.text-blue-600:hover,
 html.dark #opamp-inverting-content a.text-blue-600:hover, /* Added */
 html.dark #third-party-models-content a.text-blue-600:hover, /* Added */
-html.dark #parameter-sweep-content a.text-blue-600:hover { /* Added */
+html.dark #parameter-sweep-content a.text-blue-600:hover, /* Added */
+/* New Makefile link hovers (dark mode) */
+html.dark #makefile-tutorial-content a.text-blue-600:hover,
+html.dark #advanced-makefiles-content a.text-blue-600:hover,
+html.dark #makefile-cookbook-content a.text-blue-600:hover,
+html.dark #makefiles-advanced-features-content a.text-blue-600:hover,
+html.dark #makefiles-functions-content a.text-blue-600:hover,
+html.dark #makefiles-variables-deep-dive-content a.text-blue-600:hover,
+html.dark #makefiles-commands-execution-content a.text-blue-600:hover,
+html.dark #makefiles-fancy-rules-content a.text-blue-600:hover,
+html.dark #makefiles-wildcards-auto-vars-content a.text-blue-600:hover {
     color: #3b82f6; /* blue-500 hover in dark mode */
 }
 
@@ -399,7 +481,17 @@ html.dark #parameter-sweep-content a.text-blue-600:hover { /* Added */
 #dc-sweep-content img.border-gray-200,
 #opamp-inverting-content img.border-gray-200, /* Added */
 #third-party-models-content img.border-gray-200, /* Added */
-#parameter-sweep-content img.border-gray-200 { /* Added */
+#parameter-sweep-content img.border-gray-200, /* Added */
+/* New Makefile image borders */
+#makefile-tutorial-content img.border-gray-200,
+#advanced-makefiles-content img.border-gray-200,
+#makefile-cookbook-content img.border-gray-200,
+#makefiles-advanced-features-content img.border-gray-200,
+#makefiles-functions-content img.border-gray-200,
+#makefiles-variables-deep-dive-content img.border-gray-200,
+#makefiles-commands-execution-content img.border-gray-200,
+#makefiles-fancy-rules-content img.border-gray-200,
+#makefiles-wildcards-auto-vars-content img.border-gray-200 {
     border-color: var(--color-border); /* border-gray-200 */
     transition: border-color 0.3s ease;
 }
@@ -413,7 +505,17 @@ html.dark #parameter-sweep-content a.text-blue-600:hover { /* Added */
 #dc-sweep-content pre,
 #opamp-inverting-content pre, /* Added */
 #third-party-models-content pre, /* Added */
-#parameter-sweep-content pre { /* Added */
+#parameter-sweep-content pre, /* Added */
+/* New Makefile code blocks */
+#makefile-tutorial-content pre,
+#advanced-makefiles-content pre,
+#makefile-cookbook-content pre,
+#makefiles-advanced-features-content pre,
+#makefiles-functions-content pre,
+#makefiles-variables-deep-dive-content pre,
+#makefiles-commands-execution-content pre,
+#makefiles-fancy-rules-content pre,
+#makefiles-wildcards-auto-vars-content pre {
     background-color: var(--color-code-bg);
     color: var(--color-code-text);
     transition: background-color 0.3s ease, color 0.3s ease;

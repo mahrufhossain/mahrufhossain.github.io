@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1. Understanding Makefiles - Automating Your Builds - Mahruf Hossain</title>
+    <title>Understanding Makefiles - Automating Your Builds - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // Tailwind CSS configuration for dark mode
@@ -105,59 +105,58 @@
         <section id="makefile-tutorial-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
             <div class="container mx-auto px-4">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">1. Understanding Makefiles: Automating Your Builds</h1>
-                <p class="text-gray-600 mb-6">In the world of programming, especially for embedded systems, you often find yourself compiling multiple source files, linking libraries, and performing various build steps. Doing this manually can be tedious and error-prone. This is where <b>Makefiles</b> and the `make` utility come to the rescue!</p>
-                <p class="text-gray-600 mb-6">A Makefile is essentially a set of instructions that the `make` program uses to build your project. It helps you automate the compilation process, manage dependencies, and ensure that only necessary parts of your code are recompiled when changes occur, saving you significant time and effort.</p>
+                <p class="text-gray-600 mb-6">In the world of programming, you often find yourself compiling multiple source files, linking libraries, and performing various build steps. Doing this manually can be tedious and error-prone. This is where <b>Makefiles</b> and the <b>make</b> utility come to the rescue!</p>
+                <p class="text-gray-600 mb-6">A Makefile is essentially a set of instructions that the <b>make</b> program uses to build your project. It helps you automate the compilation process, manage dependencies, and ensure that only necessary parts of your code are recompiled when changes occur, saving you significant time and effort.</p>
 
                 <hr class="my-8 border-gray-300">
 
                 <h2 id="basic-rule" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.1 The Basic Rule Structure</h2>
-                <p class="text-gray-600 mb-4">Every instruction in a Makefile is called a "rule" and follows a specific pattern:</p>
+                <p class="text-gray-600 mb-4">Every instruction in a Makefile is called a <b>"rule"</b> and follows a specific pattern:</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>target: prerequisites
 	command1
 	command2
 	...</code></pre>
                 <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li><b>Target:</b> This is typically the name of the file you want to create (like an executable or an object file), or it can be a logical action you want to perform (like `clean`).</li>
-                    <li><b>Prerequisites (Dependencies):</b> These are the files or other targets that the `target` depends on. If any prerequisite is newer than the target, `make` will know the target is "out of date" and needs to be rebuilt.</li>
-                    <li><b>Commands:</b> These are the shell commands that `make` executes to build the `target`. Each command **MUST start with a tab character**, not spaces. This is a common source of errors for beginners!</li>
+                    <li><b>Target:</b> This is typically the name of the file you want to create (like an executable or an object file), or it can be a logical action you want to perform (like <b>clean</b>).</li>
+                    <li><b>Prerequisites (Dependencies):</b> These are the files or other targets that the <b>target</b> depends on. If any prerequisite is newer than the target, <b>make</b> will know the target is <strong>"out of date"</strong> and needs to be rebuilt.</li>
+                    <li><b>Commands:</b> These are the shell commands that <b>make</b> executes to build the <b>target</b>. Each command <strong>MUST start with a tab character, not spaces</strong>. This is a common source of errors for beginners!</li>
                 </ul>
 
                 <p class="text-gray-600 italic mb-6">Let's look at a simple example where the target is just an action to print some messages:</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>hello_action:
 	@echo "Hello from Makefile!"
 	@echo "This is my first make command."</code></pre>
-                <p class="text-gray-600 mb-4">If you save this in a file named `Makefile` and run `make hello_action` in your terminal, `make` will execute the `echo` commands. Notice the `@` before `echo` – this prevents `make` from printing the command itself before its output.</p>
-                <img src="assets/makefiles/hello_action_output.png" alt="Screenshot of terminal showing output from make hello_action command" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Screenshot of running `make hello_action` in a terminal)*</p>
+                <p class="text-gray-600 mb-4">If you save this in a file named <b>Makefile</b> and run <b><code>make hello_action</code></b> in your terminal, <b>make</b> will execute the <b><code>echo</code></b> commands. Notice the <strong>@</strong> before <b>echo</b> – this prevents <b>make</b> from printing the command itself before its output.</p>
+                <img src="Assets/makefile_01/make_hello_action.png" alt="Screenshot of terminal showing output from make hello_action command" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                
 
                 <hr class="my-8 border-gray-300">
 
                 <h2 id="file-dependencies" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.2 The Power of Prerequisites: File Dependencies</h2>
-                <p class="text-gray-600 mb-4">The real power of Makefiles comes from managing file dependencies. `make` is smart enough to check timestamps:</p>
+                <p class="text-gray-600 mb-4">The real power of Makefiles comes from managing file dependencies. <b>make</b> is smart enough to check timestamps:</p>
                 <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>If the `target` file does not exist, its commands are always executed.</li>
-                    <li>If the `target` file exists, `make` compares its last modification time with the modification times of its `prerequisites`. If any prerequisite is newer, the `target` is considered "out of date" and its commands are executed to rebuild it.</li>
-                    <li>If all prerequisites are older than the `target` (or the same age), the `target` is "up to date," and `make` does nothing.</li>
+                    <li>If the <b>target</b> file does not exist, its commands are always executed.</li>
+                    <li>If the <b>target</b> file exists, <b>make</b> compares its last modification time with the modification times of its <b>`prerequisites`</b>. If any prerequisite is newer, the <b>target</b> is considered <strong>"out of date"</strong> and its commands are executed to rebuild it.</li>
+                    <li>If all prerequisites are older than the <b>target</b> (or the same age), the <b>target</b> is <strong>"up to date"</strong>, and <b>make</b> does nothing.</li>
                 </ul>
 
-                <p class="text-gray-600 mb-4">Let's use a common C program example. Suppose you have a source file `main.c` and you want to compile it into an executable named `my_program`.</p>
-                <p class="text-gray-600 font-semibold mb-2">Consider this problematic Makefile (Version 1):</p>
+                <p class="text-gray-600 mb-4">Let's use a common C program example. Suppose you have a source file <b><code>main.c</code></b> and you want to compile it into an executable named <b><code>my_program</code></b>.</p>
+                <p class="text-gray-600 font-semibold mb-2"><strong>Consider this problematic Makefile (Version 1):</strong></p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>my_program:
 	gcc main.c -o my_program</code></pre>
-                <p class="text-gray-600 mb-4">If `my_program` doesn't exist, `make` will create it. However, if you then modify `main.c` and run `make my_program` again, `make` won't recompile! It has no way to know that `my_program` depends on `main.c`.</p>
+                <p class="text-gray-600 mb-4">If <b><code>my_program</code></b> doesn't exist, <b>make</b> will create it. However, if you then modify <b><code>main.c</code></b> and run <b><code>make my_program</code></b> again, <b>make</b> won't recompile! It has no way to know that <b><code>my_program</code></b> depends on <b><code>main.c</code></b>.</p>
 
-                <p class="text-gray-600 font-semibold mb-2">The Correct Way (Version 2 - with prerequisites):</p>
+                <p class="text-gray-600 font-semibold mb-2"><strong>The Correct Way (Version 2 - with prerequisites):</strong></p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>my_program: main.c
-	gcc main.c -o my_program</code></pre>
-                <p class="text-gray-600 mb-4">Now, if `main.c` is newer than `my_program` (or `my_program` doesn't exist), `make` will execute the `gcc` command. Otherwise, it will simply report that `my_program` is "up to date." This is how `make` ensures efficient and accurate builds!</p>
-                <img src="assets/makefiles/dependency_flow.png" alt="Diagram illustrating Makefile dependency flow: make checks target timestamp against prerequisites, then decides to build or not" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Simple flowchart showing make comparing timestamps and rebuilding if prerequisite is newer)*</p>
+    gcc main.c -o my_program</code></pre>
+                <p class="text-gray-600 mb-4">Now, if <b><code>main.c</code></b> is newer than <b><code>my_program</code></b> (or <b><code>my_program</code></b> doesn't exist), <b>make</b> will execute the <b><code>gcc</code></b> command. Otherwise, it will simply report that <b><code>my_program</code></b> is <strong>"up to date"</strong>. This is how <b>make</b> ensures efficient and accurate builds!</p>
+                
 
                 <hr class="my-8 border-gray-300">
 
                 <h2 id="phony-targets" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.3 Phony Targets: For Actions, Not Files</h2>
-                <p class="text-gray-600 mb-4">Remember our `hello_action` example? It didn't create a file. What if you later create a file named `hello_action` in the same directory? `make` would get confused, thinking it needs to check the timestamp of that file.</p>
-                <p class="text-gray-600 mb-4">To prevent this, we use the `.PHONY` directive. It explicitly tells `make` that a target is a symbolic name for an action, and not an actual file to be built.</p>
+                <p class="text-gray-600 mb-4">Remember our <b>hello_action</b> example? It didn't create a file. What if you later create a file named <b>hello_action</b> in the same directory? <b>make</b> would get confused, thinking it needs to check the timestamp of that file.</p>
+                <p class="text-gray-600 mb-4">To prevent this, we use the <b>.PHONY</b> directive. It explicitly tells <b>make</b> that a target is a symbolic name for an action, and not an actual file to be built.</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.PHONY: hello_action clean all
 
 hello_action:
@@ -169,11 +168,9 @@ clean:
 
 all: my_program # 'all' is a common phony target to build the entire project</code></pre>
                 <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>`make clean` will now always run the `rm` command to remove `my_program` and any object files (`.o`).</li>
-                    <li>`make all` will build `my_program` (assuming you have a rule for `my_program`). By convention, `all` is often the first target in a Makefile, so running `make` without any arguments will build `all`.</li>
+                    <li><b><code>make clean</code></b> will now always run the <b><code>rm</code></b> command to remove <b><code>my_program</code></b> and any object files <b>(.o)</b>.</li>
+                    <li><b><code>make all</code></b> will build <b><code>my_program</code></b> (assuming you have a rule for <b><code>my_program</code></b>). By convention, <b>all</b> is often the first target in a Makefile, so running <b>make</b> without any arguments will build <b>all</b>.</li>
                 </ul>
-                <img src="assets/makefiles/phony_target_example.png" alt="Screenshot of Makefile with .PHONY declaration for clean and all targets" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Screenshot of a Makefile showing `.PHONY` for `clean` and `all`)*</p>
 
                 <hr class="my-8 border-gray-300">
 
@@ -195,36 +192,35 @@ clean:
 	@echo "Cleaning up build artifacts..."
 	@rm -f $(TARGET) *.o</code></pre>
                 <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>`CC = gcc`: Defines a variable `CC` to hold the C compiler command. This makes it easy to switch compilers later.</li>
-                    <li>`TARGET = my_program`: Defines the name of our executable.</li>
-                    <li>`SOURCE = main.c`: Defines the source file.</li>
-                    <li>`all: $(TARGET)`: The `all` target depends on `my_program`. Running `make` will build `my_program`.</li>
-                    <li>`$(TARGET): $(SOURCE)`: This rule says `my_program` depends on `main.c`.</li>
-                    <li>`$(CC) $(SOURCE) -o $(TARGET)`: The command uses our variables.</li>
+                    <li><b><code>CC = gcc</code></b>: Defines a variable <strong>CC</strong> to hold the C compiler command. This makes it easy to switch compilers later.</li>
+                    <li><b><code>TARGET = my_program</code></b>: Defines the name of our executable.</li>
+                    <li><b><code>SOURCE = main.c</code></b>: Defines the source file.</li>
+                    <li><b><code>all: $(TARGET)</code></b>: The <b>"all"</b> target depends on <b><code>my_program</code></b>. Running <b>make</b> will build <b><code>my_program</code></b>.</li>
+                    <li><b><code>$(TARGET): $(SOURCE)</code></b>: This rule says <b><code>my_program</code></b> depends on <b><code>main.c</code></b>.</li>
+                    <li><b><code>$(CC) $(SOURCE) -o $(TARGET)</code></b>: The command uses our variables.</li>
                 </ul>
-                <p class="text-gray-600 mb-4">Now, you can simply run `make` to build your program, and `make clean` to remove the compiled files. If you change `main.c` and run `make` again, it will intelligently recompile `my_program`!</p>
+                <p class="text-gray-600 mb-4">Now, you can simply run <b><code>make</code></b> to build your program, and <b><code>make clean</code></b> to remove the compiled files. If you change <b><code>main.c</code></b> and run <b>make</b> again, it will intelligently recompile <b><code>my_program</code></b>!</p>
 
                 <hr class="my-8 border-gray-300">
 
                 <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion & Next Steps</h2>
-                <p class="text-gray-600 mb-4">You've now grasped the fundamental concepts of Makefiles: rules, targets, prerequisites (dependencies), and phony targets. This foundational knowledge is crucial for managing builds in embedded systems projects, where you often have many source files, libraries, and specific toolchain commands.</p>
+                <p class="text-gray-600 mb-4">You've now grasped the fundamental concepts of Makefiles: rules, targets, prerequisites (dependencies), and phony targets. This foundational knowledge is crucial for managing builds in projects, where you often have many source files, libraries, and specific toolchain commands.</p>
                 <p class="text-gray-600">To dive deeper, explore these topics:</p>
                 <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li><b>Multiple Source Files:</b> How to compile `.c` files into `.o` (object) files and then link them together.</li>
-                    <li><b>Automatic Variables:</b> Learn about `$@`, `$<`, `$^` which make rules more generic.</li>
-                    <li><b>Pattern Rules:</b> Powerful features for handling many similar files (e.g., how to compile *any* `.c` file into a `.o` file automatically).</li>
+                    <li><b>Multiple Source Files:</b> How to compile <b>.c</b> files into <b>.o</b> (object) files and then link them together.</li>
+                    <li><b>Automatic Variables:</b> Learn about <b><code>$@, $<, $^</code></b> which make rules more generic.</li>
+                    <li><b>Pattern Rules:</b> Powerful features for handling many similar files (e.g., how to compile <b>any</b> <b>.c</b> file into a <b>.o</b> file automatically).</li>
                     <li><b>Functions:</b> Makefiles have built-in functions for string manipulation, wildcard expansion, etc.</li>
                 </ul>
-                <p class="text-gray-600 mb-4">Keep practicing with small projects, and Makefiles will become an indispensable tool in your embedded systems journey!</p>
-            </div>
+               </div>
         </section>
     </main>
 
     <section class="container mx-auto px-4 mt-12 mb-16">
         <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
-            <a href="makefile_tutorial_index.html" class="text-gray-500 cursor-not-allowed flex items-center font-semibold">
+            <a href="makefile_tutorial_index.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                Previous: (Start of Series)
+                Previous: Makefile Tutorials Index
             </a>
 
             <a href="makefile_02.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">

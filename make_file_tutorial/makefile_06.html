@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6. Makefile Variables Deep Dive: Flavors, Conditionals, and Scope - Mahruf Hossain</title>
+    <title>Makefile Variables Deep Dive: Flavors, Conditionals, and Scope - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // Tailwind CSS configuration for dark mode
@@ -102,25 +102,23 @@
     </header>
 
     <main class="flex-grow">
-        <section id="makefiles-variables-deep-dive-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
-            <div class="container mx-auto px-4">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">6. Makefile Variables Deep Dive: Flavors, Conditionals, and Scope</h1>
-                <p class="text-gray-600 mb-6">Variables are the backbone of flexible and maintainable Makefiles. Beyond basic assignment, `make` offers different "flavors" of variables, powerful modification options, and sophisticated ways to control their scope and behavior. Understanding these nuances is crucial for writing robust build systems.</p>
+    <section id="makefiles-variables-deep-dive-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6">6. Makefile Variables Deep Dive: Flavors, Conditionals, and Scope</h1>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Variables are the backbone of flexible and maintainable Makefiles. Beyond basic assignment, <code>make</code> offers different "flavors" of variables, powerful modification options, and sophisticated ways to control their scope and behavior. Understanding these nuances is crucial for writing robust build systems.</p>
 
-                ---
-
-                <h2 id="variable-flavors" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.1 Variable Flavors: Recursive vs. Simply Expanded</h2>
-                <p class="text-gray-600 mb-4">`make` defines two primary types of variables, each with distinct expansion behaviors:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>
-                        **Recursive Variables (using `=`)**: Variables defined with `=` are expanded *recursively*. This means their value is evaluated only when the variable is actually used in a command or another expression, not when it's defined. This allows for circular definitions (though these will cause infinite loops if not handled carefully) and forward references.
-                    </li>
-                    <li>
-                        **Simply Expanded Variables (using `:=`)**: Variables defined with `:=` are expanded *simply*. Their value is evaluated *at the time of definition*. Any other variables referenced in their definition must already be defined. This behaves more like variables in traditional imperative programming languages.
-                    </li>
-                </ul>
-                <p class="text-gray-600 mb-4 font-semibold">Example: Illustrating Variable Flavors</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="variable-flavors" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">6.1 Variable Flavors: Recursive vs. Simply Expanded</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4"><code>make</code> defines two primary types of variables, each with distinct expansion behaviors:</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li>
+                    <strong>Recursive Variables (using <code>=</code>)</strong>: Variables defined with <code>=</code> are expanded *recursively*. This means their value is evaluated only when the variable is actually used in a command or another expression, not when it's defined. This allows for circular definitions (though these will cause infinite loops if not handled carefully) and forward references.
+                </li>
+                <li>
+                    <strong>Simply Expanded Variables (using <code>:=</code>)</strong>: Variables defined with <code>:=</code> are expanded *simply*. Their value is evaluated *at the time of definition*. Any other variables referenced in their definition must already be defined. This behaves more like variables in traditional imperative programming languages.
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example: Illustrating Variable Flavors</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 # Recursive variable: 'message_recursive' will include 'late_part' when used
 message_recursive = Hello from recursive variable: $(late_part)
 
@@ -131,18 +129,16 @@ message_simple := Hello from simple variable: $(late_part)
 late_part = (defined later!)
 
 show_flavors:
-	@echo "$(message_recursive)"
-	@echo "$(message_simple)"
+    @echo "$(message_recursive)"
+    @echo "$(message_simple)"
 
 .PHONY: show_flavors
 </code></pre>
-                <p class="text-gray-600 mb-6">When you run `make show_flavors`, `message_recursive` will correctly include `(defined later!)`, but `message_simple` will not. This is a fundamental difference impacting how you define dependencies between variables.</p>
-                <img src="assets/makefiles/variable_flavors.png" alt="Screenshot of terminal output showing recursive vs. simply expanded variable behavior." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_flavors`)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">When you run <code>make show_flavors</code>, <code>message_recursive</code> will correctly include <code>(defined later!)</code>, but <code>message_simple</code> will not. This is a fundamental difference impacting how you define dependencies between variables.</p>
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Appending to Variables (`+=`)</h3>
-                <p class="text-gray-600 mb-4">The `+=` operator allows you to append text to an existing variable. This is particularly useful for building lists of files or flags. If the variable was previously a simple variable, `+=` acts like `:=` appending. If it was recursive, it stays recursive.</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Appending to Variables (<code>+=</code>)</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">The <code>+=</code> operator allows you to append text to an existing variable. This is particularly useful for building lists of files or flags. If the variable was previously a simple variable, <code>+=</code> acts like <code>:=</code> appending. If it was recursive, it stays recursive.</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 COMMON_FLAGS := -Wall # Starts as simply expanded
 COMMON_FLAGS += -g   # Appends, remains simply expanded
 
@@ -150,17 +146,15 @@ SOURCE_FILES = main.c # Starts as recursive
 SOURCE_FILES += helper.c # Appends, remains recursive
 
 show_append:
-	@echo "Common Flags: $(COMMON_FLAGS)"
-	@echo "Source Files: $(SOURCE_FILES)"
+    @echo "Common Flags: $(COMMON_FLAGS)"
+    @echo "Source Files: $(SOURCE_FILES)"
 
 .PHONY: show_append
 </code></pre>
-                <img src="assets/makefiles/variable_append.png" alt="Screenshot of terminal output showing variable appending with +=." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_append`)*</p>
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Conditional Assignment (`?=`)</h3>
-                <p class="text-gray-600 mb-4">The `?=` operator, or "conditional variable assignment," sets a variable's value *only if it has not already been set* from the Makefile or the environment. This is excellent for providing default values that can be overridden.</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Conditional Assignment (<code>?=</code>)</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">The <code>?=</code> operator, or "conditional variable assignment," sets a variable's value *only if it has not already been set* from the Makefile or the environment. This is excellent for providing default values that can be overridden.</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 # This will be set because it's the first definition
 BUILD_TYPE = Debug
 
@@ -171,29 +165,27 @@ BUILD_TYPE ?= Release
 COMPILER ?= gcc
 
 show_conditional:
-	@echo "Build Type: $(BUILD_TYPE)"
-	@echo "Compiler: $(COMPILER)"
+    @echo "Build Type: $(BUILD_TYPE)"
+    @echo "Compiler: $(COMPILER)"
 
 .PHONY: show_conditional
 </code></pre>
-                <img src="assets/makefiles/variable_conditional_assignment.png" alt="Screenshot of terminal output showing conditional variable assignment with ?=." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_conditional`)*</p>
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Handling Spaces and Undefined Variables</h3>
-                <p class="text-gray-600 mb-4">`make` handles spaces at the end of variable lines in a specific way, and it's important to know that an undefined variable isn't an error – it's just an empty string.</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>
-                        **Trailing Spaces**: Spaces at the end of a variable definition line are **not** stripped. This can sometimes lead to unexpected behavior if not handled. Spaces at the beginning *are* stripped.
-                    </li>
-                    <li>
-                        **`nullstring` for Single Space**: To define a variable with precisely one space, you can use the `$(nullstring)` trick.
-                    </li>
-                    <li>
-                        **Undefined Variables**: If you reference a variable that hasn't been defined, `make` treats it as an empty string `""` rather than throwing an error.
-                    </li>
-                </ul>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Handling Spaces and Undefined Variables</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4"><code>make</code> handles spaces at the end of variable lines in a specific way, and it's important to know that an undefined variable isn't an error – it's just an empty string.</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li>
+                    <strong>Trailing Spaces</strong>: Spaces at the end of a variable definition line are <strong>not</strong> stripped. This can sometimes lead to unexpected behavior if not handled. Spaces at the beginning *are* stripped.
+                </li>
+                <li>
+                    <strong><code>nullstring</code> for Single Space</strong>: To define a variable with precisely one space, you can use the <code>$(nullstring)</code> trick.
+                </li>
+                <li>
+                    <strong>Undefined Variables</strong>: If you reference a variable that hasn't been defined, <code>make</code> treats it as an empty string <code>""</code> rather than throwing an error.
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 TEXT_WITH_SPACES = Leading spaces stripped, but trailing spaces remain.   
 
 EMPTY_VAR =
@@ -203,24 +195,20 @@ nullstring =
 SINGLE_SPACE_VAR = $(nullstring) 
 
 show_spaces_and_empty:
-	@echo "--- Spaces and Empty Vars ---"
-	@echo "Text with spaces: '$(TEXT_WITH_SPACES)'"
-	@echo "Concatenation: '$(TEXT_WITH_SPACES)JOINED'"
-	@echo "Undefined var (no_such_var): '$(no_such_var)'"
-	@echo "Empty var (EMPTY_VAR): '$(EMPTY_VAR)'"
-	@echo "Single space var: 'START$(SINGLE_SPACE_VAR)END'"
+    @echo "--- Spaces and Empty Vars ---"
+    @echo "Text with spaces: '$(TEXT_WITH_SPACES)'"
+    @echo "Concatenation: '$(TEXT_WITH_SPACES)JOINED'"
+    @echo "Undefined var (no_such_var): '$(no_such_var)'"
+    @echo "Empty var (EMPTY_VAR): '$(EMPTY_VAR)'"
+    @echo "Single space var: 'START$(SINGLE_SPACE_VAR)END'"
 
 .PHONY: show_spaces_and_empty
 </code></pre>
-                <img src="assets/makefiles/spaces_and_empty_vars.png" alt="Screenshot of terminal output demonstrating trailing spaces and undefined variables." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make show_spaces_and_empty`)*</p>
 
-                ---
-
-                <h2 id="command-line-override" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.2 Command Line Arguments and `override`</h2>
-                <p class="text-gray-600 mb-4">When you run `make`, you can pass variable assignments directly on the command line (e.g., `make CFLAGS="-O2"`). These command-line assignments normally take precedence over assignments within the Makefile.</p>
-                <p class="text-gray-600 mb-4">The `override` directive in a Makefile allows you to force a variable assignment to take precedence *even over command-line assignments*.</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="command-line-override" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">6.2 Command Line Arguments and <code>override</code></h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">When you run <code>make</code>, you can pass variable assignments directly on the command line (e.g., <code>make CFLAGS="-O2"</code>). These command-line assignments normally take precedence over assignments within the Makefile.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">The <code>override</code> directive in a Makefile allows you to force a variable assignment to take precedence *even over command-line assignments*.</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 # This variable CAN be overridden by command line
 MY_OPT_SETTING = default_value
 
@@ -228,114 +216,102 @@ MY_OPT_SETTING = default_value
 override FORCE_SETTING = forced_value_from_makefile
 
 show_override:
-	@echo "MY_OPT_SETTING: $(MY_OPT_SETTING)"
-	@echo "FORCE_SETTING: $(FORCE_SETTING)"
+    @echo "MY_OPT_SETTING: $(MY_OPT_SETTING)"
+    @echo "FORCE_SETTING: $(FORCE_SETTING)"
 
 .PHONY: show_override
 </code></pre>
-                <p class="text-gray-600 mb-6">**Try it:**</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make show_override
+            <p class="text-gray-600 dark:text-gray-300 mb-6 font-semibold">Try it:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>make show_override
 make MY_OPT_SETTING=cli_value show_override
 make FORCE_SETTING=cli_value show_override
 make MY_OPT_SETTING=cli_value FORCE_SETTING=cli_value show_override
 </code></pre>
-                <img src="assets/makefiles/override_variable.png" alt="Screenshot of terminal output showing the effect of the override directive on variables." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating `override`)*</p>
 
-                ---
-
-                <h2 id="define-directive" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.3 The `define` Directive: Multi-Line Variables</h2>
-                <p class="text-gray-600 mb-4">The `define` directive (paired with `endef`) allows you to create variables whose values span multiple lines. This is particularly useful for defining complex, multi-line commands or "canned recipes" that can be reused across your Makefile.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="define-directive" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">6.3 The <code>define</code> Directive: Multi-Line Variables</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">The <code>define</code> directive (paired with <code>endef</code>) allows you to create variables whose values span multiple lines. This is particularly useful for defining complex, multi-line commands or "canned recipes" that can be reused across your Makefile.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 define MULTILINE_COMMANDS
-	@echo "Step 1: Doing something..."
-	@ls -la
-	@echo "Step 2: Done."
+    @echo "Step 1: Doing something..."
+    @ls -la
+    @echo "Step 2: Done."
 endef
 
 define SCRIPT_BLOCK
-	#!/bin/bash
-	echo "This is a script generated by Make."
-	echo "Current directory: `pwd`"
+    #!/bin/bash
+    echo "This is a script generated by Make."
+    echo "Current directory: `pwd`"
 endef
 
 run_multiline:
-	@echo "--- Executing MULTILINE_COMMANDS ---"
-	$(MULTILINE_COMMANDS) # Each line here runs in a separate shell
+    @echo "--- Executing MULTILINE_COMMANDS ---"
+    $(MULTILINE_COMMANDS) # Each line here runs in a separate shell
 
 generate_script:
-	@echo "--- Generating and Executing Script ---"
-	@echo "$(SCRIPT_BLOCK)" > generated_script.sh
-	@chmod +x generated_script.sh
-	@./generated_script.sh
+    @echo "--- Generating and Executing Script ---"
+    @echo "$(SCRIPT_BLOCK)" > generated_script.sh
+    @chmod +x generated_script.sh
+    @./generated_script.sh
 
 .PHONY: run_multiline generate_script clean
 clean:
-	@rm -f generated_script.sh
+    @rm -f generated_script.sh
 </code></pre>
-                <p class="text-gray-600 mb-6">Note that when `$(MULTILINE_COMMANDS)` is invoked, each line within the `define` block is still executed in a separate shell, unless explicitly chained with semicolons or backslashes within the `define` block itself.</p>
-                <img src="assets/makefiles/define_directive.png" alt="Screenshot of terminal output showing the use of the define directive for multi-line commands." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make run_multiline` and `make generate_script`)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Note that when <code>$(MULTILINE_COMMANDS)</code> is invoked, each line within the <code>define</code> block is still executed in a separate shell, unless explicitly chained with semicolons or backslashes within the <code>define</code> block itself.</p>
 
-                ---
-
-                <h2 id="target-specific-variables" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.4 Target-Specific and Pattern-Specific Variables</h2>
-                <p class="text-gray-600 mb-4">Variables can have their values set specifically for a particular target or a pattern of targets. This provides a powerful way to customize build behavior based on what is being built.</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>
-                        **Target-Specific Variables**: Defined immediately after a target, these variables only take on their specified value when `make` is building that specific target and its prerequisites.
-                    </li>
-                    <li>
-                        **Pattern-Specific Variables**: Similar to target-specific, but applied to any target that matches the specified pattern.
-                    </li>
-                </ul>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="target-specific-variables" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">6.4 Target-Specific and Pattern-Specific Variables</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Variables can have their values set specifically for a particular target or a pattern of targets. This provides a powerful way to customize build behavior based on what is being built.</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li>
+                    <strong>Target-Specific Variables</strong>: Defined immediately after a target, these variables only take on their specified value when <code>make</code> is building that specific target and its prerequisites.
+                </li>
+                <li>
+                    <strong>Pattern-Specific Variables</strong>: Similar to target-specific, but applied to any target that matches the specified pattern.
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 GLOBAL_OPTIMIZATION = -O0 # Default global optimization
 
 # Target-specific variable: 'build_release' uses -O3
 build_release: GLOBAL_OPTIMIZATION = -O3
 build_release:
-	@echo "Building release with optimizations: $(GLOBAL_OPTIMIZATION)"
+    @echo "Building release with optimizations: $(GLOBAL_OPTIMIZATION)"
 
 # Target-specific variable: 'build_debug' uses -g
 build_debug: GLOBAL_OPTIMIZATION = -g
 build_debug:
-	@echo "Building debug with flags: $(GLOBAL_OPTIMIZATION)"
+    @echo "Building debug with flags: $(GLOBAL_OPTIMIZATION)"
 
 # Pattern-specific variable: any .o file uses -Wall
 %.o: CFLAGS = -Wall
 main.o: main.c
-	@echo "Compiling main.o with: $(CFLAGS) $(GLOBAL_OPTIMIZATION)"
-	@touch main.o # Simulate compilation
+    @echo "Compiling main.o with: $(CFLAGS) $(GLOBAL_OPTIMIZATION)"
+    @touch main.o # Simulate compilation
 
 helper.o: helper.c
-	@echo "Compiling helper.o with: $(CFLAGS) $(GLOBAL_OPTIMIZATION)"
-	@touch helper.o # Simulate compilation
+    @echo "Compiling helper.o with: $(CFLAGS) $(GLOBAL_OPTIMIZATION)"
+    @touch helper.o # Simulate compilation
 
 .PHONY: build_release build_debug main.o helper.o clean
 clean:
-	@rm -f main.o helper.o
+    @rm -f main.o helper.o
 </code></pre>
-                <p class="text-gray-600 mb-6">Run `make build_release` and `make build_debug` to observe how `GLOBAL_OPTIMIZATION` changes. Then run `make main.o` and `make helper.o` to see the `CFLAGS` in action for each `.o` file.</p>
-                <img src="assets/makefiles/target_pattern_specific_vars.png" alt="Screenshot of terminal output showing target-specific and pattern-specific variables in action." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make build_release`, `make build_debug`, `make main.o`, `make helper.o`)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Run <code>make build_release</code> and <code>make build_debug</code> to observe how <code>GLOBAL_OPTIMIZATION</code> changes. Then run <code>make main.o</code> and <code>make helper.o</code> to see the <code>CFLAGS</code> in action for each <code>.o</code> file.</p>
 
-                ---
-
-                <h2 id="conditional-directives" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">6.5 Conditional Directives: `ifeq`, `ifdef`, etc.</h2>
-                <p class="text-gray-600 mb-4">`make` provides conditional directives (similar to `if/else` statements in programming languages) to include or exclude parts of your Makefile based on variable values or definitions. This is powerful for adapting your build to different environments or configurations.</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>
-                        `ifeq (ARG1, ARG2)` / `ifneq (ARG1, ARG2)`: Compares two arguments.
-                    </li>
-                    <li>
-                        `ifdef VAR` / `ifndef VAR`: Checks if a variable is defined (even if empty).
-                    </li>
-                </ul>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="conditional-directives" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">6.5 Conditional Directives: <code>ifeq</code>, <code>ifdef</code>, etc.</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4"><code>make</code> provides conditional directives (similar to <code>if/else</code> statements in programming languages) to include or exclude parts of your Makefile based on variable values or definitions. This is powerful for adapting your build to different environments or configurations.</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li>
+                    <code>ifeq (ARG1, ARG2)</code> / <code>ifneq (ARG1, ARG2)</code>: Compares two arguments.
+                </li>
+                <li>
+                    <code>ifdef VAR</code> / <code>ifndef VAR</code>: Checks if a variable is defined (even if empty).
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 # Set 'DEBUG' on the command line, e.g., 'make DEBUG=1 test_conditional'
 # Or define it here: DEBUG = 1
 
@@ -352,76 +328,66 @@ EMPTY_STRING =
 MAYBE_DEFINED = $(UNDEFINED_VAR) # Undefined_var is not defined, so MAYBE_DEFINED will be empty
 
 test_conditional:
-	@echo "$(BUILD_MESSAGE)"
-	@echo "Compiler flags: $(COMPILER_FLAGS)"
+    @echo "$(BUILD_MESSAGE)"
+    @echo "Compiler flags: $(COMPILER_FLAGS)"
 
-	# Check if 'EMPTY_STRING' is truly empty after stripping spaces
-	ifeq ($(strip $(EMPTY_STRING)),)
-		@echo "EMPTY_STRING is indeed empty."
-	endif
+    # Check if 'EMPTY_STRING' is truly empty after stripping spaces
+    ifeq ($(strip $(EMPTY_STRING)),)
+        @echo "EMPTY_STRING is indeed empty."
+    endif
 
-	# Check if 'MAYBE_DEFINED' is defined (it is, as an empty string)
-	ifdef MAYBE_DEFINED
-		@echo "MAYBE_DEFINED is defined (even if empty)."
-	else
-		@echo "MAYBE_DEFINED is NOT defined."
-	endif
+    # Check if 'MAYBE_DEFINED' is defined (it is, as an empty string)
+    ifdef MAYBE_DEFINED
+        @echo "MAYBE_DEFINED is defined (even if empty)."
+    else
+        @echo "MAYBE_DEFINED is NOT defined."
+    endif
 
-	# Check if 'UNDEFINED_VAR' is defined (it is NOT)
-	ifdef UNDEFINED_VAR
-		@echo "UNDEFINED_VAR is defined."
-	else
-		@echo "UNDEFINED_VAR is NOT defined."
-	endif
+    # Check if 'UNDEFINED_VAR' is defined (it is NOT)
+    ifdef UNDEFINED_VAR
+        @echo "UNDEFINED_VAR is defined."
+    else
+        @echo "UNDEFINED_VAR is NOT defined."
+    endif
 
 .PHONY: test_conditional
 </code></pre>
-                <p class="text-gray-600 mb-6">**Try it:**</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make test_conditional
+            <p class="text-gray-600 dark:text-gray-300 mb-6 font-semibold">Try it:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>make test_conditional
 make DEBUG=1 test_conditional
 </code></pre>
-                <img src="assets/makefiles/conditional_directives.png" alt="Screenshot of terminal output showing conditional directives in Make." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make test_conditional` with and without `DEBUG=1`)*</p>
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Using `$(MAKEFLAGS)` in Conditionals</h3>
-                <p class="text-gray-600 mb-4">The special variable `$(MAKEFLAGS)` contains all the single-letter flags (like `s`, `k`, `i`) passed to `make` on the command line. You can use the `findstring` function with `$(MAKEFLAGS)` to check for specific flags.</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Using <code>$(MAKEFLAGS)</code> in Conditionals</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">The special variable <code>$(MAKEFLAGS)</code> contains all the single-letter flags (like <code>s</code>, <code>k</code>, <code>i</code>) passed to <code>make</code> on the command line. You can use the <code>findstring</code> function with <code>$(MAKEFLAGS)</code> to check for specific flags.</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 check_flags:
-	@echo "--- Checking MAKEFLAGS ---"
-	@echo "MAKEFLAGS: $(MAKEFLAGS)"
+    @echo "--- Checking MAKEFLAGS ---"
+    @echo "MAKEFLAGS: $(MAKEFLAGS)"
 
-	# Check if '-s' (silent) flag was passed
-	ifneq (,$(findstring s, $(MAKEFLAGS)))
-		@echo "Silent mode (-s) detected!"
-	else
-		@echo "Silent mode (-s) NOT detected."
-	endif
+    # Check if '-s' (silent) flag was passed
+    ifneq (,$(findstring s, $(MAKEFLAGS)))
+        @echo "Silent mode (-s) detected!"
+    else
+        @echo "Silent mode (-s) NOT detected."
+    endif
 
-	# Check if '-k' (keep-going) flag was passed
-	ifneq (,$(findstring k, $(MAKEFLAGS)))
-		@echo "Keep-going mode (-k) detected!"
-	else
-		@echo "Keep-going mode (-k) NOT detected."
-	endif
+    # Check if '-k' (keep-going) flag was passed
+    ifneq (,$(findstring k, $(MAKEFLAGS)))
+        @echo "Keep-going mode (-k) detected!"
+    else
+        @echo "Keep-going mode (-k) NOT detected."
+    endif
 
 .PHONY: check_flags
 </code></pre>
-                <p class="text-gray-600 mb-6">**Try it:**</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make check_flags
+            <p class="text-gray-600 dark:text-gray-300 mb-6 font-semibold">Try it:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>make check_flags
 make -s check_flags
 make -k check_flags
 </code></pre>
-                <img src="assets/makefiles/makeflags_conditional.png" alt="Screenshot of terminal output showing conditionals based on MAKEFLAGS." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make check_flags`, `make -s check_flags`, `make -k check_flags`)*</p>
-
-                ---
-
-                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion & Next Steps</h2>
-                <p class="text-gray-600 mb-4">You've now explored the depth of Makefile variables, from their different expansion flavors to powerful conditional assignments and dynamic scoping. These features empower you to write Makefiles that are highly adaptive to different build scenarios and configurations.</p>
-                <p class="text-gray-600">In our final tutorial, we'll round off our journey by looking at some advanced Makefile functions and directives that offer even more control and flexibility for complex projects. Get ready to master `make`!</p>
-            </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
 
     <section class="container mx-auto px-4 mt-12 mb-16">
         <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">

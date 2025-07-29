@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>8. Makefile Advanced Features: Includes, Paths, and Directives - Mahruf Hossain</title>
+    <title>Makefile Advanced Features: Includes, Paths, and Directives - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // Tailwind CSS configuration for dark mode
@@ -102,23 +102,21 @@
     </header>
 
     <main class="flex-grow">
-        <section id="makefiles-advanced-features-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
-            <div class="container mx-auto px-4">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">8. Makefile Advanced Features: Includes, Paths, and Directives</h1>
-                <p class="text-gray-600 mb-6">As you build more complex projects, you'll encounter situations where you need to modularize your Makefiles, manage files across different directories, or ensure robust error handling. This section covers several key features that address these advanced needs, making your Makefiles more organized and reliable.</p>
+    <section id="makefiles-advanced-features-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6">8. Makefile Advanced Features: Includes, Paths, and Directives</h1>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">As you build more complex projects, you'll encounter situations where you need to modularize your Makefiles, manage files across different directories, or ensure robust error handling. This section covers several key features that address these advanced needs, making your Makefiles more organized and reliable.</p>
 
-                ---
-
-                <h2 id="including-other-makefiles" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.1 Including Other Makefiles (`include` Directive)</h2>
-                <p class="text-gray-600 mb-4">The `include` directive allows you to split your Makefile into multiple, smaller files, improving organization and reusability. When `make` encounters an `include` directive, it pauses processing the current Makefile and reads the specified files as if their contents were directly inserted at that point.</p>
-                <p class="text-gray-600 mb-4">This is particularly useful for:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>**Modularizing large projects**: Breaking down a complex build into manageable components.</li>
-                    <li>**Generating dependencies automatically**: Compilers like GCC can generate dependency files (e.g., `.d` files) that list header dependencies. You can then `include` these generated files to ensure that targets are rebuilt when headers change.</li>
-                    <li>**Sharing common definitions**: Placing global variables or common rules in a separate file that can be included by multiple Makefiles.</li>
-                </ul>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># main_makefile (e.g., named Makefile)
+            <h2 id="including-other-makefiles" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">8.1 Including Other Makefiles (<code>include</code> Directive)</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">The <code>include</code> directive allows you to split your Makefile into multiple, smaller files, improving organization and reusability. When <code>make</code> encounters an <code>include</code> directive, it pauses processing the current Makefile and reads the specified files as if their contents were directly inserted at that point.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">This is particularly useful for:</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li><strong>Modularizing large projects</strong>: Breaking down a complex build into manageable components.</li>
+                <li><strong>Generating dependencies automatically</strong>: Compilers like GCC can generate dependency files (e.g., <code>.d</code> files) that list header dependencies. You can then <code>include</code> these generated files to ensure that targets are rebuilt when headers change.</li>
+                <li><strong>Sharing common definitions</strong>: Placing global variables or common rules in a separate file that can be included by multiple Makefiles.</li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># main_makefile (e.g., named Makefile)
 # --- Main Makefile ---
 include common_vars.mk # Include variables from another file
 include subdir/rules.mk  # Include rules from a subdirectory
@@ -128,8 +126,8 @@ PROGRAM_NAME = my_app
 all: $(PROGRAM_NAME)
 
 $(PROGRAM_NAME): $(OBJS)
-	@echo "Linking $(PROGRAM_NAME) with: $(OBJS) and $(LD_FLAGS)"
-	@touch $(PROGRAM_NAME)
+    @echo "Linking $(PROGRAM_NAME) with: $(OBJS) and $(LD_FLAGS)"
+    @touch $(PROGRAM_NAME)
 
 .PHONY: all clean
 
@@ -141,33 +139,29 @@ LD_FLAGS = -L/usr/local/lib
 # --- subdir/rules.mk ---
 # This file would be placed in a 'subdir' directory
 main.o: main.c
-	@echo "Compiling main.c with $(CC_FLAGS)"
-	@touch main.o
+    @echo "Compiling main.c with $(CC_FLAGS)"
+    @touch main.o
 
 util.o: util.c
-	@echo "Compiling util.c with $(CC_FLAGS)"
-	@touch util.o
+    @echo "Compiling util.c with $(CC_FLAGS)"
+    @touch util.o
 
 CC_FLAGS = -Wall -g
 </code></pre>
-                <p class="text-gray-600 mb-6">To try this, create the `main_makefile` (as `Makefile`), `common_vars.mk`, and a `subdir` directory containing `rules.mk` and dummy `main.c`, `util.c` files. Then run `make` from the main directory.</p>
-                <img src="assets/makefiles/include_directive.png" alt="Screenshot of terminal output showing included Makefiles in action." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating the `include` directive)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">To try this, create the <code>main_makefile</code> (as <code>Makefile</code>), <code>common_vars.mk</code>, and a <code>subdir</code> directory containing <code>rules.mk</code> and dummy <code>main.c</code>, <code>util.c</code> files. Then run <code>make</code> from the main directory.</p>
 
-                ---
-
-                <h2 id="virtual-paths" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.2 Virtual Paths (`vpath` Directive and `VPATH` Variable)</h2>
-                <p class="text-gray-600 mb-4">When your source files or headers are scattered across different directories, `vpath` helps `make` find them without needing to specify full paths in your prerequisites.</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>
-                        **`vpath PATTERN DIRECTORIES`**: Specifies a search path for prerequisites that match `PATTERN`. `DIRECTORIES` can be space or colon-separated. The `%` wildcard in `PATTERN` matches any sequence of characters.
-                    </li>
-                    <li>
-                        **`VPATH = DIRECTORIES`**: A global search path for *all* prerequisites that `make` cannot find in the current directory. This variable overrides any `vpath` directives for specific patterns if a more specific `vpath` doesn't exist.
-                    </li>
-                </ul>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="virtual-paths" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">8.2 Virtual Paths (<code>vpath</code> Directive and <code>VPATH</code> Variable)</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">When your source files or headers are scattered across different directories, <code>vpath</code> helps <code>make</code> find them without needing to specify full paths in your prerequisites.</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li>
+                    <strong><code>vpath PATTERN DIRECTORIES</code></strong>: Specifies a search path for prerequisites that match <code>PATTERN</code>. <code>DIRECTORIES</code> can be space or colon-separated. The <code>%</code> wildcard in <code>PATTERN</code> matches any sequence of characters.
+                </li>
+                <li>
+                    <strong><code>VPATH = DIRECTORIES</code></strong>: A global search path for *all* prerequisites that <code>make</code> cannot find in the current directory. This variable overrides any <code>vpath</code> directives for specific patterns if a more specific <code>vpath</code> doesn't exist.
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 # Look for .h files in ../include and ../lib_headers
 vpath %.h ../include ../lib_headers
 
@@ -175,128 +169,109 @@ vpath %.h ../include ../lib_headers
 VPATH = ../src:../build_assets
 
 main_app: main.o common.h
-	@echo "Linking main_app using main.o and common.h (found via vpath/VPATH)"
-	@touch main_app
+    @echo "Linking main_app using main.o and common.h (found via vpath/VPATH)"
+    @touch main_app
 
 main.o: main.c
-	@echo "Compiling main.c (found via VPATH) for main.o"
-	@touch main.o
+    @echo "Compiling main.c (found via VPATH) for main.o"
+    @touch main.o
 
 # Dummy targets and setup for demonstration
 ../src/main.c:
-	@mkdir -p ../src
-	@echo "int main() { return 0; }" > ../src/main.c
-	@echo "Created ../src/main.c"
+    @mkdir -p ../src
+    @echo "int main() { return 0; }" > ../src/main.c
+    @echo "Created ../src/main.c"
 
 ../include/common.h:
-	@mkdir -p ../include
-	@echo "#define COMMON_MACRO 1" > ../include/common.h
-	@echo "Created ../include/common.h"
+    @mkdir -p ../include
+    @echo "#define COMMON_MACRO 1" > ../include/common.h
+    @echo "Created ../include/common.h"
 
 .PHONY: clean
 clean:
-	@rm -rf ../src ../include
-	@rm -f main_app main.o
+    @rm -rf ../src ../include
+    @rm -f main_app main.o
 </code></pre>
-                <p class="text-gray-600 mb-6">Run `make` to see `make` find `main.c` and `common.h` in their respective paths. Clean up with `make clean`.</p>
-                <img src="assets/makefiles/vpath_directive.png" alt="Screenshot of terminal output showing how vpath and VPATH find prerequisites in different directories." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating `vpath` and `VPATH`)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Run <code>make</code> to see <code>make</code> find <code>main.c</code> and <code>common.h</code> in their respective paths. Clean up with <code>make clean</code>.</p>
 
-                ---
-
-                <h2 id="multiline-commands" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.3 Multiline Commands (`\`)</h2>
-                <p class="text-gray-600 mb-4">When a command within a recipe becomes too long for a single line, you can break it into multiple lines using a backslash (`\`) at the end of each line, except the last one. `make` treats these as a single logical line for execution.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="multiline-commands" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">8.3 Multiline Commands (<code>\</code>)</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">When a command within a recipe becomes too long for a single line, you can break it into multiple lines using a backslash (<code>\</code>) at the end of each line, except the last one. <code>make</code> treats these as a single logical line for execution.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 long_command_target:
-	@echo "This command spans multiple lines because it's quite verbose and needs " \
-		"to include many options, such as --verbose --debug --output-format=json " \
-		"to ensure clarity and readability for maintainers."
-	@ls -la \
-		--time-style=full-iso \
-		./
+    @echo "This command spans multiple lines because it's quite verbose and needs " \
+        "to include many options, such as --verbose --debug --output-format=json " \
+        "to ensure clarity and readability for maintainers."
+    @ls -la \
+        --time-style=full-iso \
+        ./
 
 .PHONY: long_command_target
 </code></pre>
-                <img src="assets/makefiles/multiline_commands.png" alt="Screenshot of terminal output showing commands split across multiple lines with backslashes." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make long_command_target`)*</p>
 
-                ---
-
-                <h2 id="phony-targets" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.4 Phony Targets (`.PHONY`)</h2>
-                <p class="text-gray-600 mb-4">A `PHONY` target is a target that is not a real file. It's simply a name for a recipe that you want to execute. Declaring a target as `.PHONY` ensures that `make` will execute its recipe even if a file with the same name exists.</p>
-                <p class="text-gray-600 mb-4">It also helps `make` run faster because it doesn't need to check if a file named `clean` or `all` is up to date.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="phony-targets" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">8.4 Phony Targets (<code>.PHONY</code>)</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">A <code>PHONY</code> target is a target that is not a real file. It's simply a name for a recipe that you want to execute. Declaring a target as <code>.PHONY</code> ensures that <code>make</code> will execute its recipe even if a file with the same name exists.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">It also helps <code>make</code> run faster because it doesn't need to check if a file named <code>clean</code> or <code>all</code> is up to date.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 my_program:
-	@echo "Building my_program..."
-	@touch my_program
+    @echo "Building my_program..."
+    @touch my_program
 
 # Declare 'clean' as a phony target
 .PHONY: clean
 
 clean:
-	@echo "Cleaning up..."
-	@rm -f my_program
+    @echo "Cleaning up..."
+    @rm -f my_program
 
 # Let's create a file named 'clean' to show the effect
 create_clean_file:
-	@echo "Creating a file named 'clean'..."
-	@touch clean
+    @echo "Creating a file named 'clean'..."
+    @touch clean
 .PHONY: create_clean_file
 </code></pre>
-                <p class="text-600 mb-6">**Try it:**</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make my_program
+            <p class="text-gray-600 dark:text-gray-300 mb-6 font-semibold">Try it:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>make my_program
 make create_clean_file # Now there's a file named 'clean'
 make clean # This will still run the clean recipe, even with the 'clean' file present
 </code></pre>
-                <img src="assets/makefiles/phony_targets.png" alt="Screenshot of terminal output demonstrating the behavior of .PHONY targets." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make clean` with and without a 'clean' file)*</p>
 
-                ---
-
-                <h2 id="delete-on-error" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.5 Delete on Error (`.DELETE_ON_ERROR`)</h2>
-                <p class="text-gray-600 mb-4">By default, if a command in a recipe fails (returns a non-zero exit status), `make` stops. However, it typically leaves any partially built target file. The `.DELETE_ON_ERROR` special target tells `make` to automatically **delete the target file** if any command in its recipe fails. This helps maintain a clean and consistent state, preventing corrupted or incomplete files from being treated as valid.</p>
-                <p class="text-gray-600 mb-4">It's generally a good practice to include `.DELETE_ON_ERROR:` in your Makefiles.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="delete-on-error" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">8.5 Delete on Error (<code>.DELETE_ON_ERROR</code>)</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">By default, if a command in a recipe fails (returns a non-zero exit status), <code>make</code> stops. However, it typically leaves any partially built target file. The <code>.DELETE_ON_ERROR</code> special target tells <code>make</code> to automatically <strong>delete the target file</strong> if any command in its recipe fails. This helps maintain a clean and consistent state, preventing corrupted or incomplete files from being treated as valid.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">It's generally a good practice to include <code>.DELETE_ON_ERROR:</code> in your Makefiles.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 # If any recipe command fails, delete its target
 .DELETE_ON_ERROR:
 
 all: target_a target_b
 
 target_a:
-	@echo "Attempting to build target_a..."
-	@touch target_a_partial # This file will be created
-	@false # This command will fail
-	@echo "This line will NOT be reached for target_a"
+    @echo "Attempting to build target_a..."
+    @touch target_a_partial # This file will be created
+    @false # This command will fail
+    @echo "This line will NOT be reached for target_a"
 
 target_b:
-	@echo "Attempting to build target_b..."
-	@touch target_b_partial
-	@true
-	@echo "target_b built successfully."
+    @echo "Attempting to build target_b..."
+    @touch target_b_partial
+    @true
+    @echo "target_b built successfully."
 
 .PHONY: all clean
 clean:
-	@rm -f target_a target_a_partial target_b target_b_partial
+    @rm -f target_a target_a_partial target_b target_b_partial
 </code></pre>
-                <p class="text-gray-600 mb-6">**Try it:**</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make all # target_a will fail and its file will be deleted
+            <p class="text-gray-600 dark:text-gray-300 mb-6 font-semibold">Try it:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>make all # target_a will fail and its file will be deleted
 ls -l # Observe that target_a is gone, but target_b_partial might exist
 </code></pre>
-                <img src="assets/makefiles/delete_on_error.png" alt="Screenshot of terminal output showing the effect of .DELETE_ON_ERROR when a command fails." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from `make all` and `ls -l` showing target deletion)*</p>
 
-                ---
-
-                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion: Completing Your Makefile Toolkit</h2>
-                <p class="text-gray-600 mb-4">You've now covered a comprehensive range of Makefile features, from basic syntax to advanced variable handling, implicit rules, and powerful directives. Understanding `include` for modularity, `vpath` for flexible file location, `.PHONY` for reliable targets, and `.DELETE_ON_ERROR` for build consistency are all hallmarks of a well-crafted Makefile.</p>
-                <p class="text-gray-600">You are now well-equipped to write robust, maintainable, and efficient Makefiles for a wide variety of projects. Keep practicing, and don't hesitate to consult the official GNU Make manual for deeper dives into specific topics!</p>
-                <p class="text-gray-600 font-semibold">What's the first complex build task you'll tackle using your new Makefile expertise?</p>
-            </div>
-        </section>
-    </main>
+        
+        </div>
+    </section>
+</main>
 
     <section class="container mx-auto px-4 mt-12 mb-16">
         <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">

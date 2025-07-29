@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5. Makefile Commands & Execution: Control and Flow - Mahruf Hossain</title>
+    <title>Makefile Commands & Execution: Control and Flow - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // Tailwind CSS configuration for dark mode
@@ -102,25 +102,23 @@
     </header>
 
     <main class="flex-grow">
-        <section id="makefiles-commands-execution-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
-            <div class="container mx-auto px-4">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">5. Makefile Commands & Execution: Control and Flow</h1>
-                <p class="text-gray-600 mb-6">Understanding how `make` executes commands within a rule is fundamental to writing effective Makefiles. This tutorial delves into controlling command output, managing shell environments, handling errors, and navigating recursive `make` calls. These concepts provide fine-grained control over your build process.</p>
+    <section id="makefiles-commands-execution-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6">5. Makefile Commands & Execution: Control and Flow</h1>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Understanding how <code>make</code> executes commands within a rule is fundamental to writing effective Makefiles. This tutorial delves into controlling command output, managing shell environments, handling errors, and navigating recursive <code>make</code> calls. These concepts provide fine-grained control over your build process.</p>
 
-                ---
-
-                <h2 id="command-echoing" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.1 Command Echoing & Silencing</h2>
-                <p class="text-gray-600 mb-4">By default, `make` prints each command line before executing it. This can be useful for debugging, but for clean output, you often want to suppress this echoing.</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>
-                        **Silencing a Single Line:** Prefix a command with an `@` symbol to prevent `make` from echoing that specific line.
-                    </li>
-                    <li>
-                        **Silencing All Lines:** Run `make` with the `-s` or `--silent` flag, and it will suppress echoing for all commands in the entire Makefile.
-                    </li>
-                </ul>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="command-echoing" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">5.1 Command Echoing & Silencing</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">By default, <code>make</code> prints each command line before executing it. This can be useful for debugging, but for clean output, you often want to suppress this echoing.</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li>
+                    <strong>Silencing a Single Line:</strong> Prefix a command with an <code>@</code> symbol to prevent <code>make</code> from echoing that specific line.
+                </li>
+                <li>
+                    <strong>Silencing All Lines:</strong> Run <code>make</code> with the <code>-s</code> or <code>--silent</code> flag, and it will suppress echoing for all commands in the entire Makefile.
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 my_task:
     @echo "This line will not be echoed by make itself."
     echo "This line WILL be echoed by make."
@@ -128,20 +126,16 @@ my_task:
 
 .PHONY: my_task
 </code></pre>
-                <p class="text-gray-600 mb-6">**Try it:**</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make my_task
+            <p class="text-gray-600 dark:text-gray-300 mb-6 font-semibold">Try it:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>make my_task
 make -s my_task
 </code></pre>
-                <img src="assets/makefiles/command_echoing.png" alt="Screenshot of terminal output showing the difference between echoed and silenced commands in Make." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating `make my_task` vs `make -s my_task`)*</p>
 
-                ---
-
-                <h2 id="command-execution" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.2 Command Execution & Shell Environment</h2>
-                <p class="text-gray-600 mb-4">A crucial concept in Makefiles is that **each logical command line within a recipe is typically executed in its own separate shell instance**. This means changes to the shell environment (like `cd` commands or setting shell variables) on one line will *not* persist to the next line.</p>
-                <p class="text-gray-600 mb-4">To ensure commands run within the same shell instance, you must combine them onto a single logical line using shell separators (`;`) or line continuations (`\`).</p>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="command-execution" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">5.2 Command Execution & Shell Environment</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">A crucial concept in Makefiles is that <strong>each logical command line within a recipe is typically executed in its own separate shell instance</strong>. This means changes to the shell environment (like <code>cd</code> commands or setting shell variables) on one line will <em>not</em> persist to the next line.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">To ensure commands run within the same shell instance, you must combine them onto a single logical line using shell separators (<code>;</code>) or line continuations (<code>\</code>).</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 test_dirs:
     @echo "--- Separate shells for each line ---"
     cd ../; pwd # This 'cd' affects only this line's pwd
@@ -160,13 +154,11 @@ test_dirs:
 clean:
     @rmdir temp_dir 2>/dev/null || true # Clean up, ignore errors if dir doesn't exist
 </code></pre>
-                <p class="text-gray-600 mb-6">Observe how the `cd` command's effect doesn't carry over unless commands are chained. This is a common source of confusion for new `make` users.</p>
-                <img src="assets/makefiles/command_execution_shells.png" alt="Screenshot of terminal output illustrating separate vs. chained shell commands in Make." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `pwd` results for separate vs. chained commands)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Observe how the <code>cd</code> command's effect doesn't carry over unless commands are chained. This is a common source of confusion for new <code>make</code> users.</p>
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Default Shell</h3>
-                <p class="text-gray-600 mb-4">By default, `make` uses `/bin/sh` to execute commands. You can change this by setting the `SHELL` variable in your Makefile:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>SHELL = /bin/bash # Use Bash as the shell
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Default Shell</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">By default, <code>make</code> uses <code>/bin/sh</code> to execute commands. You can change this by setting the <code>SHELL</code> variable in your Makefile:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>SHELL = /bin/bash # Use Bash as the shell
 
 bash_hello:
     @echo "Hello from $(SHELL)!"
@@ -174,12 +166,12 @@ bash_hello:
 
 .PHONY: bash_hello
 </code></pre>
-                <p class="text-gray-600 mb-6">This allows you to leverage shell-specific features (like array handling or advanced string manipulation) if required.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">This allows you to leverage shell-specific features (like array handling or advanced string manipulation) if required.</p>
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Double Dollar Sign (`$$`)</h3>
-                <p class="text-gray-600 mb-4">Inside Makefile recipes, a single `$` introduces a Makefile variable (e.g., `$(VARIABLE)`). If you want to use a literal `$` character in your shell command (e.g., to reference a shell variable), you must escape it with another `$` sign, forming `$$`.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Example: Makefile Variables vs. Shell Variables</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>MAKE_VAR = I am a Makefile variable
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Double Dollar Sign (<code>$$</code>)</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Inside Makefile recipes, a single <code>$</code> introduces a Makefile variable (e.g., <code>$(VARIABLE)</code>). If you want to use a literal <code>$</code> character in your shell command (e.g., to reference a shell variable), you must escape it with another <code>$</code> sign, forming <code>$$</code>.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example: Makefile Variables vs. Shell Variables</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>MAKE_VAR = I am a Makefile variable
 
 show_variables:
     @echo "--- Variable Demo ---"
@@ -191,27 +183,23 @@ show_variables:
 
 .PHONY: show_variables
 </code></pre>
-                <p class="text-gray-600 mb-6">Notice how `$(MAKE_VAR)` is expanded by `make` *before* the command is sent to the shell, while `$$SHELL_VAR` is passed literally to the shell, which then expands it.</p>
-                <img src="assets/makefiles/double_dollar_sign.png" alt="Screenshot of terminal output showing the difference between Make variables and shell variables." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating the expansion of `$(MAKE_VAR)` vs `$$SHELL_VAR`)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Notice how <code>$(MAKE_VAR)</code> is expanded by <code>make</code> <strong>before</strong> the command is sent to the shell, while <code>$$SHELL_VAR</code> is passed literally to the shell, which then expands it.</p>
 
-                ---
-
-                <h2 id="error-handling" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.3 Error Handling: Controlling Build Flow on Failures</h2>
-                <p class="text-gray-600 mb-4">By default, if any command in a recipe returns a non-zero exit code (indicating an error), `make` immediately stops the current rule and often terminates. You can modify this behavior:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>
-                        **Ignore Individual Errors (`-`):** Prefix a command with a `-` to tell `make` to ignore its exit status. Even if the command fails, `make` will continue executing subsequent commands in the recipe and other rules.
-                    </li>
-                    <li>
-                        **Continue on All Errors (`-k`):** Run `make` with the `-k` or `--keep-going` flag. If a command fails, `make` will abandon that target and its dependent targets, but it will try to build other independent targets in the Makefile. This is helpful for seeing all errors at once during a large build.
-                    </li>
-                    <li>
-                        **Ignore All Errors (`-i`):** Run `make` with the `-i` or `--ignore-errors` flag. This is equivalent to putting a `-` before *every* command in the Makefile. `make` will continue running even if commands fail. Use with caution!
-                    </li>
-                </ul>
-                <p class="text-gray-600 mb-4 font-semibold">Example of Error Suppression:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h2 id="error-handling" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">5.3 Error Handling: Controlling Build Flow on Failures</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">By default, if any command in a recipe returns a non-zero exit code (indicating an error), <code>make</code> immediately stops the current rule and often terminates. You can modify this behavior:</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li>
+                    <strong>Ignore Individual Errors (<code>-</code>):</strong> Prefix a command with a <code>-</code> to tell <code>make</code> to ignore its exit status. Even if the command fails, <code>make</code> will continue executing subsequent commands in the recipe and other rules.
+                </li>
+                <li>
+                    <strong>Continue on All Errors (<code>-k</code>):</strong> Run <code>make</code> with the <code>-k</code> or <code>--keep-going</code> flag. If a command fails, <code>make</code> will abandon that target and its dependent targets, but it will try to build other independent targets in the Makefile. This is helpful for seeing all errors at once during a large build.
+                </li>
+                <li>
+                    <strong>Ignore All Errors (<code>-i</code>):</strong> Run <code>make</code> with the <code>-i</code> or <code>--ignore-errors</code> flag. This is equivalent to putting a <code>-</code> before <em>every</em> command in the Makefile. <code>make</code> will continue running even if commands fail. Use with caution!
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example of Error Suppression:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 setup:
     @echo "Creating dummy files..."
     @touch file_A file_B file_C
@@ -235,32 +223,28 @@ task_three: task_one task_two
 clean:
     @echo "Cleaning up..."
     @rm -f file_A file_B file_C task_one_complete task_two_complete
-</code></pre>
-                <p class="text-gray-600 mb-6">**Try it:**</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make setup
+```</pre>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 font-semibold">Try it:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>make setup
 make task_one # See it stop
 make task_two # See it continue
 make -k task_three # See task_two still run even if task_one fails
-</code></pre>
-                <img src="assets/makefiles/error_handling.png" alt="Screenshot of terminal output showing Make's error handling with '-' and '-k'." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output demonstrating error handling with `-` and `-k`)*</p>
+```</pre>
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Interrupting Make (`Ctrl+C`)</h3>
-                <p class="text-gray-600 mb-4">If you interrupt `make` (e.g., with `Ctrl+C`) during execution, `make` will attempt to delete any targets it has partially or completely built that are *newer* than their prerequisites. This behavior is designed to leave your filesystem in a consistent state, preventing half-built files from confusing future `make` runs.</p>
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Interrupting Make (<code>Ctrl+C</code>)</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">If you interrupt <code>make</code> (e.g., with <code>Ctrl+C</code>) during execution, <code>make</code> will attempt to delete any targets it has partially or completely built that are <em>newer</em> than their prerequisites. This behavior is designed to leave your filesystem in a consistent state, preventing half-built files from confusing future <code>make</code> runs.</p>
 
-                ---
-
-                <h2 id="recursive-make" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.4 Recursive Use of `make`</h2>
-                <p class="text-gray-600 mb-4">For large projects, it's common to organize code into subdirectories, each with its own Makefile. You can then have a top-level Makefile that recursively calls `make` in these subdirectories.</p>
-                <p class="text-gray-600 mb-4">**Always use `$(MAKE)` (an automatic variable) instead of `make`** when calling `make` recursively. `$(MAKE)` ensures that any flags passed to the top-level `make` (like `-s` or `-k`) are correctly propagated to the sub-`make` calls.</p>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile in the root directory
+            <h2 id="recursive-make" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">5.4 Recursive Use of <code>make</code></h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">For large projects, it's common to organize code into subdirectories, each with its own Makefile. You can then have a top-level Makefile that recursively calls <code>make</code> in these subdirectories.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4"><strong>Always use <code>$(MAKE)</code> (an automatic variable) instead of <code>make</code></strong> when calling <code>make</code> recursively. <code>$(MAKE)</code> ensures that any flags passed to the top-level <code>make</code> (like <code>-s</code> or <code>-k</code>) are correctly propagated to the sub-<code>make</code> calls.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile in the root directory
 SUBDIR = build_dir
 
 all:
     @echo "--- Top-level Makefile: Entering $(SUBDIR) ---"
     @mkdir -p $(SUBDIR)
-    @echo "my_sub_target:\n\t@echo \"Hello from subdirectory!\"\n\t@touch built_in_subdir" > $(SUBDIR)/Makefile
+    @echo "my_sub_target:\n\t@echo \"Hello from subdirectory!\"\n\t@touch built_in_subdir\" > $(SUBDIR)/Makefile
     @echo "  (Contents of $(SUBDIR)/Makefile created)"
     @cd $(SUBDIR) && $(MAKE) my_sub_target # Recursive call using $(MAKE)
     @echo "--- Top-level Makefile: Exited $(SUBDIR) ---"
@@ -270,18 +254,14 @@ clean:
     @echo "Cleaning up..."
     @rm -rf $(SUBDIR)
 </code></pre>
-                <p class="text-gray-600 mb-6">Run `make` to see the top-level Makefile creating a subdirectory, writing a Makefile inside it, and then invoking `make` recursively within that subdirectory.</p>
-                <img src="assets/makefiles/recursive_make_example.png" alt="Screenshot of terminal running a Makefile that recursively calls make in a subdirectory." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing recursive `make` execution)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Run <code>make</code> to see the top-level Makefile creating a subdirectory, writing a Makefile inside it, and then invoking <code>make</code> recursively within that subdirectory.</p>
 
-                ---
+            <h2 id="export-variables" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">5.5 Exporting Variables to Sub-Makes and Shells</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Variables defined in a Makefile are, by default, internal to that Makefile. If you call <code>make</code> recursively or run shell commands that need access to these variables, you need to <code>export</code> them.</p>
 
-                <h2 id="export-variables" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.5 Exporting Variables to Sub-Makes and Shells</h2>
-                <p class="text-gray-600 mb-4">Variables defined in a Makefile are, by default, internal to that Makefile. If you call `make` recursively or run shell commands that need access to these variables, you need to `export` them.</p>
-
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Environment Variables and Make</h3>
-                <p class="text-gray-600 mb-4">When `make` starts, it reads all existing **environment variables** and turns them into Makefile variables. This means you can influence a Makefile's behavior by setting environment variables before running `make`.</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Environment Variables and Make</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">When <code>make</code> starts, it reads all existing <strong>environment variables</strong> and turns them into Makefile variables. This means you can influence a Makefile's behavior by setting environment variables before running <code>make</code>.</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 all:
     @echo "--- Environment Variable Demo ---"
     # Access as a shell variable (exported from environment)
@@ -291,11 +271,13 @@ all:
 
 .PHONY: all
 </code></pre>
-                <p class="text-gray-600 mb-6">**Try it:** Run `export MY_ENV_VAR="Hello from environment"; make` and see the output.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 font-semibold">Try it:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>export MY_ENV_VAR="Hello from environment"; make
+</code></pre>
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">The `export` Directive</h3>
-                <p class="text-gray-600 mb-4">The `export` directive makes a Makefile variable available as an **environment variable** to all commands in recipes, and to sub-`make` processes.</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile content
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">The <code>export</code> Directive</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">The <code>export</code> directive makes a Makefile variable available as an <strong>environment variable</strong> to all commands in recipes, and to sub-<code>make</code> processes.</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile content
 MESSAGE = "This message is exported!"
 export MESSAGE # Export MESSAGE to shell commands and sub-makes
 
@@ -314,13 +296,11 @@ all:
 clean:
     @rm -rf temp_subdir
 </code></pre>
-                <p class="text-gray-600 mb-6">Run `make` and observe how `MESSAGE` is accessible both as a shell environment variable and within the sub-Makefile.</p>
-                <img src="assets/makefiles/export_variable_example.png" alt="Screenshot of terminal output showing a variable being exported and used in a sub-make." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output showing `MESSAGE` used by both main and sub-make)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Run <code>make</code> and observe how <code>MESSAGE</code> is accessible both as a shell environment variable and within the sub-Makefile.</p>
 
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">The `.EXPORT_ALL_VARIABLES` Directive</h3>
-                <p class="text-gray-600 mb-4">Instead of individually exporting variables, you can use the special directive `.EXPORT_ALL_VARIABLES:` to automatically export *all* variables defined in your Makefile to subprocesses and sub-`make` calls.</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.EXPORT_ALL_VARIABLES: # Export all variables by default
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">The <code>.EXPORT_ALL_VARIABLES</code> Directive</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Instead of individually exporting variables, you can use the special directive <code>.EXPORT_ALL_VARIABLES:</code> to automatically export <strong>all</strong> variables defined in your Makefile to subprocesses and sub-<code>make</code> calls.</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>.EXPORT_ALL_VARIABLES: # Export all variables by default
 
 GLOBAL_SETTING = "This is a global setting!"
 
@@ -339,34 +319,32 @@ all:
 clean:
     @rm -rf another_subdir
 </code></pre>
-                <p class="text-gray-600 mb-6">This can be convenient for simple cases but might lead to a cluttered environment for very large, complex projects.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">This can be convenient for simple cases but might lead to a cluttered environment for very large, complex projects.</p>
 
-                ---
-
-                <h2 id="make-arguments" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">5.6 Arguments to `make`</h2>
-                <p class="text-gray-600 mb-4">The `make` command itself accepts many powerful arguments that influence its behavior:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>
-                        `make [TARGET] [TARGET2 ...]`: You can specify multiple targets on the command line, and `make` will build them in the order provided.
-                    </li>
-                    <li>
-                        `make -n` or `--dry-run`: Prints the commands that *would* be executed without actually running them. Excellent for debugging!
-                    </li>
-                    <li>
-                        `make -t` or `--touch`: "Touches" (updates the modification timestamp of) the specified targets without running their commands. Useful for marking targets as up-to-date without rebuilding.
-                    </li>
-                    <li>
-                        `make -o FILE` or `--old-file=FILE`: Considers `FILE` to be very old, even if it's new. Useful for forcing rebuilds related to a specific file.
-                    </li>
-                    <li>
-                        `make -B` or `--always-make`: Unconditionally remakes all targets, ignoring timestamps.
-                    </li>
-                    <li>
-                        `make -C DIR`: Changes to `DIR` before reading Makefiles or doing anything else.
-                    </li>
-                </ul>
-                <p class="text-gray-600 mb-4 font-semibold">Example:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>file_A:
+            <h2 id="make-arguments" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">5.6 Arguments to <code>make</code></h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">The <code>make</code> command itself accepts many powerful arguments that influence its behavior:</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li>
+                    <code>make [TARGET] [TARGET2 ...]</code>: You can specify multiple targets on the command line, and <code>make</code> will build them in the order provided.
+                </li>
+                <li>
+                    <code>make -n</code> or <code>--dry-run</code>: Prints the commands that <em>would</em> be executed without actually running them. Excellent for debugging!
+                </li>
+                <li>
+                    <code>make -t</code> or <code>--touch</code>: "Touches" (updates the modification timestamp of) the specified targets without running their commands. Useful for marking targets as up-to-date without rebuilding.
+                </li>
+                <li>
+                    <code>make -o FILE</code> or <code>--old-file=FILE</code>: Considers <code>FILE</code> to be very old, even if it's new. Useful for forcing rebuilds related to a specific file.
+                </li>
+                <li>
+                    <code>make -B</code> or <code>--always-make</code>: Unconditionally remakes all targets, ignoring timestamps.
+                </li>
+                <li>
+                    <code>make -C DIR</code>: Changes to <code>DIR</code> before reading Makefiles or doing anything else.
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 font-semibold">Example:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>file_A:
     @echo "Building file_A"
     @touch file_A
 
@@ -380,22 +358,16 @@ clean:
 
 .PHONY: clean
 </code></pre>
-                <p class="text-gray-600 mb-6">**Try it:**</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>make file_A file_B
+            <p class="text-gray-600 dark:text-gray-300 mb-6 font-semibold">Try it:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>make file_A file_B
 make clean file_A # Runs clean, then builds file_A
 make -n file_A file_B # See what would happen
 </code></pre>
-                <img src="assets/makefiles/make_arguments.png" alt="Screenshot of terminal running make with various command-line arguments like -n and multiple targets." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output for `make -n` and multiple targets)*</p>
 
-                ---
-
-                <h2 id="conclusion" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Conclusion & What's Next?</h2>
-                <p class="text-gray-600 mb-4">You've now gained a deep understanding of how `make` executes commands, manages its shell environment, handles errors, and works across multiple directories. These are essential skills for controlling complex build flows and debugging issues when they arise.</p>
-                <p class="text-gray-600">In the next tutorial, we'll explore Makefile functions and directives to further streamline and customize your build processes. You're becoming a Makefile pro!</p>
-            </div>
-        </section>
-    </main>
+        
+        </div>
+    </section>
+</main>
 
     <section class="container mx-auto px-4 mt-12 mb-16">
         <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">

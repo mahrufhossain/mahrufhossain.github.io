@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>9. Makefile Cookbook: Automatic Dependency Generation for C/C++ Projects - Mahruf Hossain</title>
+    <title>Makefile Cookbook: Automatic Dependency Generation for C/C++ Projects - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // Tailwind CSS configuration for dark mode
@@ -102,43 +102,37 @@
     </header>
 
     <main class="flex-grow">
-        <section id="makefile-cookbook-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24">
-            <div class="container mx-auto px-4">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">9. Makefile Cookbook: Automatic Dependency Generation for C/C++ Projects</h1>
-                <p class="text-gray-600 mb-6">For medium to large C/C++ projects, manually tracking header dependencies can become a tedious and error-prone task. If a header file changes, `make` needs to know which source files (and thus which object files) depend on it so they can be recompiled. This "cookbook" Makefile demonstrates a powerful technique for **automatically generating and including these dependencies**, making your build process much more efficient and reliable.</p>
+    <section id="makefile-cookbook-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6">9. Makefile Cookbook: Automatic Dependency Generation for C/C++ Projects</h1>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">For medium to large C/C++ projects, manually tracking header dependencies can become a tedious and error-prone task. If a header file changes, <code>make</code> needs to know which source files (and thus which object files) depend on it so they can be recompiled. This "cookbook" Makefile demonstrates a powerful technique for <strong>automatically generating and including these dependencies</strong>, making your build process much more efficient and reliable.</p>
 
-                ---
+            <h2 id="the-problem-with-manual-dependencies" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">The Problem with Manual Dependencies</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Consider a scenario where <code>main.c</code> includes <code>my_header.h</code>. If <code>my_header.h</code> changes, <code>main.c</code> (and subsequently <code>main.o</code>) needs to be recompiled. Without explicit rules for this, <code>make</code> wouldn't know to do it. Manually adding these dependencies for every <code>.c</code> or <code>.cpp</code> file is not scalable.</p>
 
-                <h2 id="the-problem-with-manual-dependencies" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">The Problem with Manual Dependencies</h2>
-                <p class="text-gray-600 mb-4">Consider a scenario where `main.c` includes `my_header.h`. If `my_header.h` changes, `main.c` (and subsequently `main.o`) needs to be recompiled. Without explicit rules for this, `make` wouldn't know to do it. Manually adding these dependencies for every `.c` or `.cpp` file is not scalable.</p>
+            <h2 id="the-solution-compiler-generated-dependencies" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">The Solution: Compiler-Generated Dependencies</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Modern compilers like GCC and Clang offer flags to automatically generate dependency files. When you compile a source file (<code>.c</code> or <code>.cpp</code>), the compiler can also output a <code>.d</code> (dependency) file that lists all header files included by that source file. This <code>.d</code> file essentially becomes a mini-Makefile rule for that source's object file.</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">The key flags for GCC/Clang are:</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li>
+                    <strong><code>-MMD</code></strong>: Generate dependency information as a side effect. This creates a <code>.d</code> file for each <code>.o</code> file, listing its prerequisites.
+                </li>
+                <li>
+                    <strong><code>-MP</code></strong>: Add a phony target for each header file listed in the dependency file. This prevents <code>make</code> from complaining if a header file is deleted (it won't try to rebuild the header).
+                </li>
+            </ul>
 
-                ---
+            <h2 id="the-cookbook-makefile-explained" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">The Cookbook Makefile Explained</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Here's a breakdown of the provided Makefile, with explanations for each section:</p>
 
-                <h2 id="the-solution-compiler-generated-dependencies" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">The Solution: Compiler-Generated Dependencies</h2>
-                <p class="text-gray-600 mb-4">Modern compilers like GCC and Clang offer flags to automatically generate dependency files. When you compile a source file (`.c` or `.cpp`), the compiler can also output a `.d` (dependency) file that lists all header files included by that source file. This `.d` file essentially becomes a mini-Makefile rule for that source's object file.</p>
-                <p class="text-gray-600 mb-4">The key flags for GCC/Clang are:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>
-                        `-MMD`: Generate dependency information as a side effect. This creates a `.d` file for each `.o` file, listing its prerequisites.
-                    </li>
-                    <li>
-                        `-MP`: Add a phony target for each header file listed in the dependency file. This prevents `make` from complaining if a header file is deleted (it won't try to rebuild the header).
-                    </li>
-                </ul>
-
-                ---
-
-                <h2 id="the-cookbook-makefile-explained" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">The Cookbook Makefile Explained</h2>
-                <p class="text-gray-600 mb-4">Here's a breakdown of the provided Makefile, with explanations for each section:</p>
-
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code># Makefile
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code># Makefile
 # Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
 
 # --- Project Configuration ---
-TARGET_EXEC := final_program      # The name of the final executable
+TARGET_EXEC := final_program       # The name of the final executable
 
-BUILD_DIR := ./build              # Directory for compiled objects and dependencies
-SRC_DIRS := ./src                 # Directory containing source code (C, C++, Assembly)
+BUILD_DIR := ./build               # Directory for compiled objects and dependencies
+SRC_DIRS := ./src                  # Directory containing source code (C, C++, Assembly)
 
 # --- Source File Discovery ---
 # Find all the C, C++, and Assembly files within SRC_DIRS.
@@ -175,8 +169,8 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP
 # $^: All prerequisites (all .o files)
 # $(LDFLAGS): Linker flags (e.g., -lm for math library)
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	@mkdir -p $(dir $@) # Ensure build directory exists for the executable
-	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+    @mkdir -p $(dir $@) # Ensure build directory exists for the executable
+    $(CXX) $(OBJS) -o $@ $(LDFLAGS)
 
 # --- Compilation Rules ---
 # Generic rule for C source files (e.g., src/file.c -> build/src/file.c.o)
@@ -184,19 +178,19 @@ $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 # $@: The target (the .o file)
 # $(dir $@): Extracts the directory part of the target path (e.g., ./build/./src/)
 $(BUILD_DIR)/%.c.o: %.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+    @mkdir -p $(dir $@)
+    $(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 # Generic rule for C++ source files (e.g., src/file.cpp -> build/src/file.cpp.o)
 $(BUILD_DIR)/%.cpp.o: %.cpp
-	@mkdir -p $(dir $@)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+    @mkdir -p $(dir $@)
+    $(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 # --- Clean Target ---
 .PHONY: clean # Declare 'clean' as a phony target to avoid conflicts with a file named 'clean'
 clean:
-	@echo "Cleaning up build directory: $(BUILD_DIR)"
-	@rm -rf $(BUILD_DIR) # Remove the entire build directory
+    @echo "Cleaning up build directory: $(BUILD_DIR)"
+    @rm -rf $(BUILD_DIR) # Remove the entire build directory
 
 # --- Include Generated Dependency Files ---
 # Include all the .d makefiles generated by -MMD.
@@ -205,11 +199,9 @@ clean:
 -include $(DEPS)
 </code></pre>
 
-                ---
-
-                <h2 id="setting-up-a-project-to-use-this-makefile" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Setting Up a Project to Use This Makefile</h2>
-                <p class="text-gray-600 mb-4">To use this Makefile, set up your project directory structure as follows:</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>my_project/
+            <h2 id="setting-up-a-project-to-use-this-makefile" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">Setting Up a Project to Use This Makefile</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">To use this Makefile, set up your project directory structure as follows:</p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>my_project/
 ├── Makefile
 ├── src/
 │   ├── main.c
@@ -219,9 +211,9 @@ clean:
 │   └── util.c
 └── (other project files like README, etc.)
 </code></pre>
-                <p class="text-gray-600 mb-4">**Example Files:**</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>// src/main.c
-#include <stdio.h>
+            <p class="text-gray-600 dark:text-gray-300 mb-4"><strong>Example Files:</strong></p>
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2 dark:bg-gray-900 dark:text-gray-100"><code>// src/main.c
+#include &lt;stdio.h&gt;
 #include "module_a/module_a.h"
 #include "util.h" // Assuming util.h exists or will exist
 
@@ -231,60 +223,51 @@ int main() {
     return 0;
 }
 </code></pre>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2"><code>// src/module_a/module_a.h
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-2 dark:bg-gray-900 dark:text-gray-100"><code>// src/module_a/module_a.h
 #ifndef MODULE_A_H
 #define MODULE_A_H
 void print_module_a_message();
 #endif
 </code></pre>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>// src/module_a/module_a.cpp
+            <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6 dark:bg-gray-900 dark:text-gray-100"><code>// src/module_a/module_a.cpp
 #include "module_a/module_a.h"
-#include <iostream>
+#include &lt;iostream&gt;
 
 void print_module_a_message() {
     std::cout << "Message from Module A!\n";
 }
 </code></pre>
-                <p class="text-gray-600 mb-4">*(Optional: Add `src/util.h` and `src/util.c` for more files.)*</p>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">*(Optional: Add <code>src/util.h</code> and <code>src/util.c</code> for more files.)*</p>
 
-                ---
+            <h2 id="how-to-use-it" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">How to Use It</h2>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li><strong>First Build:</strong> Navigate to <code>my_project/</code> in your terminal and run <code>make</code>. You'll see <code>make</code> discovering source files, compiling them, creating the <code>build/</code> directory, and generating <code>.o</code> and <code>.d</code> files.</li>
+                <li><strong>Subsequent Builds:</strong> Run <code>make</code> again. If nothing has changed, <code>make</code> will correctly report "Nothing to be done."</li>
+                <li><strong>Header Change:</strong> Modify <code>src/module_a/module_a.h</code>. Run <code>make</code>. You'll observe that <code>src/main.c</code> (which includes <code>module_a.h</code>) will be recompiled, as <code>make</code> correctly identified its dependency through the generated <code>.d</code> file.</li>
+                <li><strong>Clean:</strong> Run <code>make clean</code> to remove the <code>build/</code> directory and all compiled artifacts.</li>
+            </ul>
 
-                <h2 id="how-to-use-it" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">How to Use It</h2>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>**First Build:** Navigate to `my_project/` in your terminal and run `make`. You'll see `make` discovering source files, compiling them, creating the `build/` directory, and generating `.o` and `.d` files.</li>
-                    <li>**Subsequent Builds:** Run `make` again. If nothing has changed, `make` will correctly report "Nothing to be done."</li>
-                    <li>**Header Change:** Modify `src/module_a/module_a.h`. Run `make`. You'll observe that `src/main.c` (which includes `module_a.h`) will be recompiled, as `make` correctly identified its dependency through the generated `.d` file.</li>
-                    <li>**Clean:** Run `make clean` to remove the `build/` directory and all compiled artifacts.</li>
-                </ul>
+            <h2 id="benefits-of-this-approach" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">Benefits of This Approach</h2>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li><strong>Automatic Dependency Tracking</strong>: No more manually listing header dependencies. The compiler does the hard work.</li>
+                <li><strong>Correct Incremental Builds</strong>: Only the necessary files are recompiled when a source or header changes, speeding up development cycles.</li>
+                <li><strong>Scalability</strong>: Easily add new source files or directories without modifying the Makefile, as long as they're within <code>SRC_DIRS</code>.</li>
+                <li><strong>Cleaner Project Structure</strong>: Object files and dependencies are neatly organized in the <code>BUILD_DIR</code>.</li>
+            </ul>
 
-                <img src="assets/makefiles/cookbook_build.png" alt="Screenshot of terminal output showing the build process of the cookbook Makefile." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">*(Image Placeholder: Terminal output from a clean build and subsequent build after a header change)*</p>
-
-                ---
-
-                <h2 id="benefits-of-this-approach" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Benefits of This Approach</h2>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>**Automatic Dependency Tracking**: No more manually listing header dependencies. The compiler does the hard work.</li>
-                    <li>**Correct Incremental Builds**: Only the necessary files are recompiled when a source or header changes, speeding up development cycles.</li>
-                    <li>**Scalability**: Easily add new source files or directories without modifying the Makefile, as long as they're within `SRC_DIRS`.</li>
-                    <li>**Cleaner Project Structure**: Object files and dependencies are neatly organized in the `BUILD_DIR`.</li>
-                </ul>
-
-                ---
-
-                <h2 id="further-enhancements" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">Further Enhancements</h2>
-                <p class="text-gray-600 mb-4">This cookbook Makefile is a solid foundation. You can extend it further by:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>Adding **compiler-specific flags** (e.g., `-std=c++17`, optimization levels like `-O2`).</li>
-                    <li>Integrating **unit testing** frameworks.</li>
-                    <li>Adding rules for **static analysis** tools (`clang-tidy`, `cppcheck`).</li>
-                    <li>Supporting **different build configurations** (debug/release) using conditional directives.</li>
-                    <li>Incorporating **external libraries** and their include/link paths.</li>
-                </ul>
-                <p class="text-gray-600">This Makefile provides a robust and elegant solution for managing C/C++ projects, automating one of the most error-prone aspects of compilation: dependency tracking. It's a prime example of how `make` can empower efficient development workflows.</p>
-            </div>
-        </section>
-    </main>
+            <h2 id="further-enhancements" class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4 border-b pb-2">Further Enhancements</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">This cookbook Makefile is a solid foundation. You can extend it further by:</p>
+            <ul class="list-disc list-inside text-gray-600 dark:text-gray-300 mb-4 pl-4 space-y-2">
+                <li>Adding <strong>compiler-specific flags</strong> (e.g., <code>-std=c++17</code>, optimization levels like <code>-O2</code>).</li>
+                <li>Integrating <strong>unit testing</strong> frameworks.</li>
+                <li>Adding rules for <strong>static analysis</strong> tools (<code>clang-tidy</code>, <code>cppcheck</code>).</li>
+                <li>Supporting <strong>different build configurations</strong> (debug/release) using conditional directives.</li>
+                <li>Incorporating <strong>external libraries</strong> and their include/link paths.</li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-300">This Makefile provides a robust and elegant solution for managing C/C++ projects, automating one of the most error-prone aspects of compilation: dependency tracking. It's a prime example of how <code>make</code> can empower efficient development workflows.</p>
+        </div>
+    </section>
+</main>
 
     <section class="container mx-auto px-4 mt-12 mb-16">
         <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
