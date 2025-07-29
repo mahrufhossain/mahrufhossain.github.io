@@ -94,7 +94,7 @@
             <a href="ltspice_tutorial.html" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Back to Tutorials Index</a>
             <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Home</a>
             <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">About</a>
-            <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Projects</a>
+            <!-- <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Projects</a> -->
             <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">My Work</a>
             <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Contact</a>
         </div>
@@ -162,7 +162,7 @@
                     <li>Draw a wire from the other end of the resistor down to the ground symbol.</li>
                     <li>Draw a wire from the negative terminal of the voltage source to the ground symbol.</li>
                 </ol>
-                <p class="text-gray-600 mb-4">Ensure all connections are solid black lines. Grey lines indicate incomplete connections.</p>
+               
                 <img src="assets/Operating_point/fully_wired.png" alt="Fully wired simple voltage source and resistor circuit in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
 
                 <hr class="my-8 border-gray-300">
@@ -180,13 +180,13 @@
                 <h2 id="dc-op-simulation" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">1.5 Performing DC Operating Point Simulation</h2>
                 <p class="text-gray-600 mb-4">The <b>DC Operating Point</b> analysis calculates the steady-state DC voltages at each node and currents through components. This is vital for verifying correct biasing.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>Go to <b>Simulate > Edit Simulation Cmd</b> from the menu bar or press <b>A</b>.</li>
-                    <li>In the <b>Edit Simulation Command</b> dialog box, select the <b>.op</b> tab, and click <b>OK</b>.</li>
+                    <li>Go to <b>Simulate > Configure Analysis</b> from the menu bar or press <b>A</b>.</li>
+                    <li>In the <b>Configure Analysis</b> dialog box, select the <b>DC op pnt</b> tab, and click <b>OK</b>.</li>
                     <img src="assets/Operating_point/op_point.png" alt="Simulation Command dialog with .op tab selected in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                     <li>A <b>.op</b> directive will appear on your cursor. Click to place it anywhere on your schematic (it won't affect the simulation, just for visual reference).</li>
                     <li>Finally, go to <b>Simulate > Run</b> (or click the <b>Play</b> icon on the toolbar).</li>
                 </ol>
-                <p class="text-gray-600 mb-4">A new window will appear showing the DC operating points. You'll see node voltages listed (e.g., <b>V(n001): 5V</b>, <b>V(n002): 0V</b>). You can also hover over wires on your schematic to see their voltage, or hover over components to see current flow (a small probe icon will appear).</p>
+                <p class="text-gray-600 mb-4">A new window will appear showing the DC operating points. You'll see node voltages listed (e.g., <b>V(n001): 5V</b>, <b>V(n002): 0V</b>).</p>
                 <img src="assets/Operating_point/simulate.png" alt="Simulation results window showing DC operating point voltages and currents" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                 <p class="text-gray-600 mb-4 font-semibold">LTSpice Command (<b>.op</b> directive in schematic):</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.op</code></pre>
