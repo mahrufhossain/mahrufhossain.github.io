@@ -146,7 +146,6 @@
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
                             <li><b>Linear/Logarithmic:</b> Toggle between linear and logarithmic scaling for the amplitude. For most voltage/current plots, <b>Linear</b> is standard, but <b>Logarithmic</b> can be useful for very wide dynamic ranges.</li>
                             <li><b>Manual Limits:</b> Enter custom values for the <b>Top</b> and <b>Bottom</b> of the Y-axis range. This is great for focusing on specific signal levels.</li>
-                            <li><b>Automatic:</b> Reverts to auto-scaling based on the trace data.</li>
                         </ul>
                     </li>
                     <img src="assets/plot_window/scale_changing_menu.png" alt="Context menu for Y-axis scaling in LTSpice, showing options for linear/logarithmic scale and manual limits" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
@@ -159,7 +158,7 @@
                             <li><b>Linear/Logarithmic:</b>
                                 <ul>
                                     <li>For <b>Transient Analysis</b> (Time): Typically use <b>Linear</b>.</li>
-                                    <li>For <b>AC Analysis</b> (Frequency): Almost always use <b>Logarithmic</b> (<b>Decade</b> or <b>Octave</b>) to properly visualize frequency responses like filters.</li>
+                                    <li>For <b>AC Analysis</b> (Frequency): Almost always use <b>Logarithmic</b> (<b>Decade</b> or <b>Octave</b>) to properly visualize frequency responses.</li>
                                 </ul>
                             </li>
                             <li><b>Manual Limits:</b> Set custom <b>Left</b> and <b>Right</b> bounds for the X-axis.</li>
@@ -179,8 +178,9 @@
                             <li><b>Method 1 (Quick):</b> Click on the <b>trace name</b> (e.g., V(out), I(R1)) at the bottom of the plot window. A single cursor (<b>Cursor 1</b>) will appear.</li>
                             <li><b>Method 2 (Right-click):</b> <b>Right-click</b> anywhere on the plot background and select <b>Place Cursor on Active Trace</b>.</li>
                         </ul>
-                        <img src="assets/plot_window/cursor_01.png" alt="LTSpice plot window showing a single active cursor (Cursor 1) on a waveform, with its corresponding values displayed" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                        
                     </li>
+                    <img src="assets/plot_window/cursor_01.png" alt="LTSpice plot window showing a single active cursor (Cursor 1) on a waveform, with its corresponding values displayed" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                     <li><b>Changing Cursor Types (Single vs. Dual):</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
                             <li><b>Single Cursor (Cursor 1):</b> Appears after one click on the trace name. Drag it along the waveform to read values at that point.</li>
@@ -203,7 +203,7 @@
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
                             <li><b>Drag:</b> Simply click and drag the cursor.</li>
                             <li><b>Arrow Keys:</b> With a cursor active, use the <b>Left/Right arrow keys</b> to move it along the X-axis. Use the <b>Up/Down arrow keys</b> to snap the cursor to peaks, troughs, or zero crossings of the active trace.</li>
-                            <li><b>Numerical Input:</b> For very precise placement, <b>right-click</b> on a cursor (its vertical line) and enter a specific X-axis value.</li>
+                            <!-- <li><b>Numerical Input:</b> For very precise placement, <b>right-click</b> on a cursor (its vertical line) and enter a specific X-axis value.</li> -->
                         </ul>
                     </li>
                 </ol>
@@ -218,7 +218,7 @@
                     <li><b>Zooming:</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
                             <li><b>Box Zoom:</b> Click and drag your mouse to draw a box around the area you want to magnify.</li>
-                            <li><b>Zoom to Fit:</b> Click the <b>magnifying glass with an 'X'</b> icon on the toolbar to reset the zoom to fit all data.</li>
+                            <li><b>Zoom to Fit:</b> Click the <b>Zoom Extents</b> icon on the toolbar or press <b>Space</b> to reset the zoom to fit all data.</li>
                             <li><b>Zoom In/Out:</b> Use the dedicated zoom icons or your mouse scroll wheel (if configured).</li>
                         </ul>
                     </li>
@@ -230,9 +230,9 @@
                     </li>
                     <li><b>Saving Plot Data/Images:</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
-                            <li><b>File > Save Plot Data As:</b> Saves the raw data for external analysis.</li>
+                            <li><b>File > Export Data As Text:</b> Exports the raw data for external analysis.</li>
                             <li><b>File > Print:</b> Prints the plot.</li>
-                            <li><b>Edit > Copy Bitmap to Clipboard:</b> Copies the plot image to your clipboard.</li>
+                            <li><b>Tools > Copy Graph Image to Clipboard:</b> Copies the plot image to your clipboard.</li>
                         </ul>
                     </li>
                 </ul>

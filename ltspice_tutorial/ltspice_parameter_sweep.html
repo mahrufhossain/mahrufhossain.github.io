@@ -115,14 +115,14 @@
                     <li><b>Place Components:</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
                             <li>An AC Voltage Source (<b>voltage</b>): Right-click and set <b>AC Amplitude</b> to <b>1</b>.</li>
-                            <li>A Resistor (<b>res</b>): <b>Right-click</b> on the resistor and for its <b>Resistance</b> value, instead of a number, type in a variable name like <b>{Rval}</b>. The curly braces `{}` are essential.</li>
+                            <li>A Resistor (<b>res</b>): <b>Right-click</b> on the resistor and for its <b>Resistance</b> value, instead of a number, type in a variable name like <b>{Rval}</b>. The curly braces <strong>{}</strong> are essential.</li>
                             <li>A Capacitor (<b>cap</b>): Right-click and set its <b>Capacitance</b> to <b>100n</b> (100 nanofarads).</li>
                             <li>A Ground (<b>GND</b>).</li>
                         </ul>
                     </li>
                     <li><b>Wire Circuit:</b> Connect them as a low-pass filter: Voltage Source (+) to Resistor, Resistor to Capacitor, Capacitor to Ground, Voltage Source (-) to Ground.</li>
                     <img src="assets/parameter_sweep/schematic.png" alt="LTSpice RC Low-Pass Filter Schematic with Rval Parameter" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                    <li><b>Add AC Analysis Command:</b> We'll still need an <b>AC Analysis</b> command to see the frequency response. Go to <b>Simulate > Edit Simulation Cmd</b>, select the <b>AC Analysis</b> tab, and set it to <b>Decade</b>, <b>100</b> points, <b>Start Frequency 10</b>, <b>Stop Frequency 1Meg</b>. Place the <b>.ac</b> directive on the schematic.</li>
+                    <li><b>Add AC Analysis Command:</b> We'll still need an <b>AC Analysis</b> command to see the frequency response. Go to <b>Simulate > Configure Analysis</b>, select the <b>AC Analysis</b> tab, and set it to <b>Decade</b>, <b>100</b> points, <b>Start Frequency 10</b>, <b>Stop Frequency 1Meg</b>. Place the <b>.ac</b> directive on the schematic.</li>
                     <img src="assets/parameter_sweep/setup_analysis.png" alt="LTSpice AC Analysis Setup Dialog for Parameter Sweep" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
                     <li><b>Save:</b> Save your circuit (e.g., <b>rc_sweep.asc</b>).</li>
                 </ol>
@@ -146,13 +146,13 @@
                         </ul>
                     </li>
                     <li>For our example (linear sweep from 1k to 5k in 1k steps), you would type:</li>
-                    <img src="assets/parameter_sweep/param_define_dialogue.png" alt="LTSpice AC Analysis Setup Dialog for Parameter Sweep" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                    
                 </ol>
                 <p class="text-gray-600 mb-4 font-semibold">LTSpice Command to type:</p>
                 <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>.step param Rval 1k 5k 1k</code></pre>
                 <p class="text-gray-600 mb-4">Click <b>OK</b> after typing the command. The directive will appear on your cursor. Click to place it on your schematic.</p>
-                <img src="assets/parameter_sweep/param_define.png" alt="LTSpice AC Analysis Setup Dialog for Parameter Sweep" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">You can sweep various parameters, including model parameters (e.g., transistor W/L), temperature (via <b>.temp</b>), or even other sources.</p>
+                <img src="assets/parameter_sweep/param_define_dialogue.png" alt="LTSpice AC Analysis Setup Dialog for Parameter Sweep" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
+                <p class="text-gray-600 italic mb-6">You can sweep various parameters, including model parameters (e.g., transistor, temperature (via <b>.temp</b>), or even other sources.</p>
 
                 <hr class="my-8 border-gray-300">
 
@@ -164,7 +164,7 @@
                     <li><b>Selecting Individual Steps:</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
                             <li><b>Right-click</b> anywhere on the plot background.</li>
-                            <li>Select <b>Select Steps</b> from the context menu.</li>
+                            <li>Under <b>View</b>,Select <b>Select Steps</b> from the context menu.</li>
                             <li>A dialog box will appear, listing all the individual steps performed. You can check/uncheck them to hide or show specific waveforms. This is invaluable for isolating and comparing results.</li>
                         </ul>
                     </li>

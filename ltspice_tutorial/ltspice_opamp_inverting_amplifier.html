@@ -112,7 +112,7 @@
                 <p class="text-gray-600 mb-4">Let's build the basic inverting amplifier circuit:</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
                     <li><b>New Schematic:</b> Open a new schematic (<b>File > New Schematic</b> or <b>Ctrl+N</b>).</li>
-                    <li><b>Place Op-Amp:</b> Go to <b>Component</b> (or press <b>P</b>) and type <b>opamp</b>. Place it on the schematic. This is <b>LTSpice's</b> ideal Op-Amp model.</li>
+                    <li><b>Place Op-Amp:</b> Go to <b>Component</b> (or press <b>P</b>) and type <b>LM741 (I have chosen this model for this simulation)</b>. Place it on the schematic.</li>
                     <li><b>Place Resistors:</b> Add two resistors (<b>res</b>):
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
                             <li>An input resistor, <b>R1</b> (e.g., <b>1k</b>).</li>
@@ -127,8 +127,9 @@
                     </li>
                     <li><b>Place Voltage Sources (Power Supplies):</b> Op-Amps need DC power. Add two more voltage sources:
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
-                            <li>For positive supply: <b>Right-click</b> and set <b>DC value</b> to <b>15V</b>. Label its positive node <b>Vcc</b> (by clicking <b>Label Net</b> or <b>F4</b>).</li>
+                            <li>For positive supply: <b>Right-click</b> and set <b>DC value</b> to <b>15V</b>. Label its positive node <b>Vcc</b> (by clicking <b>Net Label</b> or <b>N</b>).</li>
                             <li>For negative supply: <b>Right-click</b> and set <b>DC value</b> to <b>-15V</b>. Label its negative node <b>Vee</b>.</li>
+                            <p><i>Here, I have used the split power supply symbol created from a <code>.subckt</code> statement. You can find how to create one on <a href="ltspice_third_party_models.html" class="text-teal-600 hover:text-teal-800 font-semibold">Tutorial 7: Using Third-Party Models</a>.</i></p>
                         </ul>
                     </li>
                     <li><b>Place Grounds:</b> Add several <b>GND</b> symbols.</li>
@@ -151,7 +152,7 @@
                 <h2 id="configure-simulation" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.2 Configuring Simulation (Transient Analysis)</h2>
                 <p class="text-gray-600 mb-4">We'll use a <b>Transient Analysis</b> to observe the amplifier's response over time.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>Go to <b>Simulate > Edit Simulation Cmd</b>.</li>
+                    <li>Go to <b>Simulate > Configure Analysis</b>.</li>
                     <li>Select the <b>Transient</b> tab.</li>
                     <li>Set <b>Stop Time</b> to <b>10ms</b> (10 milliseconds), which is sufficient for several cycles of our 1kHz input signal.</li>
                     <li>Click <b>OK</b> and place the <b>.tran</b> directive on your schematic.</li>
@@ -164,7 +165,7 @@
                 <h2 id="analyze-waveforms" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2">8.3 Running the Simulation and Analyzing Waveforms</h2>
                 <p class="text-gray-600 mb-4">Now, let's run the simulation and observe the amplified output.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2">
-                    <li>Go to <b>Simulate > Run</b> (or click the <b>Running Man</b> icon).</li>
+                    <li>Go to <b>Simulate > Run</b> (or click the <b>Play</b> icon) or press <b>ALt + R</b>.</li>
                     <li>A plot window will appear. Probe the input voltage (<b>Vin</b>, the wire coming from your sine source) and the output voltage (<b>Vout</b>, the wire at the Op-Amp's output pin).</li>
                     <li>You should see two sine waves. The output waveform should be:
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
@@ -198,8 +199,8 @@
                 Previous: Advanced: Using Third-Party Models
             </a>
 
-            <a href="opamp_non_inverting_amplifier.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
-                Next: Op-Amp Basics: Non-Inverting Amplifier (Coming Soon)
+            <a href="ltspice_tutorial.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                Next: Modifying LTSpice Interface (Coming Soon)
                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </a>
         </div>

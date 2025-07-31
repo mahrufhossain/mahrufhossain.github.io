@@ -131,7 +131,7 @@
                     <li><b>Save the Model File:</b> Place the <b>.lib</b> or <b>.mod</b> file (e.g., <b>2N7000.lib</b>) in the same directory as your <b>.asc</b> schematic file. This makes your project self-contained and portable.</li>
                     <li><b>Add a SPICE Directive:</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
-                            <li>On your schematic, go to <b>Edit > SPICE Directive</b> (or press <b>'.'</b>).</li>
+                            <li>On your schematic, go to <b>Edit > SPICE Directive</b> (or press <b>"."</b>).</li>
                             <li>In the dialog box, type <b>.lib 2N7000.lib</b> (replace <b>2N7000.lib</b> with your model's filename).</li>
                             <li>Click <b>OK</b> and place this directive on your schematic.</li>
                         </ul>
@@ -139,14 +139,15 @@
                 </ol>
                 <img src="assets/third_party_model/model_define.png" alt="LTSpice schematic showing a .lib directive placed on the canvas, referencing '2N7000.lib'" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
                 <p class="text-gray-600 italic mb-6 dark:text-gray-400">
-    For models defined with **.subckt**, you might use **.inc** instead of **.lib**, though **.lib** usually works for both. If the model file is not in the same directory, you'll need to provide the full path:
+    For models defined with <b><code>.subckt</code></b>, you might use <b><code>.inc</b></code> instead of <b><code>.lib</code></b>, though <b><code>.lib</code></b> usually works for both. If the model file is not in the same directory, you'll need to provide the full path:
 </p>
-<pre class="bg-gray-800 text-white p-1 rounded-md text-sm overflow-x-auto mb-2"><code>
-.lib C:\Path\To\Your\Model\File\ModelName.lib
+<pre class="bg-gray-800 text-white p-1 rounded-md text-sm overflow-x-auto mb-2"><code>.lib C:\Path\To\Your\Model\File\ModelName.lib
 </code></pre>
 
 <p class="text-gray-600 mb-6 dark:text-gray-300">
-    <b>Alternative (Less Recommended for Projects):</b> You can also copy "".lib"" files into <b>LTSpice's</b> default library directories (e.g., `<code class="font-mono text-xs">C:\Program Files\LTC\LTspiceXVII\lib\sub</code>` for subcircuits, `<code class="font-mono text-xs">C:\Program Files\LTC\LTspiceXVII\lib\cmp\MOSFET</code>` for MOSFET models). However, this makes projects less portable and can be overwritten by updates.
+    <b>Alternative (Less Recommended for Projects):</b> You can also copy <b><code>.lib</code></b> files into <b>LTSpice's</b> default library directories:<pre class="bg-gray-800 text-white p-1 rounded-md text-sm overflow-x-auto mb-2"><code class="font-mono text-s">C:\Program Files\LTC\LTspiceXVII\lib\sub</code></pre> 
+    <p><b>For subcircuits:</b> <pre class="bg-gray-800 text-white p-1 rounded-md text-sm overflow-x-auto mb-2"><code class="font-mono text-s">C:\Program Files\LTC\LTspiceXVII\lib\cmp\MOSFET</code></pre></p>
+    <p>However, this makes projects less portable and can be overwritten by updates.</p>
 </p>
 
                 <hr class="my-8 border-gray-300 dark:border-gray-600">
@@ -165,16 +166,19 @@
                 <h3 class="text-xl font-semibold text-gray-700 mb-2 mt-4 dark:text-gray-200">For .SUBCKT statements (e.g., Op-Amps, complex ICs):</h3>
                 <p class="text-gray-600 mb-4 dark:text-gray-300">For subcircuits, you typically need to associate the <b>.subckt name</b> with an appropriate symbol. If <b>LTSpice</b> doesn't have a specific symbol, you might need to generate one.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
-                    <li><b>Use an existing symbol:</b> If a generic symbol exists (e.g., <b>opamp</b> for an Op-Amp subcircuit like <b>AD843</b>), place it. <b>Right-click</b> on the symbol and set its <b>Value</b> to the <b>.subckt name</b> (e.g., <b>AD843</b>).</li>
+                    <li><b>Use an existing symbol:</b> If a generic symbol exists (e.g., <b>opamp</b> for an Op-Amp subcircuit like <b>LM741</b>), place it. <b>Right-click</b> on the symbol and set its <b>Value</b> to the <b>.subckt name</b> (e.g., <b>LM741</b>).</li>
                     <li><b>Generate a symbol from the model file:</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
                             <li>Open the <b>.lib</b> or <b>.mod</b> file directly in <b>LTSpice</b> (<b>File > Open</b>).</li>
-                            <li>Once open, go to <b>Hierarchy > Generate Symbol</b>. <b>LTSpice</b> will attempt to create a graphical symbol based on the pin definitions in the <b>.subckt</b> statement.</li>
-                            <li>Save this generated symbol (it will have a <b>.asy</b> extension) in a location that <b>LTSpice</b> recognizes (e.g., in a custom symbol library folder, or one of <b>LTSpice's</b> default symbol directories like <code class="font-mono text-xs">`C:\Program Files\LTC\LTspiceXVII\lib\sym`</code>)</li>
+                            <li>Once open, place the cursor on <b>the line with <code>.subckt</code> statement</b>, then right click on the mouse and select <b>Create Symbol</b>. <b>LTSpice</b> will attempt to create a graphical symbol based on the pin definitions in the <b>.subckt</b> statement.</li>
+                            <li>Modify the design of the symbol as necessary.</li>
+                            <li>Save this generated symbol (it will have a <b>.asy</b> extension) in a location that <b>LTSpice</b> recognizes (e.g., in a custom symbol library folder, or one of <b>LTSpice's</b> default symbol directories.)</li>
                             <li>Once saved, you can add this new symbol to your schematic using the <b>Component</b> (<b>P</b>) button, Browse to your custom library.</li>
                         </ul>
                     </li>
                 </ol>
+
+                <p><i>Here, I have created a split power supply from the <code>.subckt</code> statement.</i>
                 <img src="assets/third_party_model/split_supply.png" alt="LTSpice menu showing 'Hierarchy' dropdown with 'Generate Symbol' option highlighted" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
 
                 <hr class="my-8 border-gray-300 dark:border-gray-600">
@@ -190,7 +194,7 @@
                         </ul>
                     </li>
                     <li><b>Pin Mismatch Errors:</b> If you generate a symbol or use a generic one, ensure its pins (nodes) map correctly to the model's pin order. LTSpice will usually warn you if there's a mismatch.</li>
-                    <li><b>Convergence Issues:</b> Complex models can sometimes cause simulation convergence problems. Try enabling GMIN stepping or setting a smaller `Maximum Time Step` in the <b>Transient Analysis</b> setup.</li>
+                    <li><b>Convergence Issues:</b> Complex models can sometimes cause simulation convergence problems. Try enabling <strong>GMIN stepping</strong> or setting a smaller <strong>Maximum Time Step</strong> in the <b>Transient Analysis</b> setup.</li>
                     <li><b>Corrupted/Invalid Model File:</b> Ensure the downloaded model file isn't corrupted or incomplete. Open it with a text editor to verify its contents.</li>
                 </ul>
                 <p class="text-gray-600 dark:text-gray-300">Mastering third-party models opens up a whole new level of realistic circuit simulation in <b>LTSpice</b>, allowing you to design with confidence using actual component specifications.</p>
