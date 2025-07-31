@@ -14,7 +14,7 @@ body {
 :root {
     /* Light Theme Colors (Default) */
     --color-bg-body: #f0f0f0; /* Lighter gray/off-white for body - closer to original background */
-    --color-bg-primary: #f6f6f6; /* White for header, sections, main content backgrounds */
+    --color-bg-primary: #f4f4f4; /* White for header, sections, main content backgrounds */
     --color-text-primary: #111827; /* Near black (gray-900 equivalent) */
     --color-text-secondary: #4b5563; /* Medium gray (gray-700 equivalent) */
     --color-heading: #1f2937; /* Dark gray (gray-800 equivalent for headings) */
