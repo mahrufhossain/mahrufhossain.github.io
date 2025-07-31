@@ -116,7 +116,7 @@
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1">
                             <li>A Voltage Source (<b>voltage</b>): This will be our swept source. We'll name it <b>V1</b> (default name is fine). Set its DC value initially (0V).</li>
                             <li>A Diode (<b>diode</b>): Go to <b>Component</b> (<b>P</b>) and select <b>diode</b>.</li>
-                            <li>A Resistor (<b>res</b>): Add a small series resistor (e.g., <b>10R</b> for 10 Ohms) in series with the diode. This is good practice to limit current in simulations, especially when sweeping voltage across non-linear components.</li>
+                            <li>A Resistor (<b>res</b>): Add a small series resistor (e.g., <b>10ohms</b>) in series with the diode. This is good practice to limit current in simulations, especially when sweeping voltage across non-linear components.</li>
                             <li>A Ground (<b>GND</b>).</li>
                         </ul>
                     </li>
@@ -158,9 +158,9 @@
                     <li>A plot window will appear. The X-axis will automatically be set to the swept source, <b>V1</b>, ranging from 0V to 1V.</li>
                     <li>To plot the current through the diode, move your mouse over the diode symbol. A <b>current probe</b> icon will appear. Click on the diode.</li>
                 </ol>
-                <p class="text-gray-600 mb-4">You should see a curve showing the current through the diode (<b>I(D1)</b>) as a function of the voltage across it (which is approximately <b>V(n001)</b> if you probe that node, assuming <b>R1</b> is small). The current will be very small initially and then rise exponentially once the forward voltage (around 0.7V for a silicon diode) is reached.</p>
+                <p class="text-gray-600 mb-4">You should see a curve showing the current through the diode (<b>I(D1)</b>) as a function of the voltage across it. The current will be very small initially and then rise exponentially once the forward voltage (around 0.7V for a silicon diode) is reached.</p>
                 <img src="assets/DC_Sweep/diode_iv_plot.png" alt="Plot of diode I-V characteristic (current vs. voltage) resulting from a DC sweep simulation in LTSpice" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto">
-                <p class="text-gray-600 italic mb-6">You can also plot a transfer function (output voltage vs. input voltage) by setting up a circuit like an amplifier and probing its output while sweeping the input source.</p>
+                <!-- <p class="text-gray-600 italic mb-6">You can also plot a transfer function (output voltage vs. input voltage) by setting up a circuit like an amplifier and probing its output while sweeping the input source.</p> -->
                 <p class="text-gray-600">The <b>DC Sweep analysis</b> is a powerful way to understand the steady-state behavior of your circuit and the characteristics of its components over a range of DC input conditions.</p>
             </div>
         </section>
