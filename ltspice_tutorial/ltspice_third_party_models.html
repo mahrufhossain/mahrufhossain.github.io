@@ -17,17 +17,16 @@
         }
     </script>
     <script>
+        // Theme switching logic based on localStorage and system preference
         (function() {
             const storedTheme = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
             let themeToApply = 'light';
             if (storedTheme) {
                 themeToApply = storedTheme;
             } else if (prefersDark) {
                 themeToApply = 'dark';
             }
-
             if (themeToApply === 'dark') {
                 document.documentElement.classList.add('dark');
             } else {
@@ -37,27 +36,48 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Custom styles for the body and sections */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .section-padding {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+        .code-block {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
+        .dark .code-block {
+            background-color: #0f172a;
+        }
+    </style>
 </head>
-<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200">
 
     <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
         <nav class="container mx-auto flex justify-between items-center px-4">
-            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800  transition duration-300">Mahruf Hossain</a>
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">Mahruf Hossain</a>
             
             <div class="hidden md:flex space-x-6 items-center">
                 <a href="ltspice_tutorial.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800">Back to Tutorials Index</a>
                 
             <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
                 <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="5"></circle>
-                  <line x1="12" y1="1" x2="12" y2="3"></line>
-                  <line x1="12" y1="21" x2="12" y2="23"></line>
-                  <line x1="1" y1="12" x2="3" y2="12"></line>
-                  <line x1="21" y1="12" x2="23" y2="12"></line>
-                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
-                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
-                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
-                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                    <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                    <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                    <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
                 </svg>
                 <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
@@ -68,15 +88,15 @@
             <div class="md:hidden flex items-center space-x-2">
                 <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
                 <svg id="sun-icon-mobile-header" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="5"></circle>
-                  <line x1="12" y1="1" x2="12" y2="3"></line>
-                  <line x1="12" y1="21" x2="12" y2="23"></line>
-                  <line x1="1" y1="12" x2="3" y2="12"></line>
-                  <line x1="21" y1="12" x2="23" y2="12"></line>
-                  <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
-                  <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
-                  <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
-                  <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                    <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                    <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                    <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
                 </svg>
                     <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
@@ -94,7 +114,6 @@
             <a href="ltspice_tutorial.html" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Back to Tutorials Index</a>
             <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Home</a>
             <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">About</a>
-            <!-- <a href="../index.html#projects" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Projects</a> -->
             <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">My Work</a>
             <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Contact</a>
         </div>
@@ -104,7 +123,7 @@
         <section id="third-party-models-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 border border-gray-200 transition-colors duration-300 dark:bg-gray-800 dark:border-gray-700">
             <div class="container mx-auto px-4">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 dark:text-gray-100">7. Advanced: Using Third-Party Models (e.g., Op-Amp, MOSFET)</h1>
-                <p class="text-gray-600 mb-6 dark:text-gray-300">While <b>LTSpice</b> comes with a vast built-in library, you'll often encounter situations where you need to simulate a specific component (like a particular Op-Amp, MOSFET, or BJT) that isn't included. This is where <b>third-party models</b> come in. These are SPICE models provided by manufacturers or found online, allowing for highly accurate simulations of real-world components.</p>
+                <p class="text-gray-600 mb-6 dark:text-gray-300">While <b>LTSpice</b> comes with a vast built-in library, you'll often need to simulate a specific component (like a particular Op-Amp, MOSFET, or BJT) that isn't included. This is where <b>third-party models</b> come in. These are SPICE models provided by manufacturers or found online, allowing for highly accurate simulations of real-world components.</p>
                 <p class="text-gray-600 mb-6 dark:text-gray-300">Third-party models typically come in <b>.lib</b> (library) or <b>.mod</b> (model) files and define the behavior of components using <b>.model</b> or <b>.subckt</b> statements.</p>
 
                 <hr class="my-8 border-gray-300 dark:border-gray-600">
@@ -112,14 +131,13 @@
                 <h2 id="obtain-model" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">7.1 Obtaining a Third-Party Model</h2>
                 <p class="text-gray-600 mb-4 dark:text-gray-300">The first step is to acquire the SPICE model for your desired component. Here's how:</p>
                 <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
-                    <li><b>Manufacturer Websites:</b> The most reliable source. Companies like <b>Analog Devices (Linear Technology)</b>, <b>Texas Instruments</b>, <b>STMicroelectronics</b>, <b>ON Semiconductor</b>, etc., provide SPICE models on their product pages, often under a <b>Tools & Software</b> or <b>Design Resources</b> section.</li>
+                    <li><b>Manufacturer Websites:</b> The most reliable source. Companies like <b>Analog Devices (Linear Technology)</b>, <b>Texas Instruments</b>, <b>STMicroelectronics</b>, and <b>ON Semiconductor</b> provide SPICE models on their product pages, often under a <b>Tools & Software</b> or <b>Design Resources</b> section.</li>
                     <li><b>Online Repositories:</b> Websites like <b>Digi-Key</b>, <b>Mouser</b>, or dedicated SPICE model sites sometimes host models.</li>
                     <li><b>File Type:</b> Look for files with extensions like <b>.lib</b> (SPICE library) or <b>.mod</b> (SPICE model). Sometimes, they are embedded in larger downloads or zip files.</li>
                 </ul>
-                <p class="text-gray-600 italic mb-6 dark:text-gray-400">For this tutorial, we'll use a generic N-channel MOSFET model (e.g., from a file named <b>2N7000.lib</b>) as an example. Its content would look similar to this (simplified):</p>
-                <pre class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto mb-6"><code>* 2N7000 N-Channel MOSFET
-.MODEL 2N7000 NMOS (Vto=2.1 Rd=1.2 Rs=0.6 Kappa=0.17 Lambda=0.007 ...)
-* Pin order: Drain Gate Source Bulk (D G S B)
+                <p class="text-gray-600 italic mb-6 dark:text-gray-400">For this tutorial, we'll use a power transistor model <b>BD135</b> (e.g., from a file named <b>BD135.lib</b>) as an example. Its content would look similar to this (simplified):</p>
+                <pre class="code-block mb-6"><code>* BD135 Power Transistor
+.model BD135 NPN(Is=40f Xti=3 Eg=1.11 Vaf=115.7 Bf=180.2 Ise=40f Ne=1.363 Ikf=4.927 Nk=1)
 </code></pre>
                 
 
@@ -128,63 +146,91 @@
                 <h2 id="import-model" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">7.2 Importing the Model into LTSpice</h2>
                 <p class="text-gray-600 mb-4 dark:text-gray-300">Once you have the <b>.lib</b> or <b>.mod</b> file, you need to tell <b>LTSpice</b> where to find it. The most common and recommended method for specific projects is to reference it directly in your schematic.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
-                    <li><b>Save the Model File:</b> Place the <b>.lib</b> or <b>.mod</b> file (e.g., <b>2N7000.lib</b>) in the same directory as your <b>.asc</b> schematic file. This makes your project self-contained and portable.</li>
+                    <li><b>Save the Model File:</b> Place the <b>.lib</b> or <b>.mod</b> file (e.g., <b>BD135.lib</b>) in the same directory as your <b>.asc</b> schematic file. This makes your project self-contained and portable.</li>
                     <li><b>Add a SPICE Directive:</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
                             <li>On your schematic, go to <b>Edit > SPICE Directive</b> (or press <b>"."</b>).</li>
-                            <li>In the dialog box, type <b>.lib 2N7000.lib</b> (replace <b>2N7000.lib</b> with your model's filename).</li>
+                            <li>In the dialog box, type <b>.lib BD135.lib</b>.</li>
                             <li>Click <b>OK</b> and place this directive on your schematic.</li>
+                        
                         </ul>
                     </li>
                 </ol>
-                <img src="assets/third_party_model/model_define.png" alt="LTSpice schematic showing a .lib directive placed on the canvas, referencing '2N7000.lib'" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+                <img src="assets/third_party_model/bd135.png" alt="LTSpice schematic showing a .lib directive placed on the canvas, referencing 'BD135.lib'" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
                 <p class="text-gray-600 italic mb-6 dark:text-gray-400">
-    For models defined with <b><code>.subckt</code></b>, you might use <b><code>.inc</b></code> instead of <b><code>.lib</code></b>, though <b><code>.lib</code></b> usually works for both. If the model file is not in the same directory, you'll need to provide the full path:
-</p>
-<pre class="bg-gray-800 text-white p-1 rounded-md text-sm overflow-x-auto mb-2"><code>.lib C:\Path\To\Your\Model\File\ModelName.lib
-</code></pre>
+                    For models defined with <b><code>.subckt</code></b>, you might use <b><code>.inc</code></b> instead of <b><code>.lib</code></b>, though <b><code>.lib</code></b> usually works for both. If the model file is not in the same directory, you'll need to provide the full path. For example:
+                </p>
+                <pre class="code-block mb-6"><code>.lib C:\Path\To\Your\Model\File\ModelName.lib</code></pre>
 
-<p class="text-gray-600 mb-6 dark:text-gray-300">
-    <b>Alternative (Less Recommended for Projects):</b> You can also copy <b><code>.lib</code></b> files into <b>LTSpice's</b> default library directories:<pre class="bg-gray-800 text-white p-1 rounded-md text-sm overflow-x-auto mb-2"><code class="font-mono text-s">C:\Program Files\LTC\LTspiceXVII\lib\sub</code></pre> 
-    <p><b>For subcircuits:</b> <pre class="bg-gray-800 text-white p-1 rounded-md text-sm overflow-x-auto mb-2"><code class="font-mono text-s">C:\Program Files\LTC\LTspiceXVII\lib\cmp\MOSFET</code></pre></p>
-    <p>However, this makes projects less portable and can be overwritten by updates.</p>
-</p>
+                <p class="text-gray-600 mb-6 dark:text-gray-300">
+                    Another way to do this is you can write the whole .model directive into the schematic. For this
+                    <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                        <li>On your schematic, go to <b>Edit > SPICE Directive</b> (or press <b>"."</b>).</li>
+                        <li>In the dialog box, type the whole spice model
+                            <pre class="code-block mb-6"><code>.model BD135 NPN(Is=40f Xti=3 Eg=1.11 Vaf=115.7 Bf=180.2 Ise=40f Ne=1.363 Ikf=4.927 Nk=1)
+</code></pre></li>
+                        <li>Click <b>OK</b> and place this directive on your schematic.
+</li>
+                        <img src="assets/third_party_model/direct_directive.png" alt="LTSpice schematic showing a .lib directive placed on the canvas, referencing 'BD135.lib'" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+
+
+                        
+                    </ul>
+                </p>
+                <br>
+                <p class="text-gray-600 mb-6 dark:text-gray-300">
+                    <b>Alternative (Less Recommended for Projects):</b> You can also copy <b><code>.lib</code></b> files into <b>LTSpice's</b> default library directories:
+                    <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                        <li>For models like BJT, MOSFET, etc., copy them to: <code class="bg-gray-200 dark:bg-gray-700 p-1 rounded">C:\Program Files\LTC\LTspiceXVII\lib\cmp</code></li>
+                        <li>For subcircuits, copy them to: <code class="bg-gray-200 dark:bg-gray-700 p-1 rounded">C:\Program Files\LTC\LTspiceXVII\lib\sub</code></li>
+                    </ul>
+                    <br>
+                    However, this makes projects less portable and can be overwritten by software updates.
+                </p>
 
                 <hr class="my-8 border-gray-300 dark:border-gray-600">
 
                 <h2 id="use-symbol" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">7.3 Using a Component Symbol with the Model</h2>
-                <p class="text-gray-600 mb-4 dark:text-gray-300">Once the model is imported, you need to associate it with a generic <b>LTSpice</b> symbol on your schematic.</p>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">Once the model is imported, you need to associate it with a generic <b>LTSpice</b> symbol on your schematic. The method depends on whether the model file uses a <b>.MODEL</b> or <b>.SUBCKT</b> statement.</p>
+                
                 <h3 class="text-xl font-semibold text-gray-700 mb-2 mt-4 dark:text-gray-200">For .MODEL statements (e.g., MOSFETs, Diodes, BJTs):</h3>
-                <p class="text-gray-600 mb-4 dark:text-gray-300">Use a generic symbol from LTSpice's library and specify the model name.</p>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">These are for simple devices that have a standard LTSpice symbol. You simply use a generic symbol and specify the model name.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
-                    <li>Place a generic component symbol. For a MOSFET, go to <b>Component</b> (or press <b>'P'</b>) and select <b>nmos</b> or <b>pmos</b>.</li>
-                    <li><b>Right-click</b> on the placed symbol.</li>
-                    <li>In the <b>Value</b> field, type the exact <b>model name</b> defined in your <b>.lib</b> or <b>.mod</b> file (e.g., <b>2N7000</b>). This tells <b>LTSpice</b> which specific model to use for this generic symbol.</li>
+                    <li>Place a generic component symbol. For a BJT, go to <b>Component</b> (or press <b>'P'</b>) and select <b>npn</b> or <b>pnp</b>.</li>
+                    <li><b>CTRL + Right-click</b> on the placed symbol.</li>
+                    <li>In the <b>Value</b> field, type the exact <b>model name</b> defined in your <b>.lib</b> or <b>.mod</b> file (e.g., <b>BD135</b>). This links the generic symbol to the specific parameters of your third-party component.</li>
                 </ol>
                 
-
                 <h3 class="text-xl font-semibold text-gray-700 mb-2 mt-4 dark:text-gray-200">For .SUBCKT statements (e.g., Op-Amps, complex ICs):</h3>
-                <p class="text-gray-600 mb-4 dark:text-gray-300">For subcircuits, you typically need to associate the <b>.subckt name</b> with an appropriate symbol. If <b>LTSpice</b> doesn't have a specific symbol, you might need to generate one.</p>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">For subcircuits, which often have custom pin configurations, the best practice is to generate a custom symbol. This ensures the pins on the schematic match the pins in the subcircuit definition.</p>
                 <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
-                    <li><b>Use an existing symbol:</b> If a generic symbol exists (e.g., <b>opamp</b> for an Op-Amp subcircuit like <b>LM741</b>), place it. <b>Right-click</b> on the symbol and set its <b>Value</b> to the <b>.subckt name</b> (e.g., <b>LM741</b>).</li>
                     <li><b>Generate a symbol from the model file:</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
                             <li>Open the <b>.lib</b> or <b>.mod</b> file directly in <b>LTSpice</b> (<b>File > Open</b>).</li>
-                            <li>Once open, place the cursor on <b>the line with <code>.subckt</code> statement</b>, then right click on the mouse and select <b>Create Symbol</b>. <b>LTSpice</b> will attempt to create a graphical symbol based on the pin definitions in the <b>.subckt</b> statement.</li>
-                            <li>Modify the design of the symbol as necessary.</li>
-                            <li>Save this generated symbol (it will have a <b>.asy</b> extension) in a location that <b>LTSpice</b> recognizes (e.g., in a custom symbol library folder, or one of <b>LTSpice's</b> default symbol directories.)</li>
-                            <li>Once saved, you can add this new symbol to your schematic using the <b>Component</b> (<b>P</b>) button, Browse to your custom library.</li>
+                            <img src="assets/third_party_model/ss.png" alt=".lib file for split supply" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+                <p class="text-gray-600 italic mb-6 dark:text-gray-400">
+                            <li>Once the file is open, place the cursor on the line that begins with the <b>.SUBCKT</b> statement.</li>
+                            <li><b>Right-click</b> on the mouse and select <b>Create Symbol</b>. LTSpice will automatically generate a graphical symbol with pins that match the pin order in the subcircuit statement.</li>
+                            <img src="assets/third_party_model/ss2.png" alt=".lib file for split supply" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+                            <li>Modify the symbol design as necessary (e.g., arrange pins, add labels).</li>
+                            <img src="assets/third_party_model/ss3.png" alt=".lib file for split supply" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+                            <li>Save this generated symbol (it will have a <b>.asy</b> extension) in the same directory as your schematic for portability.</li>
+                            <li>Now, you can add this new symbol to your schematic using the <b>Component</b> (<b>P</b>) button and Browse to your new symbol file.</li>
                         </ul>
                     </li>
+                    <li><b>Alternative (for simple cases): Use an existing symbol:</b> If a generic symbol exists (e.g., <b>opamp</b> for an Op-Amp subcircuit like <b>LM741</b>), place it. <b>Right-click</b> on the symbol and set its <b>Value</b> to the <b>.subckt name</b> (e.g., <b>LM741</b>). You must also ensure the <b>Prefix</b> field is set to <b>'X'</b> to tell LTSpice it is a subcircuit call.</li>
+                    <img src="assets/third_party_model/ss4.png" alt=".lib file for split supply" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
                 </ol>
 
-                <p><i>Here, I have created a split power supply from the <code>.subckt</code> statement.</i>
-                <img src="assets/third_party_model/split_supply.png" alt="LTSpice menu showing 'Hierarchy' dropdown with 'Generate Symbol' option highlighted" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+                <p class="text-gray-600 mb-6 mt-4 italic dark:text-gray-400">
+                    Here's a sample Op-Amp subcircuit schematic. Notice the .lib directive and the generic opamp symbol with its value set to LM741.
+                </p>
+                <img src="assets/third_party_model/ss5.png" alt=".lib file for split supply" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
 
                 <hr class="my-8 border-gray-300 dark:border-gray-600">
 
-                <h2 id="troubleshooting" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">7.5 Troubleshooting Common Issues</h2>
-                <p class="text-gray-600 mb-4 dark:text-gray-300">Working with third-party models can sometimes lead to errors. Here are a few common ones:</p>
+                <h2 id="troubleshooting" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">7.4 Troubleshooting Common Issues</h2>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">Working with third-party models can sometimes lead to errors. Here are a few common ones and their solutions:</p>
                 <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
                     <li><b>"Cannot find definition for model..." Error:</b>
                         <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
@@ -193,8 +239,8 @@
                             <li>Is the <b>.lib</b> or <b>.inc</b> directive actually on the schematic?</li>
                         </ul>
                     </li>
-                    <li><b>Pin Mismatch Errors:</b> If you generate a symbol or use a generic one, ensure its pins (nodes) map correctly to the model's pin order. LTSpice will usually warn you if there's a mismatch.</li>
-                    <li><b>Convergence Issues:</b> Complex models can sometimes cause simulation convergence problems. Try enabling <strong>GMIN stepping</strong> or setting a smaller <strong>Maximum Time Step</strong> in the <b>Transient Analysis</b> setup.</li>
+                    <li><b>Pin Mismatch Errors:</b> If you generate a symbol or use a generic one, ensure its pins (nodes) map correctly to the model's pin order. This is a common issue with subcircuits. LTSpice will usually warn you if there's a mismatch.</li>
+                    <li><b>Convergence Issues:</b> Complex models can sometimes cause simulation convergence problems. Try enabling <b>GMIN stepping</b> or setting a smaller <b>Maximum Time Step</b> in the <b>Transient Analysis</b> setup.</li>
                     <li><b>Corrupted/Invalid Model File:</b> Ensure the downloaded model file isn't corrupted or incomplete. Open it with a text editor to verify its contents.</li>
                 </ul>
                 <p class="text-gray-600 dark:text-gray-300">Mastering third-party models opens up a whole new level of realistic circuit simulation in <b>LTSpice</b>, allowing you to design with confidence using actual component specifications.</p>
