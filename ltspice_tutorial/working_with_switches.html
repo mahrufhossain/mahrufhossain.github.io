@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using Switches (Voltage-Controlled) - LTSpice Tutorial - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
+    <script>
+        // Theme switching logic based on localStorage and system preference
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            let themeToApply = 'light';
+            if (storedTheme) {
+                themeToApply = storedTheme;
+            } else if (prefersDark) {
+                themeToApply = 'dark';
+            }
+            if (themeToApply === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200">
+
+    <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">Mahruf Hossain</a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="ltspice_tutorial.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800">Back to Tutorials Index</a>
+            
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                    <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                    <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                    <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            </div>
+
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                    <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                    <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                    <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+                    <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+            <a href="ltspice_tutorial.html" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Back to Tutorials Index</a>
+            <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Home</a>
+            <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">About</a>
+            <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">My Work</a>
+            <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="switches-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 dark:text-gray-100">9. Advanced: Using Voltage-Controlled Switches</h1>
+                <p class="text-gray-600 mb-6 dark:text-gray-300">Switches are a powerful tool in <strong>LTSpice</strong> for simulating digital logic, power converters, or circuits that change state over time. A <strong>voltage-controlled switch</strong> is a fundamental type of switch that opens or closes based on the voltage across a control port. In this tutorial, we will set up and simulate a simple circuit that uses a voltage-controlled switch to turn a load on and off.</p>
+
+                <hr class="my-8 border-gray-300 dark:border-gray-600">
+
+                <h2 id="setup-switch" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">9.1 Setting Up the Switch Circuit</h2>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">Let's build a circuit where a 12V DC source powers a load resistor (R2), and a switch, controlled by a separate pulse signal, connects or disconnects the load.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
+                    <li><strong>New Schematic:</strong> Open a new schematic (<i>File > New Schematic</i>).</li>
+                    <li><strong>Place Components:</strong>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                            <li>Add two voltage sources (<i>voltage</i>):
+                                <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                                    <li>One for the power supply, <strong>V1</strong>. <i>Right-click</i> and set <strong>DC value</strong> to <strong>12V</strong>.</li>
+                                    <li>One for the control signal, <strong>V2</strong>. <i>Right-click</i> and select <strong>Advanced</strong>. Choose <strong>PULSE</strong> and set the following parameters:
+                                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                                            <li><strong>V_initial:</strong> 0V</li>
+                                            <li><strong>V_on:</strong> 5V</li>
+                                            <li><strong>T_on:</strong> 1n (1 nanosecond)</li>
+                                            <li><strong>T_rise:</strong> 1u (1 microsecond)</li>
+                                            <li><strong>T_fall:</strong> 1u (1 microsecond)</li>
+                                            <li><strong>T_on:</strong> 1m (1 millisecond)</li>
+                                            <li><strong>T_period:</strong> 2m (2 milliseconds)</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>Add two resistors (<i>res</i>):
+                                <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                                    <li>An optional current-limiting resistor, <strong>R1</strong> (e.g., <strong>100</strong>).</li>
+                                    <li>The load resistor, <strong>R2</strong> (e.g., <strong>1k</strong>).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add the Switch:</strong> Go to <strong>Component</strong> (or press <i>P</i>), and type <strong>SW</strong> to find the voltage-controlled switch symbol. Place it on the schematic.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Wire the Circuit:</strong>
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                            <li>Connect the positive terminal of <strong>V1</strong> to <strong>R1</strong>.</li>
+                            <li>Connect <strong>R1</strong> to one of the switch terminals.</li>
+                            <li>Connect the other switch terminal to <strong>R2</strong>.</li>
+                            <li>Connect <strong>R2</strong> back to the ground.</li>
+                            <li>Connect the negative terminal of <strong>V1</strong> to the ground.</li>
+                            <li>Connect the control signal, <strong>V2</strong>, across the switch's two control terminals. The control terminals are the two lines perpendicular to the main switch line. Precisely, connect the V2 to the positive of the control terminal, and connect the other control terminal to the ground.</li>
+                            <li>Connect the negative terminal of <strong>V2</strong> to the ground.</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Save:</strong> Save your schematic (e.g., <i>switch_control.asc</i>).</li>
+                </ol>
+                <p class="text-gray-600 italic mb-6 dark:text-gray-400">Your schematic should look similar to this:</p>
+                <img src="assets/working_with_switch/switch_01.png" alt="LTSpice schematic showing a voltage-controlled switch circuit with a 12V source, a pulse source, and two resistors." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+
+                <hr class="my-8 border-gray-300 dark:border-gray-600">
+
+                <h2 id="model-switch" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">9.2 Configuring the Switch Model</h2>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">The generic switch (<strong>SW</strong>) needs to be configured with a model to define its behavior. We'll use a <strong>.model</strong> directive to do this.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
+                    <li><strong>Add a SPICE Directive:</strong> On your schematic, go to <i>Edit > SPICE Directive</i> (or press "<i>.</i>").</li>
+                    <li><strong>Define the Switch Model:</strong> In the dialog box, type the following:
+                        <p class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto my-2"><code>.model S_ideal SW(Vt=2 Vh=0.5 Ron=1m Roff=1G)</code></p>
+                        Here's a breakdown of the parameters:
+                        <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                            <li><strong>S_ideal:</strong> The name of our switch model.</li>
+                            <li><strong>SW:</strong> Declares this as a switch model.</li>
+                            <li><strong>Vt=2:</strong> The <strong>threshold voltage</strong>. The switch turns on when the control voltage is above this value (2V).</li>
+                            <li><strong>Vh=0.5:</strong> The <strong>hysteresis voltage</strong>. The switch turns off when the control voltage drops below (Vt - Vh), which is 1.5V in this case.</li>
+                            <li><strong>Ron=1m:</strong> The <strong>on resistance</strong> (1mΩ).</li>
+                            <li><strong>Roff=1G:</strong> The <strong>off resistance</strong> (1GΩ).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Associate the Model:</strong> <i>Right-click</i> on the switch (<strong>SW</strong>) symbol on the schematic. In the dialog box, set the <strong>Value</strong> field to the model name, <strong>S_ideal</strong>.</li>
+                </ol>
+                <img src="assets/working_with_switch/switch_02.png" alt="LTSpice dialog boxes showing how to define a switch model with a .model directive and associate it with the SW symbol." class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+
+                <hr class="my-8 border-gray-300 dark:border-gray-600">
+
+                <h2 id="configure-transient" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">9.3 Configuring and Running the Simulation</h2>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">We'll use a <strong>Transient Analysis</strong> to see the switch's effect over time.</p>
+                <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
+                    <li><strong>Set Simulation:</strong> Go to <i>Simulate > Configure Analysis</i> and select the <strong>Transient</strong> tab.</li>
+                    <li>Set <strong>Stop Time</strong> to <strong>10m</strong> (10 milliseconds), which is enough to see a few cycles of our 2ms period pulse signal.</li>
+                    <li>Click <strong>OK</strong> and place the <strong>.tran</strong> directive on your schematic.</li>
+                    <li><strong>Run Simulation:</strong> Go to <i>Simulate > Run</i> or press the <strong>Play</strong> icon.</li>
+                </ol>
+
+                <hr class="my-8 border-gray-300 dark:border-gray-600">
+
+                <h2 id="analyze-waveforms" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">9.4 Analyzing the Waveforms</h2>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">The plot window will open. Probe the following nodes:</p>
+                <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
+                    <li>The <strong>control voltage</strong> (<strong>V2</strong>) to see when the switch is commanded on.</li>
+                    <li>The <strong>output voltage</strong> across the load resistor (<strong>R2</strong>).</li>
+                </ul>
+                <p class="text-gray-600 mb-4 dark:text-gray-300">You will observe a clear correlation between the two signals. When the control voltage (the yellowish one in the plot) is high (5V), the switch is closed, and the output voltage (the red one) across the load will be approximately 12V (minus a small voltage drop due to Ron and R1). When the control voltage is low (0V), the switch is open, and the output voltage drops to near zero.</p>
+                <img src="assets/working_with_switch/switch_03.png" alt="LTSpice plot window showing the pulse control voltage and the corresponding switched output voltage across the load resistor." class="w-auto h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+
+                <p class="text-gray-600 dark:text-gray-300">This simple simulation demonstrates how a <strong>voltage-controlled switch</strong> can be used to chop or modulate a signal based on a separate control input, a fundamental principle in fields like power electronics and digital communication.</p>
+            </div>
+        </section>
+    </main>
+
+    <section class="container mx-auto px-4 mt-12 mb-16">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+            <a href="ltspice_opamp_inverting_amplifier.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Previous: Op-Amp Basics: Inverting Amplifier
+            </a>
+
+            <a href="generate_symbol_from_sheet.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+                Next: Creating A Symbol From A Schematic
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>
