@@ -281,7 +281,7 @@ html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode di
 
 /* --- LTSpice Tutorial Page Specific Content Styling --- */
 /* (Applies to ltspice_installation.html, basic_simulation.html, basic_transient_analysis.html, basic_ac_analysis.html, working_with_plots.html, dc_sweep.html, opamp_inverting.html, third_party_models.html, parameter_sweep.html) */
-#ltspice-installation, #basic-simulation-content, #transient-analysis-content, #ac-analysis-content, #plot-window-content, #dc-sweep-content, #opamp-inverting-content, #third-party-models-content, #parameter-sweep-content,
+#transformer-content, #switches-content, #symbol-content, #ltspice-installation, #basic-simulation-content, #transient-analysis-content, #ac-analysis-content, #plot-window-content, #dc-sweep-content, #opamp-inverting-content, #third-party-models-content, #parameter-sweep-content,
 /* --- Makefile Tutorial Page Specific Content Styling --- */
 #makefile-tutorial-content, #advanced-makefiles-content, #makefile-cookbook-content, #makefiles-advanced-features-content, #makefiles-functions-content, #makefiles-variables-deep-dive-content, #makefiles-commands-execution-content, #makefiles-fancy-rules-content, #makefiles-wildcards-auto-vars-content {
     background-color: var(--color-bg-primary); /* bg-white */
@@ -292,6 +292,9 @@ html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode di
 }
 
 /* Headings within tutorial content */
+#transformer-content h1, #transformer-content h2, #switches-content h2, #symbol-content h2, 
+#transformer-content h3, #switches-content h3, #symbol-content h3, 
+#switches-content h1, #symbol-content h1, 
 #ltspice-installation h1, #ltspice-installation h2, #ltspice-installation h3,
 #basic-simulation-content h1, #basic-simulation-content h2, #basic-simulation-content h3,
 #transient-analysis-content h1, #transient-analysis-content h2, #transient-analysis-content h3,
@@ -316,6 +319,9 @@ html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode di
 }
 
 /* Paragraphs and list items within tutorial content */
+#transformer-content p, #switches-content p, #symbol-content p, 
+#transformer-content oli li, #switches-content ol li, #symbol-content ul li, 
+#transformer-content ul li, #switches-content ul li, #symbol-content ol li, 
 #ltspice-installation p, #ltspice-installation ol li, #ltspice-installation ul li,
 #basic-simulation-content p, #basic-simulation-content ol li, #basic-simulation-content ul li,
 #transient-analysis-content p, #transient-analysis-content ol li, #transient-analysis-content ul li,
@@ -340,6 +346,7 @@ html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode di
 }
 
 /* Horizontal rule within tutorial content */
+#transformer-content hr, #switches-content hr, #symbol-content hr, 
 #ltspice-installation hr,
 #basic-simulation-content hr,
 #transient-analysis-content hr,
@@ -364,6 +371,7 @@ html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode di
 }
 
 /* Links within tutorial content (e.g., text-blue-600) */
+#transformer-content a, #switches-content a, #symbol-content a, 
 #ltspice-installation a.text-blue-600,
 #basic-simulation-content a.text-blue-600,
 #transient-analysis-content a.text-blue-600,
@@ -386,6 +394,7 @@ html.dark .project-card span.dark\:bg-teal-800 { /* This applies in dark mode di
     color: #2563eb; /* blue-600 (direct Tailwind value as it's not a general accent) */
     transition: color 0.3s ease;
 }
+html.dark #transformer-content a.text-blue-600, html.dark #switches-content a.text-blue-600, html.dark #symbol-content a.text-blue-600, 
 html.dark #ltspice-installation a.text-blue-600,
 html.dark #basic-simulation-content a.text-blue-600,
 html.dark #transient-analysis-content a.text-blue-600,
@@ -407,7 +416,7 @@ html.dark #makefiles-fancy-rules-content a.text-blue-600,
 html.dark #makefiles-wildcards-auto-vars-content a.text-blue-600 {
     color: #60a5fa; /* blue-400 for dark mode */
 }
-
+#transformer-content a.hover\:underline:hover, #switches-content a.hover\:underline:hover, #symbol-content a.hover\:underline:hover, 
 #ltspice-installation a.hover\:underline:hover,
 #basic-simulation-content a.hover\:underline:hover,
 #transient-analysis-content a.hover\:underline:hover,
@@ -429,6 +438,8 @@ html.dark #makefiles-wildcards-auto-vars-content a.text-blue-600 {
 #makefiles-wildcards-auto-vars-content a.hover\:underline:hover {
     text-decoration: underline;
 }
+
+#transformer-content a.text-blue-600:hover, #switches-content a.text-blue-600:hover, #symbol-content a.text-blue-600:hover, 
 #ltspice-installation a.text-blue-600:hover,
 #basic-simulation-content a.text-blue-600:hover,
 #transient-analysis-content a.text-blue-600:hover,
@@ -450,6 +461,8 @@ html.dark #makefiles-wildcards-auto-vars-content a.text-blue-600 {
 #makefiles-wildcards-auto-vars-content a.text-blue-600:hover {
     color: #1d4ed8; /* blue-700 hover */
 }
+
+html.dark #transformer-content a.text-blue-600:hover, html.dark #switches-content a.text-blue-600:hover, html.dark #symbol-content a.text-blue-600:hover, 
 html.dark #ltspice-installation a.text-blue-600:hover,
 html.dark #basic-simulation-content a.text-blue-600:hover,
 html.dark #transient-analysis-content a.text-blue-600:hover,
@@ -473,6 +486,7 @@ html.dark #makefiles-wildcards-auto-vars-content a.text-blue-600:hover {
 }
 
 /* Image borders within tutorial content */
+#transformer-content img.border-gray-200, #switches-content img.border-gray-200, #symbol-content img.border-gray-200, 
 #ltspice-installation img.border-gray-200,
 #basic-simulation-content img.border-gray-200,
 #transient-analysis-content img.border-gray-200,
@@ -497,6 +511,7 @@ html.dark #makefiles-wildcards-auto-vars-content a.text-blue-600:hover {
 }
 
 /* Code blocks within tutorial content */
+#transformer-content pre, #switches-content pre, #symbol-content pre, 
 #ltspice-installation pre,
 #basic-simulation-content pre,
 #transient-analysis-content pre,

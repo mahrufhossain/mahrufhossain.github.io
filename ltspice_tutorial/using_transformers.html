@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using Transformers - LTSpice Tutorial - Mahruf Hossain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS configuration for dark mode
+        tailwind.config = {
+            darkMode: 'class', // This tells Tailwind to enable dark mode when the 'dark' class is present on the <html> tag
+            theme: {
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
+            }
+        }
+    </script>
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let themeToApply = 'light';
+            if (storedTheme) {
+                themeToApply = storedTheme;
+            } else if (prefersDark) {
+                themeToApply = 'dark';
+            }
+
+            if (themeToApply === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
+
+    <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="../index.html" class="text-2xl font-bold rounded-md p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">Mahruf Hossain</a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="ltspice_tutorial.html" class="font-bold text-gray-900 transition duration-300 rounded-md p-2 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800">Back to Tutorials Index</a>
+            
+            <button id="theme-toggle-desktop" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-desktop" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                    <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                    <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                    <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+                <svg id="moon-icon-desktop" class="p-1 w-auto h-auto rounded-md absolute transition-opacity duration-300 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+            </button>
+            </div>
+
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="theme-toggle-mobile-header" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 relative flex items-center justify-center w-10 h-10">
+                <svg id="sun-icon-mobile-header" class="p-1 w-auto h-auto absolute transition-opacity rounded-md duration-300 text-gray-800 dark:text-gray-200 hover:bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="4.22" x2="5.66" y2="5.66"></line>
+                    <line x1="18.34" y1="18.34" x2="19.78" y2="19.78"></line>
+                    <line x1="19.78" y1="4.22" x2="18.34" y2="5.66"></line>
+                    <line x1="5.66" y1="18.34" x2="4.22" y2="19.78"></line>
+                </svg>
+                <svg id="moon-icon-mobile-header" class="w-6 h-6 absolute transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+                </button>
+                <button id="mobile-menu-button" class="hover:text-teal-600 focus:outline-none rounded-md p-2 hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg z-40 transition-colors duration-300 bg-white dark:bg-gray-700">
+            <a href="ltspice_tutorial.html" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Back to Tutorials Index</a>
+            <a href="../index.html#home" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Home</a>
+            <a href="../index.html#about" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">About</a>
+            <a href="../index.html#my-work" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">My Work</a>
+            <a href="../index.html#contact" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 active:bg-gray-200 dark:active:bg-gray-700 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+<main class="flex-grow">
+    <section id="transformer-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 border border-gray-200">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 dark:text-gray-100">11. Using Transformers</h1>
+            <p class="text-gray-600 mb-6 dark:text-gray-300"><strong><em>Transformers</em></strong> are essential components for electrical isolation, voltage step-up/step-down, and impedance matching. In <strong><em>LTspice</em></strong>, you can easily simulate an ideal transformer by defining two inductors and coupling them with a mutual inductance directive. This tutorial will walk you through setting up a simple step-down transformer circuit and simulating its behavior.</p>
+
+            <hr class="my-8 border-gray-300 dark:border-gray-600">
+
+            <h2 id="setup-transformer" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">11.1 Setting Up the Transformer Circuit</h2>
+            <p class="text-gray-600 mb-4 dark:text-gray-300">We'll build a circuit with an AC voltage source on the primary side, a transformer, and a load resistor on the secondary side.</p>
+            <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
+                <li><strong><em>New Schematic</em></strong>: Open a new schematic (<i>File > New Schematic</i>).</li>
+                <li><strong><em>Place Components</em></strong>:
+                    <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                        <li>Add a voltage source (<i>voltage</i>) for the primary side. <strong>Right-click</strong> on it, select <strong><em>Advanced</em></strong>, and choose <strong><em>SINE</em></strong>. Set the following parameters:
+                            <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                                <li><strong><em>V_offset</em></strong>: 0</li>
+                                <li><strong><em>V_amplitude</em></strong>: 10V</li>
+                                <li><strong><em>Freq</em></strong>: 60Hz</li>
+                                <li>Also, we need to add a small series resistance to work the circuit properly. Add a series resistance of about <b><code>0.1ohm</code></b>.</li>
+                            </ul>
+                        </li>
+                        <li>Add two inductors (<i>ind</i>), one for the <strong><em>primary coil (L1)</em></strong> and one for the <strong><em>secondary coil (L2)</em></strong>.</li>
+                        <li>Add a load resistor (<i>res</i>), <strong><em>R1</em></strong> (e.g., <strong><em>1k</em></strong>).</li>
+                    </ul>
+                </li>
+                <li><strong><em>Wire the Circuit</em></strong>:
+                    <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                        <li>Connect the AC voltage source across the primary inductor, <strong><em>L1</em></strong>.</li>
+                        <li>Connect the secondary inductor, <strong><em>L2</em></strong>, in series with the load resistor, <strong><em>R1</em></strong>.</li>
+                        <li>Connect the bottom terminals of the voltage source and the load resistor to the ground.</li>
+                    </ul>
+                </li>
+                <li><strong><em>Save</em></strong>: Save your schematic (e.g., <i>transformer_demo.asc</i>).</li>
+            </ol>
+            <p class="text-gray-600 italic mb-6 dark:text-gray-400">Your schematic should look like this:</p>
+            <img src="assets/transformer/transformer_01.png" alt="LTspice schematic showing a transformer circuit with a sine wave source and a load resistor" class="w-auto md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+
+            <hr class="my-8 border-gray-300 dark:border-gray-600">
+
+            <h2 id="configure-transformer" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">11.2 Configuring the Mutual Inductance</h2>
+            <p class="text-gray-600 mb-4 dark:text-gray-300">To make the two inductors behave as a transformer, we need to specify a <strong><em>mutual inductance</em></strong> between them using a <strong><em>.k</em></strong> directive.</p>
+            <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
+                <li><strong><em>Set Inductor Values</em></strong>:
+                    <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                        <li><strong>Right-click</strong> on <strong><em>L1</em></strong> and set its value to <strong><em>100m</em></strong> (100mH).</li>
+                        <li><strong>Right-click</strong> on <strong><em>L2</em></strong> and set its value to <strong><em>10m</em></strong> (10mH).</li>
+                        <li>*Note:* This gives us a turns ratio of N_1/N_2 = sqrt(L_1/L_2) = sqrt(100mH/10mH) = approx 3.16:1.</li>
+                    </ul>
+                </li>
+                <li><strong><em>Add a SPICE Directive</em></strong>: On your schematic, go to <i>Edit > SPICE Directive</i> (or press "<i>.</i>").</li>
+                <li><strong><em>Define Mutual Inductance</em></strong>: In the dialog box, type the following:
+                    <p class="bg-gray-800 text-white p-3 rounded-md text-sm overflow-x-auto my-2"><code><strong><em>K1 L1 L2 1</em></strong></code></p>
+                    Here's a breakdown of the parameters:
+                    <ul class="list-disc list-inside text-gray-600 ml-6 mt-1 space-y-1 dark:text-gray-300">
+                        <li><strong><em>K1</em></strong>: The name of the coupling statement.</li>
+                        <li><strong><em>L1 L2</em></strong>: The names of the two inductors being coupled.</li>
+                        <li><strong><em>1</em></strong>: The <strong><em>coupling coefficient (k)</em></strong>. A value of 1 represents a perfect, ideal transformer.</li>
+                    </ul>
+                </li>
+                <li>Click <strong><em>OK</em></strong> and place this directive on your schematic.</li>
+            </ol>
+            <img src="assets/transformer/transformer_02.png" alt="LTspice dialog box for mutual inductance directive" class="w-full md:w-1/2 h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+
+            <hr class="my-8 border-gray-300 dark:border-gray-600">
+
+            <h2 id="run-simulation" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">11.3 Configuring and Running the Simulation</h2>
+            <p class="text-gray-600 mb-4 dark:text-gray-300">We'll use a <strong><em>Transient Analysis</em></strong> to see the AC signal transformation.</p>
+            <ol class="list-decimal list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
+                <li><strong><em>Set Simulation</em></strong>: Go to <i>Simulate > Configure Analysis</i> and select the <strong><em>Transient</em></strong> tab.</li>
+                <li>Set <strong><em>Stop Time</em></strong> to <strong><em>50m</em></strong> (50 milliseconds), which is enough to see a few cycles of our 60Hz signal.</li>
+                <li>Click <strong><em>OK</em></strong> and place the <strong><em>.tran</em></strong> directive on your schematic.</li>
+                <li><strong><em>Run Simulation</em></strong>: Go to <i>Simulate > Run</i> or press the <strong><em>Play</em></strong> icon.</li>
+            </ol>
+
+            <hr class="my-8 border-gray-300 dark:border-gray-600">
+
+            <h2 id="analyze-waveforms" class="text-2xl font-semibold text-gray-700 mb-4 border-b pb-2 dark:text-gray-200 dark:border-gray-600">11.4 Analyzing the Waveforms</h2>
+            <p class="text-gray-600 mb-4 dark:text-gray-300">The plot window will open. Probe the following nodes:</p>
+            <ul class="list-disc list-inside text-gray-600 mb-4 pl-4 space-y-2 dark:text-gray-300">
+                <li>The <strong><em>primary voltage</em></strong> (the output of the sine wave source).</li>
+                <li>The <strong><em>secondary voltage</em></strong> across the load resistor (<strong><em>R1</em></strong>).</li>
+            </ul>
+            <p class="text-gray-600 mb-4 dark:text-gray-300">You will see that the secondary voltage is a stepped-down version of the primary voltage, with its amplitude reduced by the turns ratio of sqrt(10). The phase is also changed due to the polarity. This simulation demonstrates how transformers convert AC voltage levels while isolating the primary and secondary sides of the circuit.</p>
+            <img src="assets/transformer/transformer_03.png" alt="LTspice plot showing primary and secondary transformer voltages" class="w-auto h-auto rounded-lg shadow-md mb-6 border border-gray-200 mx-auto dark:border-gray-700">
+            
+            <p class="text-gray-600 dark:text-gray-300">This concludes our look at using an ideal transformer in LTspice. You can experiment with different turns ratios by changing the values of <strong><em>L1</em></strong> and <strong><em>L2</em></strong> to see how the output voltage changes.</p>
+        </div>
+    </section>
+</main>
+
+<section class="container mx-auto px-4 mt-12 mb-16">
+    <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
+        <a href="generate_symbol_from_sheet.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            Previous: Creating A Symbol From A Schematic
+        </a>
+
+        <a href="../coming_soon.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
+            Next: Coming Soon
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </a>
+    </div>
+</section>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Mahruf Hossain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" class="fixed bottom-4 right-4 bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none z-40" style="display: none;">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

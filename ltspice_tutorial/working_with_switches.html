@@ -3,28 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Using Switches (Voltage-Controlled) - LTSpice Tutorial - Mahruf Hossain</title>
+    <title>Advanced: Using Switches- LTSpice Tutorial - Mahruf Hossain</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // Tailwind CSS configuration for dark mode
         tailwind.config = {
-            darkMode: 'class',
+            darkMode: 'class', // This tells Tailwind to enable dark mode when the 'dark' class is present on the <html> tag
             theme: {
-                extend: {}
+                extend: {
+                    // Extend theme here if you had custom colors defined
+                }
             }
         }
     </script>
     <script>
-        // Theme switching logic based on localStorage and system preference
         (function() {
             const storedTheme = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
             let themeToApply = 'light';
             if (storedTheme) {
                 themeToApply = storedTheme;
             } else if (prefersDark) {
                 themeToApply = 'dark';
             }
+
             if (themeToApply === 'dark') {
                 document.documentElement.classList.add('dark');
             } else {
@@ -35,7 +38,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
 </head>
-<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200">
+<body class="antialiased transition-colors duration-300 min-h-screen flex flex-col">
 
     <header class="shadow-md py-4 sticky top-0 z-50 transition-colors duration-300 bg-white dark:bg-gray-700">
         <nav class="container mx-auto flex justify-between items-center px-4">
@@ -97,7 +100,7 @@
     </header>
 
     <main class="flex-grow">
-        <section id="switches-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <section id="switches-content" class="section-padding bg-white rounded-xl shadow-lg mt-8 mx-4 md:mx-auto max-w-6xl py-12 mb-24 border border-gray-200">
             <div class="container mx-auto px-4">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 dark:text-gray-100">9. Advanced: Using Voltage-Controlled Switches</h1>
                 <p class="text-gray-600 mb-6 dark:text-gray-300">Switches are a powerful tool in <strong>LTSpice</strong> for simulating digital logic, power converters, or circuits that change state over time. A <strong>voltage-controlled switch</strong> is a fundamental type of switch that opens or closes based on the voltage across a control port. In this tutorial, we will set up and simulate a simple circuit that uses a voltage-controlled switch to turn a load on and off.</p>
@@ -202,7 +205,7 @@
     </main>
 
     <section class="container mx-auto px-4 mt-12 mb-16">
-        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex justify-between items-center py-4 px-6 bg-white rounded-xl shadow-lg border border-gray-200">
             <a href="ltspice_opamp_inverting_amplifier.html" class="flex items-center text-teal-800 hover:text-teal-600 dark:text-teal-700 dark:hover:text-teal-600 font-semibold transition duration-300">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 Previous: Op-Amp Basics: Inverting Amplifier
