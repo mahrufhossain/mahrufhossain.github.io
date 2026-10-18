@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDrip IoT Telemetry & Control Center</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0f172a',
+                        cardbg: '#1e293b',
+                        cardhover: '#334155',
+                        accentgreen: '#10b981',
+                        accentblue: '#3b82f6',
+                        accentwarning: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+        <!-- PWA Manifest & Theme -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0284c7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SmartDrip">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <!-- Register Service Worker Script -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('PWA Service Worker registered'))
+            .catch(err => console.log('Service Worker registration failed: ', err));
+        });
+    }
+    </script>
+</head>
+<body class="bg-darkbg text-slate-100 min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+
+  <!-- Top Navigation Header -->
+    <header class="glass-panel sticky top-0 z-50 border-b border-slate-800 px-4 sm:px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-start">
+            <div class="flex items-center space-x-3">
+
+                <!-- CUSTOM LOGO IMAGE -->
+                <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-800 flex items-center justify-center border border-slate-700 shadow-lg shadow-emerald-500/20">
+                    <img src="./Assets/smartdrip.png" alt="SmartDrip Logo" class="w-full h-full object-cover">
+                </div>
+
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-white">SmartDrip <span class="text-emerald-400 font-light">Cloud</span></h1>
+                    <p class="text-xs text-slate-400">Distributed IoT Multi-Node Telemetry System</p>
+                </div>
+            </div>
+
+            <button onclick="openConfigModal()" class="md:hidden px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-slate-300 transition flex items-center space-x-1.5">
+                <i class="fa-solid fa-gear"></i>
+                <span>Config</span>
+            </button>
+        </div>
+
+        <!-- Connection Status & Firebase Config Modal Trigger -->
+        <div class="flex items-center space-x-4 w-full md:w-auto justify-end">
+            <div id="connection-badge" class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span id="connection-text">Connecting...</span>
+            </div>
+            <button onclick="openConfigModal()" class="hidden md:flex px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-slate-300 transition items-center space-x-2">
+                <i class="fa-solid fa-gear"></i>
+                <span>Database Config</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 flex flex-col gap-8">
+
+        <!-- Tank Navigation Tabs -->
+        <section aria-label="Tank Selection" class="flex flex-col gap-3">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xs sm:text-sm font-semibold tracking-wider text-slate-400 uppercase">Select Active Tank Node</h2>
+                <span class="text-xs text-slate-500">4 Master Tanks Active (16 Nodes Total)</span>
+            </div>
+            <div id="tank-tabs" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <!-- Tabs rendered dynamically -->
+            </div>
+        </section>
+
+        <!-- Active Tank Dashboard View -->
+        <div id="dashboard-view" class="flex flex-col gap-8">
+            
+            <!-- Tank Macro Status Banner -->
+            <div class="glass-panel rounded-2xl p-4 sm:p-6 relative overflow-hidden shadow-xl">
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                    <div>
+                        <div class="flex items-center space-x-2 text-emerald-400 text-sm font-semibold mb-1">
+                            <i class="fa-solid fa-server"></i>
+                            <span id="active-tank-title">TANK 1 TELEMETRY</span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-white">Environmental n-Space & Sleep Metrics</h3>
+                        <p class="text-xs sm:text-sm text-slate-400 mt-1">Dynamic sleep scheduling governed by ambient evaporation demand.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-3 sm:gap-4 w-full md:w-auto">
+                        <div class="bg-slate-800/80 border border-slate-700/60 px-4 py-2.5 rounded-xl flex flex-col flex-1 md:flex-initial">
+                            <span class="text-xs text-slate-400 uppercase tracking-wider">Env Score</span>
+                            <span id="metric-score" class="text-lg sm:text-xl font-bold text-emerald-400">0.00</span>
+                        </div>
+                        <div class="bg-slate-800/80 border border-slate-700/60 px-4 py-2.5 rounded-xl flex flex-col flex-1 md:flex-initial">
+                            <span class="text-xs text-slate-400 uppercase tracking-wider">Next Sleep</span>
+                            <span id="metric-sleep" class="text-lg sm:text-xl font-bold text-cyan-400">0m 0s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ambient Telemetry Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mt-6 pt-6 border-t border-slate-800/80">
+                    <div class="flex items-center space-x-3 bg-slate-900/40 p-3 rounded-xl border border-slate-800">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-orange-500/10 text-orange-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-temperature-high text-base sm:text-lg"></i>
+                        </div>
+                        <div class="truncate">
+                            <p class="text-xs text-slate-400">Temperature</p>
+                            <p id="ambient-temp" class="text-base sm:text-lg font-bold text-white truncate">-- °C</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-slate-900/40 p-3 rounded-xl border border-slate-800">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-droplet text-base sm:text-lg"></i>
+                        </div>
+                        <div class="truncate">
+                            <p class="text-xs text-slate-400">Humidity</p>
+                            <p id="ambient-humidity" class="text-base sm:text-lg font-bold text-white truncate">-- %</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-slate-900/40 p-3 rounded-xl border border-slate-800">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-yellow-500/10 text-yellow-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-sun text-base sm:text-lg"></i>
+                        </div>
+                        <div class="truncate">
+                            <p class="text-xs text-slate-400">Light Level</p>
+                            <p id="ambient-light" class="text-base sm:text-lg font-bold text-white truncate">--</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-slate-900/40 p-3 rounded-xl border border-slate-800">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-water text-base sm:text-lg"></i>
+                        </div>
+                        <div class="truncate">
+                            <p class="text-xs text-slate-400">Tank Water</p>
+                            <p id="ambient-water" class="text-base sm:text-lg font-bold text-white truncate">--</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-slate-900/40 p-3 rounded-xl border border-slate-800 col-span-2 sm:col-span-1">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-battery-half text-base sm:text-lg"></i>
+                        </div>
+                        <div class="truncate">
+                            <p class="text-xs text-slate-400">Battery</p>
+                            <p id="ambient-battery" class="text-base sm:text-lg font-bold text-white truncate">-- V</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pump Zones Section (3 Pump Nodes per Tank) -->
+            <div class="flex flex-col gap-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Pump & Soil Zones</h3>
+                        <p class="text-xs text-slate-400">Real-time soil moisture and pump override controls.</p>
+                    </div>
+                </div>
+                
+                <div id="zones-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Zone Cards rendered dynamically -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto py-6 border-t border-slate-800 text-center text-xs text-slate-500 px-4">
+        Project SmartDrip &bull; Remote Telemetry & Distributed IoT Infrastructure
+    </footer>
+
+    <!-- Configuration Modal -->
+    <div id="config-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-6 flex flex-col gap-4 border border-slate-700 shadow-2xl">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-database text-emerald-400"></i>
+                    <span>Firebase Configuration</span>
+                </h3>
+                <button onclick="closeConfigModal()" class="text-slate-400 hover:text-white transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-400">Enter your Firebase Realtime Database URL to connect to your live multi-tank infrastructure.</p>
+            
+            <div class="flex flex-col gap-2">
+                <label class="text-xs font-semibold text-slate-300">Database URL</label>
+                <input type="text" id="db-url-input" placeholder="https://your-project-id-default-rtdb.firebaseio.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition">
+            </div>
+
+            <div class="flex justify-end space-x-3 mt-2">
+                <button onclick="closeConfigModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-medium transition">Cancel</button>
+                <button onclick="saveConfig()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-lg shadow-emerald-600/20 transition">Save & Connect</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        let DATABASE_URL = localStorage.getItem("smartdrip_db_url") || "";
+        let currentTank = "tank_1";
+        let dbRef = null;
+
+        const tanksList = [
+            { id: "tank_1", name: "Tank Node 1", location: "Greenhouse Alpha" },
+            { id: "tank_2", name: "Tank Node 2", location: "Field Beta" },
+            { id: "tank_3", name: "Tank Node 3", location: "Orchard Gamma" },
+            { id: "tank_4", name: "Tank Node 4", location: "Nursery Delta" }
+        ];
+
+        // Sanitize and normalize database URL
+        function sanitizeDbUrl(rawUrl) {
+            if (!rawUrl) return "";
+            try {
+                let cleanUrl = rawUrl.trim();
+                const parsedUrl = new URL(cleanUrl);
+                return `${parsedUrl.protocol}//${parsedUrl.host}`;
+            } catch (e) {
+                let url = rawUrl.trim();
+                const comIndex = url.indexOf('.com');
+                const appIndex = url.indexOf('.app');
+                if (comIndex !== -1) return url.substring(0, comIndex + 4);
+                if (appIndex !== -1) return url.substring(0, appIndex + 4);
+                return url.endsWith('/') ? url.slice(0, -1) : url;
+            }
+        }
+
+        // Initialize Navigation Tabs
+        function renderTabs() {
+            const container = document.getElementById("tank-tabs");
+            container.innerHTML = "";
+            tanksList.forEach(tank => {
+                const isActive = tank.id === currentTank;
+                const btn = document.createElement("button");
+                btn.className = `p-3 sm:p-4 rounded-xl border text-left transition flex flex-col justify-between gap-2 ${
+                    isActive 
+                        ? 'bg-emerald-500/10 border-emerald-500/50 text-white shadow-lg shadow-emerald-500/10' 
+                        : 'glass-panel border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                }`;
+                btn.innerHTML = `
+                    <div class="flex justify-between items-center w-full">
+                        <span class="font-bold text-xs sm:text-sm ${isActive ? 'text-emerald-400' : 'text-white'}">${tank.name}</span>
+                        <span class="w-2 h-2 rounded-full ${isActive ? 'bg-emerald-400 animate-pulse' : 'bg-slate-600'}"></span>
+                    </div>
+                    <span class="text-xs text-slate-400 truncate">${tank.location}</span>
+                `;
+                btn.onclick = () => switchTank(tank.id);
+                container.appendChild(btn);
+            });
+        }
+
+        function switchTank(tankId) {
+            currentTank = tankId;
+            renderTabs();
+            setupFirebaseListener();
+        }
+
+        function openConfigModal() {
+            document.getElementById("db-url-input").value = DATABASE_URL;
+            document.getElementById("config-modal").classList.remove("hidden");
+        }
+
+        function closeConfigModal() {
+            document.getElementById("config-modal").classList.add("hidden");
+        }
+
+        function saveConfig() {
+            let url = document.getElementById("db-url-input").value.trim();
+            if (url) {
+                DATABASE_URL = sanitizeDbUrl(url);
+                localStorage.setItem("smartdrip_db_url", DATABASE_URL);
+                closeConfigModal();
+                initFirebase();
+            }
+        }
+
+        // Initialize Firebase Connection
+        function initFirebase() {
+            const badgeText = document.getElementById("connection-text");
+            const badge = document.getElementById("connection-badge");
+
+            if (!DATABASE_URL) {
+                badge.className = "flex items-center space-x-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium";
+                badgeText.innerText = "Config Required";
+                openConfigModal();
+                return;
+            }
+
+            try {
+                const cleanDbUrl = sanitizeDbUrl(DATABASE_URL);
+                if (!firebase.apps.length) {
+                    firebase.initializeApp({ databaseURL: cleanDbUrl });
+                }
+                dbRef = firebase.database();
+                
+                badge.className = "flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium";
+                badgeText.innerText = "Connected";
+
+                setupFirebaseListener();
+            } catch (err) {
+                console.error("Firebase init error:", err);
+                badge.className = "flex items-center space-x-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-medium";
+                badgeText.innerText = "Connection Failed";
+            }
+        }
+
+        // Firebase Realtime Listener
+        function setupFirebaseListener() {
+            if (!dbRef) return;
+
+            const tankInfo = tanksList.find(t => t.id === currentTank);
+            document.getElementById("active-tank-title").innerText = `${tankInfo.name.toUpperCase()} (${tankInfo.location.toUpperCase()})`;
+
+            const tankRef = dbRef.ref(`smartdrip/tanks/${currentTank}`);
+            
+            tankRef.on("value", (snapshot) => {
+                const data = snapshot.val() || {};
+                updateDashboardUI(data);
+            }, (error) => {
+                console.error("Firebase read error:", error);
+            });
+        }
+
+        // Render Dashboard Data UI
+        function updateDashboardUI(data) {
+            const ambient = data.ambient || {};
+            const sleepCtrl = data.sleep_control || {};
+            const zones = data.zones || {};
+
+            document.getElementById("ambient-temp").innerText = ambient.temperature !== undefined ? `${ambient.temperature} °C` : "-- °C";
+            document.getElementById("ambient-humidity").innerText = ambient.humidity !== undefined ? `${ambient.humidity} %` : "-- %";
+            document.getElementById("ambient-light").innerText = ambient.light_level !== undefined ? ambient.light_level : "--";
+            
+            const waterElem = document.getElementById("ambient-water");
+            waterElem.innerText = ambient.water_level || "--";
+            waterElem.className = `text-base sm:text-lg font-bold truncate ${ambient.water_level === 'LOW' ? 'text-rose-400' : 'text-emerald-400'}`;
+
+            document.getElementById("ambient-battery").innerText = ambient.battery_voltage !== undefined ? `${ambient.battery_voltage} V` : "-- V";
+            document.getElementById("metric-score").innerText = sleepCtrl.environmental_score !== undefined ? sleepCtrl.environmental_score.toFixed(2) : "0.00";
+            
+            const nextSleepSec = sleepCtrl.next_sleep_sec || 0;
+            const mins = Math.floor(nextSleepSec / 60);
+            const secs = nextSleepSec % 60;
+            document.getElementById("metric-sleep").innerText = `${mins}m ${secs}s`;
+
+            // Render Pump Zones
+            const zonesContainer = document.getElementById("zones-container");
+            zonesContainer.innerHTML = "";
+
+            ["zone_1", "zone_2", "zone_3"].forEach((zoneKey, index) => {
+                const zoneData = zones[zoneKey] || { soil_moisture: 0, pump_status: "OFF", target_moisture: 55, manual_override: false };
+                const isPumpOn = zoneData.pump_status === "ON";
+                const isManual = zoneData.manual_override === true;
+
+                const card = document.createElement("div");
+                card.className = "glass-panel rounded-2xl p-5 flex flex-col justify-between gap-4 border border-slate-800 shadow-lg relative overflow-hidden";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Pump Zone ${index + 1}</span>
+                            <h4 class="text-base font-bold text-white mt-0.5">Soil Moisture Sensor</h4>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-full text-xs font-bold flex items-center space-x-1.5 ${
+                            isPumpOn 
+                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
+                                : 'bg-slate-800 text-slate-400 border border-slate-700'
+                        }">
+                            <span class="w-1.5 h-1.5 rounded-full ${isPumpOn ? 'bg-emerald-400 animate-ping' : 'bg-slate-500'}"></span>
+                            <span>PUMP ${zoneData.pump_status || 'OFF'}</span>
+                        </span>
+                    </div>
+
+                    <div class="flex flex-col gap-3 my-2">
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-slate-400">Current Moisture</span>
+                                <span class="font-bold text-white">${zoneData.soil_moisture || 0}%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-700">
+                                <div class="bg-gradient-to-r from-cyan-500 to-emerald-500 h-full rounded-full transition-all duration-500" style="width: ${Math.min(100, zoneData.soil_moisture || 0)}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between items-center text-xs bg-slate-900/40 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-slate-400">Target Threshold:</span>
+                            <span class="font-bold text-white">${zoneData.target_moisture || 55}%</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-3 border-t border-slate-800/80">
+                        <span class="text-xs font-medium text-slate-400">Manual Override</span>
+                        <button onclick="toggleManualOverride('${zoneKey}', ${!isManual})" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow-md ${
+                            isManual 
+                                ? 'bg-rose-600 hover:bg-rose-500 text-white shadow-rose-600/20' 
+                                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+                        }">
+                            <i class="fa-solid fa-power-off mr-1"></i>
+                            <span>${isManual ? 'DISABLE' : 'ENABLE'}</span>
+                        </button>
+                    </div>
+                `;
+                zonesContainer.appendChild(card);
+            });
+        }
+
+        // Toggle Manual Pump Override
+        function toggleManualOverride(zoneKey, newState) {
+            if (!dbRef) {
+                openConfigModal();
+                return;
+            }
+
+            dbRef.ref(`smartdrip/tanks/${currentTank}/zones/${zoneKey}`).update({
+                manual_override: newState
+            });
+        }
+
+        window.onload = function() {
+            renderTabs();
+            initFirebase();
+        };
+    </script>
+</body>
+</html>
